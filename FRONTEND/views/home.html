@@ -18,56 +18,59 @@
     <body>
         <header>
             <!-- place navbar here -->
-            <nav
-                class="navbar navbar-expand-sm navbar-dark bg-dark"
-            >
-                <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand fw-bold"  href="home.html">
+                    LOGO
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPrincipal" aria-controls="navbarPrincipal" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                    <a class="navbar-brand" href="#">LOGO</a>
-                    <button
-                        class="navbar-toggler d-lg-none"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapsibleNavId"
-                        aria-controls="collapsibleNavId"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                    >
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+                <div class="collapse navbar-collapse" id="navbarPrincipal">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="home.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="movie.html">Movies</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="calendar.html">Calendar</a>
+                        </li>
+                    </ul>
 
-                    <div class="collapse navbar-collapse" id="collapsibleNavId">
-                        <ul class="navbar-nav me-auto mt-2 mt-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#" aria-current="page"
-                                    >Home
-                                    <span class="visually-hidden">(current)</span></a
-                                >
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Movies</a>
-
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#" aria-current="page"
-                                    >Calendar
-                                    <span class="visually-hidden">(current)</span></a
-                                >
-                        </ul>
-                        <form class="d-flex my-2 my-lg-0">
-                            <input
-                                class="form-control me-sm-2"
-                                type="text"
-                                placeholder="Search"
-                            />
-                            <a href="">Perfil</a>
-                            </button>
-                        </form>
-                    </div>
+                    <form class="d-flex align-items-center" action="review.html" method="GET"> <!-- Dudable el get -->
+                        <input 
+                            class="form-control me-3" 
+                            type="search" 
+                            name="pelicula" 
+                            placeholder="Search" 
+                            aria-label="Search"
+                            required
+                        >
+                        <button class="btn btn-outline-light me-4" type="submit">Buscar</button>
+                        
+                        <a href="profile.html" class="d-block" title="Ir a mi perfil">
+                            <img 
+                                src="../assets/avatar.png" 
+                                alt="Foto de perfil" 
+                                width="45" 
+                                height="45" 
+                                class="rounded-circle border border-2 border-secondary"
+                            >
+                        </a>
+                    </form>
                 </div>
-            </nav>
+            </div>
+        </nav>
 
         </header>
-        <main></main>
+        <main>
+
+            
+        </main>
         <footer>
             <!-- place footer here -->
         </footer>

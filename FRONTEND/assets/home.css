@@ -1,0 +1,102 @@
+
+p{
+    color: white;
+}
+
+h1, h2, h3 {
+    color: white;
+}
+
+/* Color morado para los íconos */
+.text-purple {
+    color: #8a2be2; 
+}
+
+/* Efecto interactivo para las tarjetas */
+.feature-card {
+    transition: all 0.3s ease-in-out;
+    border: 1px solid transparent; /* Borde invisible inicial */
+}
+
+.feature-card:hover {
+    background-color: rgba(255, 255, 255, 0.05); /* Fondo ligeramente iluminado */
+    border: 1px solid rgba(138, 43, 226, 0.3); /* Borde morado sutil */
+    transform: translateY(-5px); /* Se levanta un poquito */
+}
+
+/* ----------------------------------------
+        Parte de la invitacion 
+----------------------------------------*/
+/* Estilos para el contenedor del Call to Action */
+.cta-banner {
+    background-color: rgb(16, 16, 16); 
+    border-color: rgba(255, 255, 255, 0.05) !important; /* Un borde para dar relieve */
+}
+
+
+.bg-glow {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 300px;
+    /* Crea un círculo de luz morada que se difumina hacia los bordes */
+    background: radial-gradient(circle, rgba(138, 43, 226, 0.20) 0%, rgba(138, 43, 226, 0) 80%);
+    z-index: 0;
+    pointer-events: none; /*Hace que sea invisible */
+}
+
+/*-----------------------------------------
+        Calendario
+-----------------------------------------*/
+
+.calendar-card {
+    background-color: rgb(16, 16, 16); 
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 7 columnas */
+    gap: 8px;
+    text-align: center;
+}
+
+.cal-header {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #8a2be2;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+}
+
+.cal-day {
+    aspect-ratio: 1 / 1; /* Mantiene las celdas cuadradas */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: white;
+    border-radius: 8px;
+    position: relative;
+    transition: background 0.2s ease;
+}
+
+.cal-day:hover:not(.text-muted) {
+    background-color: rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+}
+
+/* Los puntos de actividad */
+.cal-day.has-activity::after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    background-color: #8a2be2;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #8a2be2; 
+}

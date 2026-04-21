@@ -67,9 +67,140 @@
         </nav>
 
         </header>
-        <main>
 
-            
+
+        <main>
+            <!-- Sección principal -->
+            <section class="container py-5">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h1>Tu diario cinematográfico personal</h1>
+                        <p>
+                            Lleva un registro de las películas que has visto, califícalas, escribe reseñas personales y compártelas con tus amigos.
+                            <br>
+                            Envuelvete en una comunidad de cinéfilos, descubre nuevas películas y haz que tu voz se escuche en el mundo del cine.
+                        </p>
+                         <!-- BOTONES DUDUSOS
+                        <div>
+                            <button class="btn btn-lg btn-primary">Únete ahora</button>
+                            <button class="btn btn-lg btn-outline-secondary">Explorar</button>
+                        </div>
+                        -->
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <img src="../assets/Drive.jpg" alt="Avatar" class="img-fluid rounded shadow-lg" style="max-height: 400px; object-fit: cover;">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cuadros de texto -->
+            <section class="container py-5">
+                <div class="row text-center g-4">
+                    <div class="col-md-4">
+                        <div class="feature-card p-4 rounded">
+                            <div class="icon-box mb-3 text-purple">
+                                <i class="bi bi-collection-play fs-1"></i>
+                            </div>
+                            <h3 class="fw-bold">Organiza</h3>
+                            <p class="text-white-50">Crea colecciones o listas temáticas con tus películas favoritas.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="feature-card p-4 rounded">
+                            <div class="icon-box mb-3 text-purple">
+                                <i class="bi bi-people fs-1"></i>
+                            </div>
+                            <h3 class="fw-bold">Descubre</h3>
+                            <p class="text-white-50">Mira qué están viendo las personas que sigues y construye tu comunidad.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="feature-card p-4 rounded">
+                            <div class="icon-box mb-3 text-purple">
+                                <i class="bi bi-sliders fs-1"></i>
+                            </div>
+                            <h3 class="fw-bold">Gestiona</h3>
+                            <p class="text-white-50">Sistema completo para crear, leer, actualizar y eliminar tus reseñas.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Invitación -->
+            <section class="container py-5 text-center mb-5">
+                <div class="cta-banner p-5 border rounded-4 shadow-lg position-relative overflow-hidden">
+                    
+                    <div class="bg-glow"></div>
+                    
+                    <div class="position-relative z-1">
+                        <h2 class="display-5 fw-bold text-white mb-3">Empieza a rankear películas</h2>
+                        <p class="lead text-white-50 mb-4 px-md-5">Revisa el amplio catálogo de películas y empieza a hacerte un nombre en la comunidad.</p>
+                        
+                        <button class="btn btn-light btn-lg px-5 rounded-pill shadow">Revisar películas</button>
+                    </div>
+                    
+                </div>
+            </section>
+
+            <h1 class="text-white text-center mb-5">Calendario de Actividad</h1>
+
+            <!-- Calendario -->
+            <section class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-5">
+                        <div class="calendar-card p-4 rounded-4 shadow-lg border border-secondary border-opacity-10">
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <h5 class="fw-bold m-0 text-white">Actividad Reciente</h5>
+                                <span class="text-white-50 small">Abril 2026</span>
+                            </div>
+
+                            <div class="calendar-grid">
+                                <div class="cal-header">L</div>
+                                <div class="cal-header">M</div>
+                                <div class="cal-header">M</div>
+                                <div class="cal-header">J</div>
+                                <div class="cal-header">V</div>
+                                <div class="cal-header">S</div>
+                                <div class="cal-header">D</div>
+
+                                <div class="cal-day text-muted">30</div>
+                                <div class="cal-day text-muted">31</div>
+                                <div class="cal-day">1</div>
+                                <div class="cal-day">2</div>
+                                <div class="cal-day has-activity" title="Reseña: Inception">3</div>
+                                <div class="cal-day">4</div>
+                                <div class="cal-day">5</div>
+                                <div class="cal-day">6</div>
+                                <div class="cal-day has-activity" title="Viste: Batman">7</div>
+                                <div class="cal-day">8</div>
+                                <div class="cal-day">9</div>
+                                <div class="cal-day">10</div>
+                                <div class="cal-day has-activity">11</div>
+                                <div class="cal-day">12</div>
+                                <div class="cal-day">13</div>
+                                <div class="cal-day">14</div>
+                                <div class="cal-day">15</div>
+                                <div class="cal-day has-activity">16</div>
+                                </div>
+
+                            <div class="mt-4 text-center border-top border-secondary border-opacity-10 pt-3">
+                                <a href="calendar.html" class="text-purple text-decoration-none small fw-bold">
+                                    Ver diario completo <i class="bi bi-arrow-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+
+
+
         </main>
         <footer>
             <!-- place footer here -->
@@ -80,10 +211,12 @@
             integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
             crossorigin="anonymous"
         ></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
         <!-- SCRIPTS -->
 
         <!-- ESTILOS -->
         <link rel="stylesheet" href="../assets/general.css"/>
+        <link rel="stylesheet" href="../assets/home.css"/>
 
         <!-- CONTROLADORES -->
 

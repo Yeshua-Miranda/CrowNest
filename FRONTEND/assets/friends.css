@@ -1,0 +1,65 @@
+.section-title {
+    margin: 20px;
+    font-size: 18px;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.friend-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 20px auto;
+}
+
+.friend-card {
+    width: 150px;
+    margin: 10px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.friend-card:hover .friend-avatar {
+    filter: saturate(0.5);
+    transition: filter 0.2s;
+}
+
+.friend-avatar {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+}
+
+.friend-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 4px 0 2px;
+}
+
+.friend-meta {
+    font-size: 0.75rem;
+    color: #bcbcbc;
+    margin: 0;
+}
+
+.friend-badge {
+    font-size: 0.7rem;
+    color: purple;
+    font-weight: 700;
+    margin: 4px 0;
+}
+
+.friends-search {
+    max-width: 380px;
+}
+
+.headercin{
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+}

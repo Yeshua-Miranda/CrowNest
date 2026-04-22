@@ -30,11 +30,18 @@
     cursor: pointer;
 }
 
+
 /* Efecto al pasar el mouse por un día normal */
 .calendar-cell:hover:not(.empty) {
     transform: translateY(-3px);
     border-color: rgba(138, 43, 226, 0.5); /* Borde morado */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Encabezados de los días de la semana */
+.calendar-header-row div {
+    color: #ffffff;
+    font-weight: 750;
 }
 
 .calendar-poster {

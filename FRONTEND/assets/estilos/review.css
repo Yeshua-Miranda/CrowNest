@@ -20,6 +20,13 @@ body{
     padding: 20px;
 }
 
+#title_sinopsis{
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-size: larger;
+    font-weight: bold
+}
+
 .movie {
     width:  300px;
     height:fit-content;

@@ -1,33 +1,32 @@
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #eee;
+body{
+    color: white;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-
-.layout {
+.page {
     display: flex;
-    gap: 20px;
+    height: calc(150vh - 60px);
 }
 
 .sidebar {
-    width: 300px;
+    width: 350px;
     height: 100%;
-    background: #ccc;
-    padding: 15px;
-    display: flex;
+    background-color: #43006B;
+    padding: 25px;
     flex-direction: column;
     gap: 10px;
 }
-
-/* Poster */
-.movie {
-    width: 100%;
-    height: 300px;
-    background: #ddd;
+.content {
+    flex: 1;
+    padding: 20px;
 }
 
-.main {
-    flex: 1;
+.movie {
+    width:  300px;
+    height:fit-content;
+}
+
+#movie_title{
+    font-size: 80px;
 }
 
 .tags {
@@ -36,36 +35,130 @@ body {
     margin-bottom: 15px;
 }
 
-.tags span {
-    background: #ddd;
+.tag-icon {
     padding: 5px 10px;
-    border-radius: 5px;
+    border-radius: 20px;
     font-size: 14px;
+    background-color: blueviolet;
 }
 
-.rating {
-    font-size: 20px;
-    color: #666;
+.tag-icon:hover {
+    background-color: #43006B;
+    box-shadow: 0 0 1px 0 blueviolet inset, 0 0 10px 4px blueviolet;
+
+}
+
+.checked {
+  color: orange;
+}
+
+#movie-sub{
+    font-size: larger;
+}
+.boton-review{
+    margin-top: 10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: medium;
+    color: white;
+    border: none;
+    background-color: blueviolet;
+}
+
+.boton-review:hover {
+    background-color: #43006B;
+    box-shadow: 0 0 1px 0 blueviolet inset, 0 0 10px 4px blueviolet;
+
+}
+
+#review-footer{
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+}
+
+#div-boton{
+    text-align: right;
+}
+
+#recom{
+    margin-top: 20px;
+}
+
+#recom_subtitle{
+    font-size: larger;
 }
 
 .recommendations {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 15px;
-}
-
-.card {
-    height: 120px;
-    background: #ddd;
+    display: flex;
+    gap: 10px;
 }
 
 .movieBox {
     width: 150px;
-    border: 3px solid black;
-    margin: 10px;
 }
+
+.movieBox:hover {
+    box-shadow: 0 0 1px 0 blueviolet inset, 0 0 10px 4px blueviolet;
+}
+
 
 .poster {
     width: 100%;
     height: auto;
 }
+
+
+.reviews-filter {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+
+.reviews-container {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+
+.review {
+  display: flex;
+  gap: 15px;
+  background: #43006B;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.review-content p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.review-name{
+    font-size: 18px;
+    margin-bottom: 0px;
+    color: white;
+}
+
+.review-title{
+    font-size: 15px;
+    margin-bottom: 0px;
+    color: white;   
+}
+
+/* estrellas */
+.stars {
+  color: gold;
+  font-size: 14px;
+}
+
+
+

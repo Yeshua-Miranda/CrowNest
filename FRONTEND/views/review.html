@@ -13,6 +13,8 @@
             integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
             crossorigin="anonymous"
         />
+
+        <script src="https://kit.fontawesome.com/ae425304bc.js" crossorigin="anonymous"></script>
     </head>
 
     <body>
@@ -67,53 +69,112 @@
             </nav>
         </header>
 
-        <div class="layout">
-    
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <div class="movie"></div>
-    
-            <h4>Resumen:</h4>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-    
-            <div class="rating">⭐⭐⭐⭐☆</div>
-        </aside>
-    
-        <!-- CONTENIDO PRINCIPAL -->
-        <main class="main">
-    
-            <h1>Título</h1>
-    
-            <!-- TAGS -->
-            <div class="tags">
-                <span class="tag-icon">Acción</span>
-                <span class="tag-icon">Drama</span>
-                <span class="tag-icon">Ciencia ficción</span>
-                <span class="tag-icon">Suspenso</span>
-            </div>
-
-            <div>
-                <div class="mb-3">
-                    <label for="" class="form-label"> Reseña: </label>
-                    <textarea class="form-control" name="" id="" rows="3" class="review-box"></textarea>
-                    <button type="submit" class="btn btn-primary"> Publicar Reseña </button>
-                    
+        <div class="page">
+            <aside class="sidebar">
+                <img src="https://es.web.img3.acsta.net/img/95/4c/954c30eb27156ff168370a46ca2a3f5b.jpg" class="movie"></img>
+                <div id="movie_description">
+                    <p id="title_sinopsis">Sinopsis</p>
+                    <p id="sinopsis">
+                        Judy y Nick se encuentran tras la retorcida pista de un misterioso reptil que llega a Zootopia y pone patas arriba la metrópolis de los mamíferos.
+                    </p>
                 </div>
-            </div>
+                <div class="rating">
+                    <span class="">  </span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star"></span>
+                    <span class="fa fa-star"></span>
+                    <span> 3.0 </span>
+                </div>
+            </aside>
     
-            <!-- RECOMENDACIONES -->
-            <h3>También te puede interesar:</h3>
+            <main class="content">
+                <h1 id="movie_title">Zootopia 2</h1>
+        
+                <div class="tags">
+                    <span class="tag-icon">Acción</span>
+                    <span class="tag-icon">Drama</span>
+                    <span class="tag-icon">Ciencia ficción</span>
+                    <span class="tag-icon">Suspenso</span>
+                </div>
+                
+                <div id="div-review">
+                    <label for="" class="form-label" id="movie-sub"> Reseñas: </label>
+                    <div id="text-review">
+                        <textarea class="form-control review-box bg-dark text-white" name="" id="" rows="3"></textarea>
+                    </div>
+                    <div id="review-footer">
+                        <div id="rating-review">
+                            <span class="">  </span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+                        </div>
+                        <div id="div-boton"><button type="submit" class="boton-review"> Publicar Reseña </button></div>
+                    </div>
+                </div>
+
+                <div class="reviews-section">
+                    <div class="reviews-filter">
+                      <button class="boton-review">Todas</button>
+                      <button class="boton-review">★★★★★</button>
+                      <button class="boton-review">★★★★☆</button>
+                      <button class="boton-review">★★★☆☆</button>
+                      <button class="boton-review">★★☆☆☆</button>
+                      <button class="boton-review">★☆☆☆☆</button>
+                    </div>
+                  
+                    <div class="reviews-container" id="reviews">
+
+                      <div class="review" data-rating="5">
+                        <img src="https://vanguardia.com.mx/binrepository/1602x900/201c0/1200d900/down-right/11604/MASH/pokemon-20161121-ditto_VG3267923_MG2921288.jpg" class="avatar">
+                        <div class="review-content">
+                          <h5 class="review-name">Juan Pérez</h5>
+                          <div class="stars">★★★★★ <span style="color: white;"> 5.0 </span></div>
+                          <h6 class="review-title">Increíble película</h6>
+                          <p>Me encantó la historia y los efectos. Totalmente recomendada.</p>
+                        </div>
+                      </div>
+                  
+                      <div class="review" data-rating="3">
+                        <img src="https://avatarfiles.alphacoders.com/365/thumb-1920-365380.png" class="avatar">
+                        <div class="review-content">
+                          <h5 class="review-name">Ana López</h5>
+                          <div class="stars">★★★☆☆ <span style="color: white;"> 3.0 </span></div>
+                          <h6 class="review-title">Está bien</h6>
+                          <p>Entretenida, pero algo larga en algunas partes.</p>
+                        </div>
+                      </div>
+                  
+                      <div class="review" data-rating="4">
+                        <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/10f13510774061.560eadfde5b61.png" class="avatar">
+                        <div class="review-content">
+                          <h5 class="review-name">Carlos Ruiz</h5>
+                          <div class="stars">★★★★☆ <span style="color: white;"> 4.0 </span></div>
+                          <h6 class="review-title">Muy buena</h6>
+                          <p>Gran actuación y buena dirección.</p>
+                        </div>
+                      </div>
+                  
+                    </div>
+                  </div>
+
     
-            <div class="recommendations">
-                <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/1/1/9/6/8/0/8/1196808-minions-3-0-2000-0-3000-crop.jpg?v=a50f031caa" ></img></div>
-                <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/1/0/0/0/2/7/7/1000277-moana-0-2000-0-3000-crop.jpg?v=65401ce4f2" ></img></div>
-                <div class="movieBox"><img class="poster" src="https://m.media-amazon.com/images/M/MV5BYjk1Y2U4MjQtY2ZiNS00OWQyLWI3MmYtZWUwNmRjYWRiNWNhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" ></img></div>
-            </div>
-    
-        </main>
+                <div id="recom">
+                    <p id="recom_subtitle">También te puede interesar:</p>
+        
+                    <div class="recommendations">
+                        <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/1/1/9/6/8/0/8/1196808-minions-3-0-2000-0-3000-crop.jpg?v=a50f031caa" ></img></div>
+                        <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/1/0/0/0/2/7/7/1000277-moana-0-2000-0-3000-crop.jpg?v=65401ce4f2" ></img></div>
+                        <div class="movieBox"><img class="poster" src="https://m.media-amazon.com/images/M/MV5BYjk1Y2U4MjQtY2ZiNS00OWQyLWI3MmYtZWUwNmRjYWRiNWNhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" ></img></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
 
         <footer>
             <!-- place footer here -->
@@ -128,6 +189,7 @@
         <!-- SCRIPTS -->
 
         <!-- ESTILOS -->
+         <link rel="stylesheet" href="../assets/estilos/general.css"/>
         <link rel="stylesheet" href="../assets/estilos/review.css"/>
 
         <!-- CONTROLADORES -->

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <title>Title</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- Bootstrap CSS v5.3.8 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+            crossorigin="anonymous"
+        />
+        
+        <script src="https://kit.fontawesome.com/ae425304bc.js" crossorigin="anonymous"></script>
+
+        <script>
+            function toggleForms(){ 
+                let form_login = document.getElementById('loginForm'),
+                    form_register = document.getElementById('registerForm');
+                     
+                if(form_register.style.display == 'none'){ 
+                    form_login.style.display = 'none'; 
+                    form_register.style.display = 'block'; 
+                } 
+                
+                else{ 
+                    form_login.style.display = 'block'; 
+                    form_register.style.display = 'none';
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <header>
+            <!-- place navbar here -->
+        </header>
+        <main>
+        
+            <div class="glass-container">
+                <div class="login-header">
+                    <h1>Bienvenido</h1>
+                    <p>Inicia sesión para continuar</p>
+                </div>
+        
+                <form id="loginForm">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input style="border-radius: 12px" type="text" placeholder="Username or Email" id="username" required>
+                    </div>
+        
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input style="border-radius: 12px" type="password" placeholder="Password" id="password" required>
+                    </div>
+    
+        
+                    <button type="submit" class="login-btn">Iniciar Sesión</button>
+        
+        
+                    <p class="register-link">
+                        ¿No tienes una cuenta?
+                        <a onclick="toggleForms()">Crea una</a>
+                    </p>
+                </form>
+
+                <form id="registerForm" style="display: none;" >
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input style="border-radius: 12px" type="text" placeholder="Username" id="username" required>
+                    </div>
+
+                    <div class="input-group">
+                        <i class="fas fa-at"></i>
+                        <input style="border-radius: 12px" type="text" placeholder="Email" id="email" required>
+                    </div>
+        
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input style="border-radius: 12px" type="password" placeholder="Password" id="password" required>
+                    </div>
+
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input style="border-radius: 12px" type="password" placeholder="Confirm Password" id="confirm_password" required>
+                    </div>
+    
+        
+                    <button type="submit" class="login-btn">Crear Cuenta</button>
+        
+        
+                    <p class="register-link">
+                        ¿Ya tienes una cuenta?
+                        <a onclick="toggleForms()">Iniciar Sesión</a>
+                    </p>
+                </form>
+            </div>
+        </main>
+        <footer>
+            <!-- place footer here -->
+        </footer>
+        <!-- Bootstrap JavaScript Bundle (includes Popper) -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous"
+        ></script>
+
+         <!-- SCRIPTS -->
+
+        <!-- ESTILOS -->
+        <link rel="stylesheet" href="../assets/login.css"/>
+
+        <!-- CONTROLADORES -->
+    </body>
+</html>

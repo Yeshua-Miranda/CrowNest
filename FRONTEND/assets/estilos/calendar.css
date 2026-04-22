@@ -1,0 +1,94 @@
+
+
+.bg-dark-surface {
+    border-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* ---------------------------------------------------
+   1. LA CUADRÍCULA DEL CALENDARIO
+----------------------------------------------------- */
+.calendar-header-row,
+.calendar-days-grid {
+    display: grid;
+    /* Divide el espacio exactamente en 7 columnas iguales */
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px; /* Espacio entre los días */
+}
+
+/* ---------------------------------------------------
+   2. LAS CELDAS DE LOS DÍAS
+----------------------------------------------------- */
+.calendar-cell {
+    
+    aspect-ratio: 4 / 5; /* Tamaño de las celdas */
+    background-color: rgba(255, 255, 255, 0.03); 
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden; /* Para que la imagen del póster no se salga de las esquinas curvas */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+/* Efecto al pasar el mouse por un día normal */
+.calendar-cell:hover:not(.empty) {
+    transform: translateY(-3px);
+    border-color: rgba(138, 43, 226, 0.5); /* Borde morado */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.calendar-poster {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center; /* Asegura que la imagen se centre*/
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Zoom al pasar el mouse por la foto */
+.calendar-cell:hover .calendar-poster {
+    filter: brightness(1.1);
+    transform: scale(1.05); 
+}
+
+/* Días que no pertenecen a este mes */
+.calendar-cell.empty {
+    background-color: transparent;
+    border-color: transparent;
+    cursor: default;
+}
+
+/* ---------------------------------------------------
+   3. ELEMENTOS DENTRO DE LA CELDA
+----------------------------------------------------- */
+.day-number {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.8);
+    z-index: 2; /* Para que siempre esté por encima del póster */
+}
+
+
+/* ---------------------------------------------------
+   4. BARRA LATERAL (Resumen)
+----------------------------------------------------- */
+.summary-card {
+    position: sticky;
+    top: 20px; /* Hace que la tarjeta te siga si haces scroll hacia abajo */
+}
+
+.icon-wrapper {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(138, 43, 226, 0.1); /* Fondo morado transparente */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}

@@ -1,0 +1,12 @@
+.hero {
+    /* Use background-image for the main visual */
+    background-image: url(../img/background-perfil.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 40vh; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+  }

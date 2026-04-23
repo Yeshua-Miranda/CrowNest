@@ -2,27 +2,20 @@
 <html lang="en" data-bs-theme="light">
     <head>
         <title>Title</title>
-        <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        <!-- Bootstrap CSS v5.3.8 -->
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
             crossorigin="anonymous"
         />
-
         <link rel="stylesheet" href="../assets/estilos/movies.css"/>
         <link rel="stylesheet" href="../assets/estilos/general.css"/>
-
-        
     </head>
 
     <body>
         <header>
-            <!-- place navbar here -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">
                 <a class="navbar-brand fw-bold"  href="home.html">
@@ -52,7 +45,7 @@
                         </li>
                     </ul>
 
-                    <form class="d-flex align-items-center" action="review.html" method="GET"> <!-- Dudable el get -->
+                    <form class="d-flex align-items-center" action="review.html" method="GET">
                         <input 
                             class="form-control me-3" 
                             type="search" 
@@ -76,9 +69,8 @@
                 </div>
             </div>
         </nav>
-            
-
         </header>
+
         <main>
             <div class="section">Peliculas calificadas recientemente</div>
             <div class="movieGrid">
@@ -96,8 +88,8 @@
                 <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/1/1/1/0/0/8/0/1110080-the-super-mario-galaxy-movie-0-2000-0-3000-crop.jpg?v=fefcfca134" ></img></div>
                 <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/1/1/9/6/8/0/8/1196808-minions-3-0-2000-0-3000-crop.jpg?v=a50f031caa" ></img></div>
                 <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/1/0/0/0/2/7/7/1000277-moana-0-2000-0-3000-crop.jpg?v=65401ce4f2" ></img></div>
-                
             </div>
+
             <div class="section">Peliculas favoritas</div>
             <div class="movieGrid">
                 <div class="movieBox"><img class="poster" src="https://play-lh.googleusercontent.com/Y-UEqKCl-hlfRJ_F6DVq9qwETeo8n3SZHBIhAc7sovBQmrbFiMAgvehJt8CxRQv8BrfB-w" ></img></div>
@@ -108,6 +100,7 @@
                 <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/5/1/9/4/5/51945-back-to-the-future-0-2000-0-3000-crop.jpg?v=b818c8ce28" ></img></div>
                 <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/7/9/7/8/7/79787-rush-0-2000-0-3000-crop.jpg?v=ca082886e5" ></img></div>
             </div>
+
             <div class="section">Peliculas que te podrian gustar</div>
             <div class="movieGrid">
                 <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/8/5/3/8/2/2/853822-pearl-0-2000-0-3000-crop.jpg?v=471dfc4a24" ></img></div>
@@ -118,26 +111,105 @@
                 <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/1/0/0/0/2/7/7/1000277-moana-0-2000-0-3000-crop.jpg?v=65401ce4f2" ></img></div>
                 <div class="movieBox"><img class="poster" src="https://m.media-amazon.com/images/M/MV5BYjk1Y2U4MjQtY2ZiNS00OWQyLWI3MmYtZWUwNmRjYWRiNWNhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" ></img></div>
             </div>
+
+            <div class="section d-flex justify-content-between align-items-center">
+                <span>Mis listas</span>
+                <button 
+                    class="btn btn-outline-light btn-sm me-3" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#modalCrearLista"
+                >
+                    + Crear lista
+                </button>
+            </div>
+
+            <div class="listasContainer">
+                <div class="listaCard listaCard--activa">
+                    <h5 class="listaCard__titulo">Pendientes</h5>
+                    <p class="listaCard__count">12 películas</p>
+                </div>
+                <div class="listaCard">
+                    <h5 class="listaCard__titulo">Top 2024</h5>
+                    <p class="listaCard__count">8 películas</p>
+                </div>
+                <div class="listaCard">
+                    <h5 class="listaCard__titulo">Para ver con amigos</h5>
+                    <p class="listaCard__count">5 películas</p>
+                </div>
+            </div>
+
+            <div class="movieGrid">
+                <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/5/1/8/1/8/51818-the-godfather-0-2000-0-3000-crop.jpg?v=bca8b67402"></div>
+                <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/1/1/7/6/2/1/117621-interstellar-0-2000-0-3000-crop.jpg?v=7ad89e6666"></div>
+                <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/2/9/1/4/1/9/291419-ford-v-ferrari-0-2000-0-3000-crop.jpg?v=27ed4e72db"></div>
+                <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/8/5/3/8/2/2/853822-pearl-0-2000-0-3000-crop.jpg?v=471dfc4a24"></div>
+                <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/9/5/7/0/5/0/957050-superman-2025-0-2000-0-3000-crop.jpg?v=54e41a55ff"></div>
+                <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/1/0/0/0/2/7/7/1000277-moana-0-2000-0-3000-crop.jpg?v=65401ce4f2"></div>
+                <div class="movieBox"><img class="poster" src="https://moviepostermexico.com/cdn/shop/products/cars_xlg_1013x.jpg?v=1577160891"></div>
+                <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/5/1/9/4/5/51945-back-to-the-future-0-2000-0-3000-crop.jpg?v=b818c8ce28"></div>
+                <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/7/9/7/8/7/79787-rush-0-2000-0-3000-crop.jpg?v=ca082886e5"></div>
+                <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/1/1/9/6/8/0/8/1196808-minions-3-0-2000-0-3000-crop.jpg?v=a50f031caa"></div>
+                <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/1/1/1/0/0/8/0/1110080-the-super-mario-galaxy-movie-0-2000-0-3000-crop.jpg?v=fefcfca134"></div>
+                <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/sm/upload/n8/rl/pc/se/jEiEU8viSb8CIIHcfprVr2V6XDz-0-2000-0-3000-crop.jpg?v=25e13045f0"></div>
+            </div>
+
             
 
         </main>
-        <footer>
-            <!-- place footer here -->
-        </footer>
-        <!-- Bootstrap JavaScript Bundle (includes Popper) -->
+
+        <footer></footer>
+
+        <div class="modal fade" id="modalCrearLista" tabindex="-1" aria-labelledby="modalCrearListaLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark text-white">
+                    <div class="modal-header border-secondary">
+                        <h5 class="modal-title" id="modalCrearListaLabel">Crear nueva lista</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="nombreLista" class="form-label">Nombre de la lista</label>
+                            <input 
+                                type="text" 
+                                class="form-control bg-secondary text-white border-0" 
+                                id="nombreLista" 
+                                placeholder="Ej. Películas de terror"
+                                required
+                            >
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcionLista" class="form-label">Descripción <span class="text-secondary">(opcional)</span></label>
+                            <textarea 
+                                class="form-control bg-secondary text-white border-0" 
+                                id="descripcionLista" 
+                                rows="3" 
+                                placeholder="Describe tu lista..."
+                            ></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Visibilidad</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="visibilidad" id="visPublica" value="publica" checked>
+                                <label class="form-check-label" for="visPublica">Pública</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="visibilidad" id="visPrivada" value="privada">
+                                <label class="form-check-label" for="visPrivada">Privada</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-secondary">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-light">Crear lista</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
             crossorigin="anonymous"
         ></script>
-         <!-- SCRIPTS -->
-
-         <!-- ESTILOS -->
-
-        
-        
-
-        <!-- CONTROLADORES -->
-
     </body>
 </html>

@@ -26,7 +26,9 @@
 
 .friend-card:hover .friend-avatar {
     filter: saturate(0.5);
-    transition: filter 0.2s;
+    transition: filter 0.2s, box-shadow 0.3s ease;
+    box-shadow: 0 0 12px 4px rgba(128, 0, 128, 0.6);
+    outline: 5px solid purple;
 }
 
 .friend-avatar {

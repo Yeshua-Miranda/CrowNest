@@ -82,3 +82,23 @@
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.tags {
+    display: flex;
+    gap: 10px;
+    margin: 20px;
+}
+
+.tag-icon {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    color: white;
+    background-color: blueviolet;
+}
+
+.tag-icon:hover {
+    background-color: #43006B;
+    box-shadow: 0 0 1px 0 blueviolet inset, 0 0 10px 4px blueviolet;
+
+}

@@ -21,7 +21,13 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand fw-bold"  href="home.html">
-                    LOGO
+                    <img 
+                        src="../assets/img/logo.png" 
+                        alt="Foto de perfil" 
+                        width="45" 
+                        height="45" 
+                        class="rounded-circle border border-2 border-secondary"
+                    >
                 </a>
                 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPrincipal" aria-controls="navbarPrincipal" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,19 +72,238 @@
             </div>
         </nav>
 
-        <section class="hero">
-          <div class="hero-content">
-            <h1>Welcome to Our Platform</h1>
-            <p>Empowering your business with modern digital solutions.</p>
-            <a href="#get-started" class="cta-button">Get Started</a>
-          </div>
-        </section>
-
             
             
 
         </header>
         <main>
+        <section class="hero">
+          <div class="hero-content">
+            
+            <div class="profile-card">
+              <img src="https://preview.redd.it/is-michael-scott-autistic-v0-9ywdrwlqdmdc1.jpeg?width=640&crop=smart&auto=webp&s=36fa472f240007b7a1db688ce423713dee4d6c02" alt="Foto de perfil" class="avatar">
+              
+              <div class="card-body">
+                <span class="badge">Cinefilo Honorario</span>
+                <h2 id="username"> Michael Scott</h2>
+                <div class="details">
+                  <p><b>Email:</b> michael_scott@gmail.com</p>
+                  <p><b>Genero Favorito:</b> Comedia </p>
+                  <span class="location">Scranton, Pensilvania</span>
+                </div>
+              </div>
+            </div>
+        
+          </div>
+        </section>
+
+        <div id="page" class="row">
+            <div class="pestaña" class="col-sm-4">
+                <p class="recom_subtitle">Favoritos:</p>
+                <div class="recommendations">
+                <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/1/1/9/6/8/0/8/1196808-minions-3-0-2000-0-3000-crop.jpg?v=a50f031caa" ></img></div>
+                <div class="movieBox"><img class="poster" src="https://a.ltrbxd.com/resized/film-poster/1/0/0/0/2/7/7/1000277-moana-0-2000-0-3000-crop.jpg?v=65401ce4f2" ></img></div>
+                <div class="movieBox"><img class="poster" src="https://m.media-amazon.com/images/M/MV5BYjk1Y2U4MjQtY2ZiNS00OWQyLWI3MmYtZWUwNmRjYWRiNWNhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" ></img></div>
+            </div>
+            </div>
+            <div class="pestaña" class="col-sm-4">
+                <p class="recom_subtitle">Reseñas:</p>
+                <div class="reviews-container" id="reviews">
+
+                      <div class="review" data-rating="5">
+                        <div class="review-content">
+                          <h5 class="review-name">Zootopia</h5>
+                          <div class="stars">★★★★★ <span style="color: white;"> 5.0 </span></div>
+                          <h6 class="review-title">Increíble película</h6>
+                          <p>Me encantó la historia y los efectos. Totalmente recomendada.</p>
+                        </div>
+                      </div>
+                  
+                      <div class="review" data-rating="3">
+                        <div class="review-content">
+                          <h5 class="review-name">Zootopia 2</h5>
+                          <div class="stars">★★★☆☆ <span style="color: white;"> 3.0 </span></div>
+                          <h6 class="review-title">Está bien</h6>
+                          <p>Entretenida, pero algo larga en algunas partes.</p>
+                        </div>
+                      </div>
+                  
+                      <div class="review" data-rating="4">
+                        <div class="review-content">
+                          <h5 class="review-name">Zootopia 3</h5>
+                          <div class="stars">★★★★☆ <span style="color: white;"> 4.0 </span></div>
+                          <h6 class="review-title">Muy buena</h6>
+                          <p>Gran actuación y buena dirección.</p>
+                        </div>
+                      </div>
+                  
+                    </div>
+                </div>
+                
+            <div class="pestaña" class="col-sm-4">
+    <p class="recom_subtitle">Actividad reciente </p>
+    
+    <div class="calendar-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <span class="text-white-50 small">Abril 2026</span>
+        </div>
+
+        <div class="calendar-grid">
+            <div class="cal-header">L</div>
+            <div class="cal-header">M</div>
+            <div class="cal-header">M</div>
+            <div class="cal-header">J</div>
+            <div class="cal-header">V</div>
+            <div class="cal-header">S</div>
+            <div class="cal-header">D</div>
+
+            <div class="cal-day text-muted">30</div>
+            <div class="cal-day text-muted">31</div>
+            <div class="cal-day">1</div>
+            <div class="cal-day">2</div>
+            <div class="cal-day has-activity" title="Reseña: Inception">3</div>
+            <div class="cal-day">4</div>
+            <div class="cal-day">5</div>
+            <div class="cal-day">6</div>
+            <div class="cal-day has-activity" title="Viste: Batman">7</div>
+            <div class="cal-day">8</div>
+            <div class="cal-day">9</div>
+            <div class="cal-day">10</div>
+            <div class="cal-day has-activity">11</div>
+            <div class="cal-day">12</div>
+            </div>
+
+        <div class=" text-center border-top border-secondary border-opacity-10 pt-3">
+            <a href="calendar.html" class="text-white text-decoration-none small fw-bold">
+                Ver diario completo
+            </a>
+        </div>
+    </div>
+
+                
+             </div>
+        </div>
+
+            <div class="container py-4">
+
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mt-2 mb-3">
+                <h1 class="headercin">Mis amigos</h1>
+                <div class="input-group friends-search">
+                    <input type="text" class="form-control" placeholder="Buscar amigo..." />
+                    <button class="btn btn-dark" type="button">Buscar</button>
+                </div>
+            </div>
+
+            <div class="section-title">Amigos (14)</div>
+            <div class="friend-grid">
+
+                <a href="#" class="friend-card">
+                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Mariana Cortes" />
+                    <p class="friend-name">Mariana Cortes</p>
+                    <p class="friend-meta">142 películas</p>
+                    <span class="friend-badge">23 en común</span>
+                </a>
+
+                <a href="#" class="friend-card">
+                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Luis Martínez" />
+                    <p class="friend-name">Emilio Segura</p>
+                    <p class="friend-meta">98 películas</p>
+                    <span class="friend-badge">17 en común</span>
+                </a>
+
+                <a href="#" class="friend-card">
+                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Sofía López" />
+                    <p class="friend-name">Yeshua Miranda</p>
+                    <p class="friend-meta">210 películas</p>
+                    <span class="friend-badge">41 en común</span>
+                </a>
+
+                <a href="#" class="friend-card">
+                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Carlos Ruiz" />
+                    <p class="friend-name">Omara Camara</p>
+                    <p class="friend-meta">67 películas</p>
+                    <span class="friend-badge">9 en común</span>
+                </a>
+
+                <a href="#" class="friend-card">
+                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="María Torres" />
+                    <p class="friend-name">Dorx Profe</p>
+                    <p class="friend-meta">305 películas</p>
+                    <span class="friend-badge">58 en común</span>
+                </a>
+
+                <a href="#" class="friend-card">
+                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Diego Flores" />
+                    <p class="friend-name">Diego Ortiz</p>
+                    <p class="friend-meta">55 películas</p>
+                    <span class="friend-badge">5 en común</span>
+                </a>
+
+                <a href="#" class="friend-card">
+                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Valeria Díaz" />
+                    <p class="friend-name">Fabricio Rodriguez</p>
+                    <p class="friend-meta">189 películas</p>
+                    <span class="friend-badge">30 en común</span>
+                </a>
+
+                <a href="#" class="friend-card">
+                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Andrés Vega" />
+                    <p class="friend-name">Olivia Rodrigo</p>
+                    <p class="friend-meta">120 películas</p>
+                    <span class="friend-badge">14 en común</span>
+                </a>
+
+            </div>
+
+            <div class="section-title">Sugerencias para ti</div>
+            <div class="friend-grid">
+
+                <a href="#" class="friend-card">
+                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Paula Reyes" />
+                    <p class="friend-name">John Doe</p>
+                    <p class="friend-meta">88 películas</p>
+                    <span class="friend-badge">12 en común</span>
+                </a>
+
+                <a href="#" class="friend-card">
+                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Rodrigo Silva" />
+                    <p class="friend-name">Ximena Segura</p>
+                    <p class="friend-meta">253 películas</p>
+                    <span class="friend-badge">36 en común</span>
+                </a>
+
+                <a href="#" class="friend-card">
+                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Fernanda Cruz" />
+                    <p class="friend-name">Jane Doe</p>
+                    <p class="friend-meta">174 películas</p>
+                    <span class="friend-badge">21 en común</span>
+                </a>
+
+                <a href="#" class="friend-card">
+                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Tomás Herrera" />
+                    <p class="friend-name">Michael Scott</p>
+                    <p class="friend-meta">41 películas</p>
+                    <span class="friend-badge">7 en común</span>
+                </a>
+
+                <a href="#" class="friend-card">
+                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Camila Moreno" />
+                    <p class="friend-name">Malcolm</p>
+                    <p class="friend-meta">317 películas</p>
+                    <span class="friend-badge">49 en común</span>
+                </a>
+
+                <a href="#" class="friend-card">
+                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Javier Soto" />
+                    <p class="friend-name">Reese</p>
+                    <p class="friend-meta">76 películas</p>
+                    <span class="friend-badge">11 en común</span>
+                </a>
+
+            </div>
+
+        </div>
+
             
         </main>
         <footer>
@@ -96,6 +321,7 @@
         <!-- ESTILOS -->
         <link rel="stylesheet" href="../assets/estilos/general.css"/>
         <link rel="stylesheet" href="../assets/estilos/profile.css"/>
+        <link rel="stylesheet" href="../assets/estilos/friends.css"/>
 
         <!-- CONTROLADORES -->
     </body>

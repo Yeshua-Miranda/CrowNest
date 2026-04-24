@@ -1,17 +1,26 @@
+.tag-icon.active {
+    background-color: #43006B;
+    box-shadow: 0 0 10px 3px blueviolet;
+}
 .movieGrid {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
+    flex-wrap: nowrap; 
+    overflow-x: auto; 
+    scroll-behavior: smooth;
     gap: 20px;
     max-width: 1400px;
     margin: 20px auto;
+    padding: 10px;
+}
+
+.movieGrid::-webkit-scrollbar {
+    display: none;
 }
 
 .movieBox {
-    width: 150px;
-    border: 3px solid black;
-    margin: 10px;
+    max-width: 200px;
+    min-width: 150px;
+    flex: 0 0 auto;
 }
 
 .movieBox:hover {
@@ -90,6 +99,7 @@
 }
 
 .tag-icon {
+    max-width: 150px;
     padding: 5px 10px;
     border-radius: 20px;
     font-size: 14px;

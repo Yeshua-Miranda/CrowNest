@@ -1,6 +1,7 @@
-const API_KEY = "3d00f706e023b8eedd3b29eb9d6e193c";
-const BASE_URL = "https://api.themoviedb.org/3";
-const IMG_URL = "https://image.tmdb.org/t/p/w500";
+
+const API_KEY = ENV.TMDB_API_KEY;
+const BASE_URL = ENV.TMDB_BASE_URL;
+const IMG_URL = ENV.TMDB_IMG_URL;
 
 const genreMap = {
     "accion": 28,

@@ -1,10 +1,6 @@
 const mogoose = require('mongoose');   
 
 let userSchema = new mongoose.Schema({
-    userId: {
-        type: Number,
-        require: true
-    },
     name: {
         type: String,
         required: true,

@@ -1,9 +1,9 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
-const router = require('./routes/api.js'); 
+const router = require('./routes/api_route.js'); 
 
-const dbConfig = require('./database/config'); 
+const dbConfig = require('./database/config.js'); 
 
 const app = express();
 const PORT = 3000;
@@ -25,7 +25,3 @@ mongoose.connect(dbConfig.MONGODB_URI)
         });
     })
     .catch(err => console.error('Error de conexión:', err));
-
-app.listen(port, () => { 
-    console.log(`Práctica 3 corriendo en el puerto ${port}!`); 
-});

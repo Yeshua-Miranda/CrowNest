@@ -1,6 +1,7 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
+const router = require('./routes/api.js'); 
 
 const dbConfig = require('./database/config'); 
 
@@ -8,6 +9,12 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use(router); 
+
+app.use(express.static('FRONTEND'));
+app.use('/controllers', express.static('../FRONTEND/controllers'));
+app.use('/views', express.static('../FRONTEND/views'));
+app.use('/assets', express.static('../FRONTEND/assets'));
 
 
 mongoose.connect(dbConfig.MONGODB_URI)
@@ -18,3 +25,7 @@ mongoose.connect(dbConfig.MONGODB_URI)
         });
     })
     .catch(err => console.error('Error de conexión:', err));
+
+app.listen(port, () => { 
+    console.log(`Práctica 3 corriendo en el puerto ${port}!`); 
+});

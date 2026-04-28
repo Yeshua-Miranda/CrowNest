@@ -9,9 +9,6 @@ exports.registerUser = (req,res) => {
             })
         }
         else{
-            if(req.body.name){
-
-            }
             let new_user = {
                 name: req.body.name, 
                 email: req.body.email, 

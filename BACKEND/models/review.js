@@ -2,9 +2,9 @@
 const mogoose = require('mongoose');   
 
 const reviewSchema = new mogoose.Schema({
-    // FALTA USUARIO
+    
+    userId: { type: Numbre, required : true},
 
-    //-------------
     // Información de la API
     movieId: { type: Number, required: [true, "El ID de la película es obligatorio"] },
     movieTitle: { type: String, required: [true, "El título de la película es obligatorio"] },

@@ -1,10 +1,8 @@
-const mogoose = require('mongoose');   
+import uniqueValidator from 'mongoose-unique-validator'
+const mogoose = require('mongoose'); 
+  
 
 let userSchema = new mongoose.Schema({
-    userId: {
-        type: Number,
-        require: true
-    },
     name: {
         type: String,
         required: true,
@@ -12,7 +10,8 @@ let userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password: {
         type: String,

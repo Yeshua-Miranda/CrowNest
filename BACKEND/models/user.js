@@ -19,8 +19,8 @@ let userSchema = new mongoose.Schema({
     },
     joined_at: { 
         type: Date,
-        require: true
+        required: true
     }
 });
 
-let User = mongoose.model('users', userSchema);
+module.exports = mongoose.model('User', userSchema);

@@ -3,7 +3,7 @@ const User = require('../models/user.js');
 exports.registerUser = (req,res) => {
     try {
         if(req.body.password != req.body.confirm_password){
-           res.JSON ({
+           res.json ({
                 msg: "Passwords Missmatch",
                 status: 401
             })
@@ -21,7 +21,7 @@ exports.registerUser = (req,res) => {
             });
         }
     } catch (err) {
-        res.JSON({
+        res.json({
             msg: err,
             ststus:400
         })

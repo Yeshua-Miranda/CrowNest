@@ -16,7 +16,6 @@ app.use('/controllers', express.static('../FRONTEND/controllers'));
 app.use('/views', express.static('../FRONTEND/views'));
 app.use('/assets', express.static('../FRONTEND/assets'));
 
-
 mongoose.connect(dbConfig.MONGODB_URI)
     .then(() => {
         console.log('Conexión exitosa a MongoDB Atlas');

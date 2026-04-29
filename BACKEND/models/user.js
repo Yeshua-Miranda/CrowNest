@@ -16,6 +16,10 @@ let userSchema = new mongoose.Schema({
         type: String,
         required: true,
         min: [8, "El password tiene que tener 8 o más caracteres"]
+    },
+    joined_at: { 
+        type: Date,
+        require: true
     }
 });
 

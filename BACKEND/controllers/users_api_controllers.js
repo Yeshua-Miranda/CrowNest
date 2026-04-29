@@ -51,7 +51,7 @@ exports.login = async (req, res) => {
                 status: 401
             });
         } else {
-            const token = jwt.sign({ email }, secretKey, { expiresIn: '1h' });
+            const token = jwt.sign(user, secretKey, { expiresIn: '1h' });
             return res.json({ token });
         }
 
@@ -63,8 +63,18 @@ exports.login = async (req, res) => {
     }
 }
 
-exports.getProctectedRoute =  async (req,res) => {
-    
+exports.getProtectedRoute =  async (req,res) => {
+    const token = req.headers.authorization;
+
+    jwt.verify(token, secretKey, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ 
+                message: 'Unauthorized',
+                status: 401 
+            });
+        }
+        res.json({ message: 'Aquí mandas lo protegido', user: decoded });
+    });
 }
 
 exports.getUser = (req,res) => {

@@ -1,28 +1,27 @@
+const bcrypt = require('bcrypt');
 const User = require('../models/user.js');
 
-exports.registerUser = (req,res) => {
+exports.registerUser = async (req, res) => { 
     try {
-        if(req.body.password != req.body.confirm_password){
-           res.json ({
+        if (req.body.password !== req.body.confirm_password) {
+            return res.status(401).json ({
                 msg: "Passwords Missmatch",
-                status: 401
+                status:401
             })
         }
-        else{
-            let new_user = {
-                name: req.body.name, 
-                email: req.body.email, 
-                password: req.body.password, 
-                joined_at: new Date()
-            }
-            let user = new User(new_user);
-            user.save().then((doc) => {
-                res.send(user);
-            });
-        }
+        let cryptPass = bcrypt.hashSync(req.body.password, 10);
+        const newUser = new User({
+            name: req.body.name,
+            email: req.body.email,
+            password: cryptPass
+        });
+        const savedUser = await newUser.save();
+        return res.send(savedUser);
+
     } catch (err) {
-        res.json({
-            msg: err,
+        console.log(err.message)
+        res.status(400).json({
+            msg: err.message,
             ststus:400
         })
     }

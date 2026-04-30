@@ -52,7 +52,7 @@ exports.login = async (req, res) => {
             });
         } else {
             const token = jwt.sign(user, secretKey, { expiresIn: '1h' });
-            return res.json({ token });
+            return res.json({token, user});
         }
 
     } catch (err) {
@@ -63,7 +63,7 @@ exports.login = async (req, res) => {
     }
 }
 
-exports.getProtectedRoute =  async (req,res) => {
+exports.authMiddelwere =  async (req,res,next) => {
     const token = req.headers.authorization;
 
     jwt.verify(token, secretKey, (err, decoded) => {
@@ -73,9 +73,10 @@ exports.getProtectedRoute =  async (req,res) => {
                 status: 401 
             });
         }
-        res.json({ message: 'Aquí mandas lo protegido', user: decoded });
+        res.json({ message: 'Ruta Protegida', user: decoded });
     });
 }
+
 
 exports.getUser = (req,res) => {
 

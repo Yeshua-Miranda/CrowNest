@@ -5,10 +5,12 @@ const express = require('express');
 const routerUsers = express.Router();
 routerUsers.post('/',usersControllers.registerUser);
 
+routerUsers.use('/:id', usersControllers.authMiddelwere)
+
 routerUsers.get('/:id',usersControllers.getUser);
 
 routerUsers.patch('/:id',usersControllers.updateUserInfo);
 
 routerUsers.delete('/:id',usersControllers.deleteUserInfo);
 
-module.exports = routerUsers; 
+module.exports = routerUsers;  

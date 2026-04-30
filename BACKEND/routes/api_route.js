@@ -6,7 +6,10 @@ const usersControllers = require( '../controllers/users_api_controllers.js');
 const routerApi = express.Router();
 
 const userRoutes = require('./user_route.js');
+const listRoutes = require('./list_route.js');
 routerApi.use('/users',userRoutes);
+routerApi.use('/lists',listRoutes);
+
 
 routerApi.get('/home.html',(req,res) => 
     res.sendFile(path.resolve(__dirname+"/../../FRONTEND/views/home.html"))

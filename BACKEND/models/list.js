@@ -1,23 +1,21 @@
+const mongoose = require('mongoose');
 
-const mogoose = require('mongoose');   
-
-const listSchema = {
-    id:          { type: "number",  required: true },
-    userId:      { type: "number",  required: true },
-    nombre:      { type: "string",  required: [true, "La lista debe tener nombre"] },
-    descripcion: { type: "string",  required: false },
-    visibilidad: { type: "string",  required: [true, "Debes asignar visibilidad"] },
+const listSchema = new mongoose.Schema({
+    id:          { type: Number, required: true },
+    userId:      { type: Number, required: true },
+    nombre:      { type: String, required: [true, "La lista debe tener nombre"] },
+    descripcion: { type: String },
+    visibilidad: { type: String, required: [true, "Debes asignar visibilidad"] },
     peliculas: [
         {
-            tmdbId:      { type: "number", required: true },
-            titulo:      { type: "string", required: true },
-            poster_path: { type: "string", required: true },
-            agregadaEn:  { type: "date",   required: true }
+            tmdbId:      { type: Number, required: true },
+            titulo:      { type: String, required: true },
+            poster_path: { type: String, required: true },
+            agregadaEn:  { type: Date, default: Date.now }
         }
     ],
-    creadaEn:      { type: "date", required: true },
-    actualizadaEn: { type: "date", required: true }
-};
+    creadaEn:      { type: Date, default: Date.now },
+    actualizadaEn: { type: Date, default: Date.now }
+});
 
-module.exports = mogoose.model('List', listSchema);
-
+module.exports = mongoose.model('List', listSchema);

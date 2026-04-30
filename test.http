@@ -7,3 +7,23 @@ Content-Type: application/json
     "password":"12345678920",
     "confirm_password": "12345678920"
 }
+###
+POST http://localhost:3000/lists
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "nombre": "Favoritas",
+  "descripcion": "Las mejores pelis",
+  "visibilidad": "public"
+}
+
+###
+POST http://localhost:3000/lists/1/movies
+Content-Type: application/json
+
+{
+  "tmdbId": 550,
+  "titulo": "Fight Club",
+  "poster_path": "/a26cQPRhJPX6GbWfQbvZdrrp9j9.jpg"
+}

@@ -79,6 +79,7 @@ function renderPeliculas(lista) {
                 >
                 <div class="overlay">
                     <div class="movieTitle">${peli.titulo}</div>
+                    <div class="movieYear">(${peli.año})</div>
                     <button class="removeBtn">
                         <i class="fa-solid fa-trash"></i>
                     </button>
@@ -86,12 +87,10 @@ function renderPeliculas(lista) {
             </div>
         `;
 
-        // click para ir a review
         div.addEventListener("click", () => {
             window.location.href = `review.html?id=${peli.tmdbId}`;
         });
 
-        // 🔥 BOTÓN BASURA AQUÍ
         const removeBtn = div.querySelector(".removeBtn");
 
         removeBtn.addEventListener("click", (e) => {

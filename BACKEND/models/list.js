@@ -11,6 +11,7 @@ const listSchema = new mongoose.Schema({
             tmdbId:      { type: Number, required: true },
             titulo:      { type: String, required: true },
             poster_path: { type: String, required: true },
+            año:         { type: String, required: false },
             agregadaEn:  { type: Date, default: Date.now }
         }
     ],

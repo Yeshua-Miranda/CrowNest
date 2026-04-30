@@ -95,6 +95,7 @@ function renderMovies(movies, containerId) {
                 >
                 <div class="overlay">
                     <div class="movieTitle">${movie.title}</div>
+                    <div class="movieYear">(${movie.release_date ? movie.release_date.split("-")[0] : ""})</div>
                     <button class="addBtn">+</button>
                 </div>
             </div>
@@ -187,7 +188,9 @@ async function agregarAPelicula(listId) {
         body: JSON.stringify({
             tmdbId: selectedMovie.id,
             titulo: selectedMovie.title,
-            poster_path: selectedMovie.poster_path
+            poster_path: selectedMovie.poster_path,
+            año: selectedMovie.release_date ? selectedMovie.release_date.split("-")[0] : ""
+
         })
     });
 

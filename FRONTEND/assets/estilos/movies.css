@@ -204,3 +204,17 @@
 .listaCard__deleteBtn:hover {
     color: rgb(180, 0, 0);
 }
+
+.movieYear {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+
+    width: 80%;
+}

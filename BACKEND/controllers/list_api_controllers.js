@@ -66,7 +66,7 @@ async function createList(req, res) {
 async function addMovie(req, res) {
     try {
         const listId = parseInt(req.params.id);
-        const { tmdbId, titulo, poster_path } = req.body;
+        const { tmdbId, titulo, poster_path, año } = req.body;
 
         if (!tmdbId || !titulo || !poster_path) {
             return res.status(400).json({ error: "tmdbId, titulo y poster_path son requeridos" });
@@ -80,6 +80,7 @@ async function addMovie(req, res) {
                         tmdbId,
                         titulo,
                         poster_path,
+                        año,
                         agregadaEn: new Date()
                     }
                 },

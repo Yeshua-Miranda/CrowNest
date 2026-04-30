@@ -13,7 +13,7 @@ Content-Type: application/json
 
 {
   "userId": 1,
-  "nombre": "Favoritas",
+  "nombre": "Las de prueba lol",
   "descripcion": "Las mejores pelis",
   "visibilidad": "public"
 }
@@ -26,4 +26,15 @@ Content-Type: application/json
   "tmdbId": 550,
   "titulo": "Fight Club",
   "poster_path": "/a26cQPRhJPX6GbWfQbvZdrrp9j9.jpg"
+}
+
+###
+
+POST http://localhost:3000/lists/2/movies
+Content-Type: application/json
+
+{
+  "tmdbId": 27205,
+  "titulo": "Inception",
+  "poster_path": "/9gk7adHYeDvHkCSEqAvQNLV5Uge.jpg"
 }

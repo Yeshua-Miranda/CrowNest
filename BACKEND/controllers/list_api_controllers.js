@@ -43,7 +43,6 @@ async function createList(req, res) {
             return res.status(400).json({ error: "userId, nombre y visibilidad son requeridos" });
         }
 
-        // Generar ID manual (simple)
         const last = await List.findOne().sort({ id: -1 });
         const newId = last ? last.id + 1 : 1;
 
@@ -127,7 +126,6 @@ async function removeMovie(req, res) {
     }
 }
 
-// DELETE /lists/:id
 async function deleteList(req, res) {
     try {
         const id = parseInt(req.params.id);

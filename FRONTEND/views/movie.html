@@ -177,11 +177,71 @@
                     </div>
                     <div class="modal-footer border-secondary">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-outline-light">Crear lista</button>
+                        <button type="button" id="crearListaBtn" class="btn btn-outline-light">Crear lista</button>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="modalAgregarPelicula" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5>Agregar a lista</h5>
+                </div>
+                <div class="modal-body">
+                    <div id="listasModalContainer"></div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="modal fade" id="modalEliminarPelicula" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-dark text-white">
+            
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title">Eliminar película</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                ¿Seguro que quieres eliminar esta película de la lista?
+            </div>
+
+            <div class="modal-footer border-secondary">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                Cancelar
+                </button>
+                <button type="button" id="confirmDeleteBtn" class="btn btn-danger">
+                Eliminar
+                </button>
+            </div>
+
+
+            </div>
+        </div>
+        </div>
+
+        <div class="modal fade" id="modalEliminarLista" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content bg-dark text-white">
+                    <div class="modal-header border-secondary">
+                        <h5 class="modal-title">Eliminar lista</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Seguro que quieres eliminar esta lista? Esta acción no se puede deshacer.
+                    </div>
+                    <div class="modal-footer border-secondary">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" id="confirmDeleteListaBtn">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
 
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"

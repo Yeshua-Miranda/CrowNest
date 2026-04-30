@@ -54,6 +54,7 @@ async function loadRatedMovies() {
     }
 }
 
+
 function loadMoviesByGenre(genreId) {
     const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&language=es-MX`;
 
@@ -86,15 +87,36 @@ function renderMovies(movies, containerId) {
         movieBox.classList.add("movieBox");
 
         movieBox.innerHTML = `
-            <img 
-                class="poster"
-                src="${IMG_URL}${movie.poster_path}"
-                alt="${movie.title}"
-            >
+            <div class="movieWrapper">
+                <img 
+                    class="poster"
+                    src="${IMG_URL}${movie.poster_path}"
+                    alt="${movie.title}"
+                >
+                <div class="overlay">
+                    <div class="movieTitle">${movie.title}</div>
+                    <button class="addBtn">+</button>
+                </div>
+            </div>
         `;
 
         movieBox.addEventListener("click", () => {
             window.location.href = `review.html?id=${movie.id}`;
+        });
+
+        const addBtn = movieBox.querySelector(".addBtn");
+
+        addBtn.addEventListener("click", (e) => {
+            e.stopPropagation(); 
+
+            selectedMovie = movie;
+
+            const modal = new bootstrap.Modal(
+                document.getElementById("modalAgregarPelicula")
+            );
+            modal.show();
+
+            cargarListasEnModal();
         });
 
         container.appendChild(movieBox);
@@ -129,6 +151,52 @@ function setupTags() {
             }
         });
     });
+}
+
+async function cargarListasEnModal() {
+    console.log("Cargando listas en modal...");
+
+    const res = await fetch("http://localhost:3000/lists?userId=1");
+    const listas = await res.json();
+
+    console.log("Listas:", listas);
+
+    const container = document.getElementById("listasModalContainer");
+    container.innerHTML = "";
+
+    listas.forEach(lista => {
+        const btn = document.createElement("button");
+        btn.className = "btn btn-outline-light w-100 mb-2";
+        btn.textContent = lista.nombre;
+
+        btn.addEventListener("click", () => agregarAPelicula(lista.id));
+
+        container.appendChild(btn);
+    });
+}
+
+async function agregarAPelicula(listId) {
+    console.log("Agregando a lista:", listId);
+    console.log("Película:", selectedMovie);
+
+    await fetch(`http://localhost:3000/lists/${listId}/movies`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            tmdbId: selectedMovie.id,
+            titulo: selectedMovie.title,
+            poster_path: selectedMovie.poster_path
+        })
+    });
+
+    console.log("POST enviado");
+
+    const modal = bootstrap.Modal.getInstance(document.getElementById("modalAgregarPelicula"));
+    modal.hide();
+
+    cargarListas();
 }
 
 const input = document.getElementById("customGenreInput");

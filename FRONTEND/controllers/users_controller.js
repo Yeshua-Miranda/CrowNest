@@ -1,6 +1,5 @@
 async function register(){
     event.preventDefault();
-    console.log("Se llamo a la funcion register del frontend")
     let data = new FormData(event.target);
 
     try{
@@ -12,7 +11,7 @@ async function register(){
             body: JSON.stringify(Object.fromEntries(data.entries()))
         })
         if (!user.ok) {
-            alert(user.statusText + "aqui ando");
+            alert(user.statusText);
             return;
         }
         sessionStorage.setItem('user', JSON.stringify(user));
@@ -20,7 +19,6 @@ async function register(){
     } catch(err){
         console.error('Error en register:', err);
     }
-    
 }
 
 const registerForm = document.getElementById("registerForm");

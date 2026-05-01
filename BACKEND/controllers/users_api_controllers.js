@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 const secretKey = 'poo_el_guerrero_dragon';
 
 exports.registerUser = async (req, res) => { 
-     console.log("Se llamo a la funcion register del backend")
     try {
         if (req.body.password !== req.body.confirm_password) {
             return res.status(401).json ({
@@ -25,7 +24,6 @@ exports.registerUser = async (req, res) => {
         return res.send(savedUser);
 
     } catch (err) {
-        console.log(err.message)
         res.status(400).json({
             msg: err.message,
             status:400

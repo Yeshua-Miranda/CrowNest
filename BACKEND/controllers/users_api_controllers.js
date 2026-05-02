@@ -50,8 +50,12 @@ exports.login = async (req, res) => {
                 status: 401
             });
         } else {
-            const token = jwt.sign(user, secretKey, { expiresIn: '1h' });
-            return res.json({token, user});
+            const payload = { id: user._id, email: user.email };
+            const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+            return res.json({
+                token,
+                user: { id: user._id, email: user.email, name: user.name }
+            });
         }
 
     } catch (err) {

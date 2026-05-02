@@ -10,11 +10,14 @@ async function login(){
             body: JSON.stringify(Object.fromEntries(data.entries()))
         })
         if (!response.ok) {
-            alert(response.statusText);
+            const errorData = await response.json(); 
+            alert(errorData.msg || "Error en el login");
             return;
         }
-        let user = response.user;
-        sessionStorage.setItem('user', JSON.stringify(user));
+        
+        const resData = await response.json(); 
+        sessionStorage.setItem('user', JSON.stringify(resData.user));
+        sessionStorage.setItem('token', resData.token);
         window.location.href = ENV.BACKEND_URL + 'home.html';
     } catch(err){
         console.error('Error en register:', err);

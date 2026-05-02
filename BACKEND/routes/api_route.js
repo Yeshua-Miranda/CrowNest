@@ -28,11 +28,23 @@ routerApi.get('/movie.html',(req,res) =>
     res.sendFile(path.resolve(__dirname+"/../../FRONTEND/views/movie.html"))
 );
 
-routerApi.get('/', (req, res) => {
-    res.sendFile(path.resolve(__dirname + "/../../FRONTEND/views/login.html"));
-});
+routerApi.get('/profile.html',(req,res) => 
+    res.sendFile(path.resolve(__dirname+"/../../FRONTEND/views/profile.html"))
+);
 
+routerApi.get('/calendar.html',(req,res) => 
+    res.sendFile(path.resolve(__dirname+"/../../FRONTEND/views/calendar.html"))
+);
 
+routerApi.get('/',(req,res) =>{
+        let auth = req.get('x-auth');
+        if(auth){
+            res.sendFile(path.resolve(__dirname+"/../../FRONTEND/views/home.html"))
+        } else {
+            res.sendFile(path.resolve(__dirname+"/../../FRONTEND/views/login.html"))
+        }
+    }
+);
 
 module.exports = routerApi; 
  

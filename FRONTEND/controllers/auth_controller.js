@@ -26,3 +26,8 @@ async function login(){
 
 const loginForm = document.getElementById("loginForm");
 if (loginForm) loginForm.addEventListener("submit", login);
+
+function logout(){
+    sessionStorage.clear();
+    window.location.href = ENV.BACKEND_URL;
+}

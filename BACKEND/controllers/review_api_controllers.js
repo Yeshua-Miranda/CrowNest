@@ -1,17 +1,18 @@
 const Review = require('../models/review.js');
 
-// ==========================================
-// C: CREATE (Crear una reseña)
-// ==========================================
 exports.createReview = async (req, res) => {
     try {
-        // req.user viene del authMiddelwere. Sacamos su ID (asumiendo que en tu JWT guardas el _id)
         const userId = req.user._id || req.user.id; 
 
-        // Unimos los datos que mandó el frontend con el ID del usuario
         const nuevaResena = new Review({
-            ...req.body,
-            userId: userId 
+            userId: userId,
+            movieId: req.body.movieId,
+            movieTitle: req.body.movieTitle,
+            moviePoster: req.body.moviePoster,
+            rating: req.body.rating,
+            reviewText: req.body.reviewText,
+            isWatched: req.body.isWatched,
+            watchedAt: req.body.watchedAt
         });
 
         const resenaGuardada = await nuevaResena.save();
@@ -26,15 +27,11 @@ exports.createReview = async (req, res) => {
     }
 };
 
-// ==========================================
-// R: READ (Leer las reseñas del usuario)
-// ==========================================
 exports.getUserReviews = async (req, res) => {
     try {
         const userId = req.user._id || req.user.id;
         
-        // Buscamos todas las reseñas que le pertenezcan a este usuario
-        const reviews = await Review.find({ userId: userId }).sort({ createdAt: -1 });
+        const reviews = await Review.find({ userId: userId }).sort({ createdAt: -1 }); // Lo ordena de reciente a antiguo
 
         return res.json(reviews);
     } catch (err) {
@@ -42,23 +39,19 @@ exports.getUserReviews = async (req, res) => {
     }
 };
 
-// ==========================================
-// U: UPDATE (Editar una reseña)
-// ==========================================
 exports.updateReview = async (req, res) => {
     try {
-        const reviewId = req.params.id; // El ID de la reseña viene en la URL
+        const reviewId = req.params.id; 
         const userId = req.user._id || req.user.id;
 
-        // Buscamos la reseña por ID y aseguramos que le pertenezca a quien la quiere editar
+
         const review = await Review.findOne({ _id: reviewId, userId: userId });
 
         if (!review) {
             return res.status(404).json({ msg: "Reseña no encontrada o no autorizada" });
         }
 
-        // Actualizamos (el {new: true} es para que nos devuelva la versión ya actualizada)
-        const updatedReview = await Review.findByIdAndUpdate(reviewId, req.body, { new: true, runValidators: true });
+        const updatedReview = await Review.findByIdAndUpdate(reviewId, req.body, { new: true, runValidators: true });// Hace las validaciones
 
         return res.json({
             msg: "Reseña actualizada",
@@ -70,15 +63,11 @@ exports.updateReview = async (req, res) => {
     }
 };
 
-// ==========================================
-// D: DELETE (Eliminar una reseña)
-// ==========================================
 exports.deleteReview = async (req, res) => {
     try {
         const reviewId = req.params.id;
         const userId = req.user._id || req.user.id;
 
-        // Eliminamos asegurándonos de que el usuario es el dueño
         const deletedReview = await Review.findOneAndDelete({ _id: reviewId, userId: userId });
 
         if (!deletedReview) {

@@ -62,6 +62,30 @@ exports.login = async (req, res) => {
     }
 }
 
+
+exports.authMiddelwere = async (req, res, next) => {
+    // Busca el token en el header de autorización
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1]; 
+
+    // Verifica que exista un token
+    if (!token) {
+        return res.status(401).json({ message: 'No hay token, acceso denegado', status: 401 });
+    }
+
+    // Que sea valido el token
+    jwt.verify(token, secretKey, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ message: 'Token inválido o expirado', status: 401 });
+        }
+        
+        req.user = decoded; 
+        
+        next(); 
+    });
+}
+
+/*
 exports.authMiddelwere =  async (req,res,next) => {
     const token = req.headers.authorization;
 
@@ -74,7 +98,7 @@ exports.authMiddelwere =  async (req,res,next) => {
         }
         res.json({ message: 'Ruta Protegida', user: decoded });
     });
-}
+}*/
 
 
 exports.getUser = (req,res) => {

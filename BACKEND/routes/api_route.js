@@ -1,15 +1,20 @@
+
 const express = require('express'); 
 const path = require('path');
+const routerApi = express.Router();
+
+
+const reviewsRoutes = require('./review_route.js');
+const userRoutes = require('./user_route.js');
+//const listRoutes = require('./list_route.js');
+routerApi.use('/users',userRoutes);
+routerApi.use('/reviews', reviewsRoutes);
+//routerApi.use('/lists',listRoutes);
+
 
 const usersControllers = require( '../controllers/users_api_controllers.js');
 
-const routerApi = express.Router();
-
-const userRoutes = require('./user_route.js');
-const listRoutes = require('./list_route.js');
-routerApi.use('/users',userRoutes);
-routerApi.use('/lists',listRoutes);
-
+routerApi.post('/login',usersControllers.login);
 
 routerApi.get('/home.html',(req,res) => 
     res.sendFile(path.resolve(__dirname+"/../../FRONTEND/views/home.html"))
@@ -23,7 +28,11 @@ routerApi.get('/movie.html',(req,res) =>
     res.sendFile(path.resolve(__dirname+"/../../FRONTEND/views/movie.html"))
 );
 
-routerApi.post('/login',usersControllers.login);
+routerApi.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname + "/../../FRONTEND/views/login.html"));
+});
+
+
 
 module.exports = routerApi; 
  

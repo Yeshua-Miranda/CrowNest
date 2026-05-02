@@ -3,8 +3,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = require('./routes/api_route.js'); 
 const cors = require("cors");
-
-
 const dbConfig = require('./database/config.js'); 
 
 const app = express();
@@ -20,6 +18,8 @@ app.use('/controllers', express.static('../FRONTEND/controllers'));
 app.use('/views', express.static('../FRONTEND/views'));
 app.use('/assets', express.static('../FRONTEND/assets'));
 
+
+// Conexión a MongoDB
 mongoose.connect(dbConfig.MONGODB_URI)
     .then(() => {
         console.log('Conexión exitosa a MongoDB Atlas');

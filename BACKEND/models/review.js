@@ -1,9 +1,9 @@
 
-const mogoose = require('mongoose');   
+const mongoose = require('mongoose');   
 
-const reviewSchema = new mogoose.Schema({
+const reviewSchema = new mongoose.Schema({
     
-    userId: { type: Numbre, required : true},
+    userId: { type: mongoose.Schema.Types.ObjectId, required : true},
 
     // Información de la API
     movieId: { type: Number, required: [true, "El ID de la película es obligatorio"] },
@@ -32,11 +32,11 @@ const reviewSchema = new mogoose.Schema({
         type: Date, 
         required: [true, 'Debes indicar cuándo viste la película']
     },
-    }, {
-    // genera automáticamente "createdAt"        
-    timestamps: true
-    
-});
+    createdAt: {
+        type: Date,
+        default: Date.now 
+    }
+    });
 
-module.exports = mogoose.model('Review', reviewSchema);
+module.exports = mongoose.model('Review', reviewSchema);
 

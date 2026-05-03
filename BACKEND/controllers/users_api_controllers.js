@@ -20,7 +20,7 @@ exports.registerUser = async (req, res) => {
             password: cryptPass,
             joined_at: new Date()
         });
-        const savedUser = await newUser.save();
+        const savedUser = await newUser.save(); // Checar por que no se guarda elusuario
         return res.send(savedUser);
 
     } catch (err) {
@@ -120,9 +120,10 @@ exports.updateUserInfo = async (req,res) => {
             return res.status(404).json({ msg: "Usuario no encontrado", status: 404 });
         }
 
+        let user = await User.findOne({ userId });
         return res.json({
             msg: "Perfil actualizado correctamente",
-            user: updatedUser
+            user: user
         });
 
     } catch (err) {

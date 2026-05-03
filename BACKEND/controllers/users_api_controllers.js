@@ -89,30 +89,62 @@ exports.authMiddelwere = async (req, res, next) => {
     });
 }
 
-/*
-exports.authMiddelwere =  async (req,res,next) => {
-    const token = req.headers.authorization;
+exports.getUser = async (req,res) => {
+    try {
+        const id = parseInt(req.params.id);
 
-    jwt.verify(token, secretKey, (err, decoded) => {
-        if (err) {
-            return res.status(401).json({ 
-                message: 'Unauthorized',
-                status: 401 
-            });
+        const user = await User.findOne({ id });
+
+        if (!user) {
+            return res.status(404).json({ error: "Usuario no encontrada" });
         }
-        res.json({ message: 'Ruta Protegida', user: decoded });
-    });
-}*/
 
+        res.json(user);
 
-exports.getUser = (req,res) => {
-
+    } catch (err) {
+        res.status(500).json({ error: "Error al obtener el usuario" });
+    }
 }
 
-exports.updateUserInfo = (req,res) => {
+exports.updateUserInfo = async (req,res) => {
+    try {
+        const userId = req.user.id || req.user._id;
+        if (req.body.password) {
+            req.body.password = bcrypt.hashSync(req.body.password, 10);
+        }
+        const updatedUser = await User.findByIdAndUpdate(
+            userId, 
+            req.body, 
+            { new: true, runValidators: true }
+        ).select("-password"); 
 
+        if (!updatedUser) {
+            return res.status(404).json({ msg: "Usuario no encontrado", status: 404 });
+        }
+
+        return res.json({
+            msg: "Perfil actualizado correctamente",
+            user: updatedUser
+        });
+
+    } catch (err) {
+        return res.status(400).json({ msg: err.message, status: 400 });
+    }
 }
 
-exports.deleteUserInfo = (req,res) => {
-    
+exports.deleteUserInfo = async (req,res) => {
+    try {
+        const userId = req.user.id || req.user._id;
+
+        const deletedUser = await User.findByIdAndDelete(userId);
+
+        if (!deletedUser) {
+            return res.status(404).json({ msg: "Usuario no encontrado", status: 404 });
+        }
+
+        return res.json({ msg: "Cuenta de usuario eliminada correctamente" });
+
+    } catch (err) {
+        return res.status(500).json({ msg: "Error al eliminar el usuario", status: 500 });
+    }
 }

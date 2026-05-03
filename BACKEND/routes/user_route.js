@@ -9,7 +9,7 @@ routerUsers.use('/:id', usersControllers.authMiddelwere)
 
 routerUsers.get('/:id',usersControllers.getUser);
 
-routerUsers.patch('/:id',usersControllers.updateUserInfo);
+routerUsers.put('/:id',usersControllers.updateUserInfo);
 
 routerUsers.delete('/:id',usersControllers.deleteUserInfo);
 

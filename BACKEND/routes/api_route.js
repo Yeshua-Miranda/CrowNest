@@ -36,6 +36,10 @@ routerApi.get('/calendar.html',(req,res) =>
     res.sendFile(path.resolve(__dirname+"/../../FRONTEND/views/calendar.html"))
 );
 
+routerApi.get('/review.html',(req,res) => 
+    res.sendFile(path.resolve(__dirname+"/../../FRONTEND/views/review.html"))
+);
+
 routerApi.get('/',(req,res) =>{
         let auth = req.get('x-auth');
         if(auth){

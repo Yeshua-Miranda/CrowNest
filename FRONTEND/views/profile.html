@@ -84,6 +84,7 @@
           <div class="hero-content">
             
             <div class="profile-card">
+              <span class="gear" data-bs-toggle="modal" data-bs-target="#modalUpdateUser"><i class="fa-solid fa-gear"></i></span>
               <img src="https://preview.redd.it/is-michael-scott-autistic-v0-9ywdrwlqdmdc1.jpeg?width=640&crop=smart&auto=webp&s=36fa472f240007b7a1db688ce423713dee4d6c02" alt="Foto de perfil" class="avatar">
               
               <div class="card-body">
@@ -93,13 +94,35 @@
                   <p><i class="fa-solid fa-lock-open"></i><b> Perfil Publico</b></p>
                   <p><b>Email:</b> michael_scott@gmail.com</p>
                   <p><b>Genero Favorito:</b> Comedia </p>
-                  <span class="location">Scranton, Pensilvania</span>
                 </div>
+                <span class="location">Scranton, Pensilvania</span>
               </div>
             </div>
         
           </div>
         </section>
+
+        <div class="modal" id="modalUpdateUser">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+        
+              <div class="modal-header">
+                <h4 class="modal-title">Eliminar Etiqueta</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+        
+              <div class="modal-body">
+                ¿Seguro de que deseas eliminar la etiqueta?
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="deleteTag()" data-bs-dismiss="modal">Aceptar</button>
+              </div>
+        
+            </div>
+          </div>
+        </div>
 
         <div id="page" class="row">
             <div class="pestaña" class="col-sm-4">
@@ -145,47 +168,12 @@
                 </div>
                 
             <div class="pestaña" class="col-sm-4">
-    <p class="recom_subtitle">Actividad reciente </p>
+                <p class="recom_subtitle">Actividad reciente </p>
     
-    <div class="calendar-card">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <span class="text-white-50 small">Abril 2026</span>
-        </div>
 
-        <div class="calendar-grid">
-            <div class="cal-header">L</div>
-            <div class="cal-header">M</div>
-            <div class="cal-header">M</div>
-            <div class="cal-header">J</div>
-            <div class="cal-header">V</div>
-            <div class="cal-header">S</div>
-            <div class="cal-header">D</div>
-
-            <div class="cal-day text-muted">30</div>
-            <div class="cal-day text-muted">31</div>
-            <div class="cal-day">1</div>
-            <div class="cal-day">2</div>
-            <div class="cal-day has-activity" title="Reseña: Inception">3</div>
-            <div class="cal-day">4</div>
-            <div class="cal-day">5</div>
-            <div class="cal-day">6</div>
-            <div class="cal-day has-activity" title="Viste: Batman">7</div>
-            <div class="cal-day">8</div>
-            <div class="cal-day">9</div>
-            <div class="cal-day">10</div>
-            <div class="cal-day has-activity">11</div>
-            <div class="cal-day">12</div>
-            </div>
-
-        <div class=" text-center border-top border-secondary border-opacity-10 pt-3">
-            <a href="calendar.html" class="text-white text-decoration-none small fw-bold">
-                Ver diario completo
-            </a>
-        </div>
-    </div>
 
                 
-             </div>
+            </div>
         </div>
 
             <div class="container py-4">
@@ -363,6 +351,7 @@
         <!-- SCRIPTS -->
          <script src="../controllers/env.js"></script>
         <script src="../controllers/auth_controller.js"></script>
+        <script src="../controllers/users_controller.js"></script>
         <!-- ESTILOS -->
         <link rel="stylesheet" href="../assets/estilos/general.css"/>
         <link rel="stylesheet" href="../assets/estilos/profile.css"/>

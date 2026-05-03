@@ -31,3 +31,14 @@ function logout(){
     sessionStorage.clear();
     window.location.href = ENV.BACKEND_URL;
 }
+
+async function init() {
+    const currentUrl = window.location.href;
+    if(currentUrl === ENV.BACKEND_URL + 'profile.html'){
+        await initProfile();
+    }
+}
+
+window.addEventListener('load', () => {
+    init();
+});

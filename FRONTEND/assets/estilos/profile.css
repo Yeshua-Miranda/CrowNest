@@ -14,7 +14,7 @@ body{
 
 
 .profile-card {
-  background: #43006B;
+  background: #242226;
   width: 450px;
   height: fit-content;
   border-radius: 15px;
@@ -22,7 +22,7 @@ body{
   margin: 0 auto;
   position: relative;
   top: 15vh;
-  padding: 10px 35px 5px 35px;
+  padding: 10px 35px 15px 35px;
   text-align: center;
   color: white;
 }
@@ -56,10 +56,13 @@ body{
 
 
 .location {
-  display: block;
-  text-align: right;
-  color:lavender;
-  font-size: 0.8rem;
+    position: absolute;
+    display: block;
+    bottom: 20px; 
+    right: 30px; 
+    text-align: right;
+    color:lavender;
+    font-size: 0.8rem;
 }
 
 #page{
@@ -72,7 +75,7 @@ body{
 }
 
 .pestaña{
-    background: #43006B;
+    background:#242226;
     width: fit-content;
     width: 455px;
     border-radius: 15px;
@@ -116,7 +119,7 @@ body{
 .review {
   display: flex;
   gap: 15px;
-  background: #730C9C;
+  background: #504A54;
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 8px;
@@ -145,69 +148,7 @@ body{
   font-size: 14px;
 }
 
-.calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr); 
-    gap: 1px;
-    text-align: center;
-}
 
-.cal-header {
-    font-size: 0.7rem;
-    font-weight: 800;
-    color: #8a2be2;
-    text-transform: uppercase;
-}
-
-.cal-day {
-    aspect-ratio: 1 / 1; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.85rem;
-    color: white;
-    position: relative;
-    transition: background 0.2s ease;
-}
-
-.cal-day:hover:not(.text-muted) {
-    background-color: rgba(255, 255, 255, 0.05);
-    cursor: pointer;
-}
-
-.cal-day.has-activity::after {
-    content: '';
-    position: absolute;
-    bottom: 5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 4px;
-    background-color: #8a2be2;
-    border-radius: 50%;
-    box-shadow: 0 0 6px #8a2be2; 
-}
-
-.calendar-card {
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-}
-
-.cal-day {
-    color: white;
-}
-
-.cal-day:hover:not(.text-muted) {
-    background-color: rgba(255, 255, 255, 0.2); 
-    cursor: pointer;
-}
-
-.cal-day.has-activity::after {
-    background-color: #ff00ff; 
-    box-shadow: 0 0 6px #ff00ff;
-}
 
 .boton-review{
     padding: 5px 5px;
@@ -223,3 +164,16 @@ body{
     box-shadow: 0 0 1px 0 blueviolet inset, 0 0 10px 4px blueviolet;
 
 }
+
+.gear {
+    position: absolute;
+    display: block;
+    margin-top: 10px;
+    top: 10px; 
+    right: 30px; 
+    color:lavender;
+    font-size: 25px;
+}
+
+
+

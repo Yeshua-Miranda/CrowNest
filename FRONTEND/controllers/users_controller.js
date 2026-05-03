@@ -23,3 +23,8 @@ async function register(){
 
 const registerForm = document.getElementById("registerForm");
 if (registerForm) registerForm.addEventListener("submit", register);
+
+async function initProfile() {
+    console.log("Estas en perfil");
+    
+}

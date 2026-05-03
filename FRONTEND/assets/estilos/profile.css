@@ -175,5 +175,43 @@ body{
     font-size: 25px;
 }
 
+.modal-content {
+    background-color: #242226; 
+    border: 2px solid #43006B;
+    border-radius: 10px;       
+    color:  white;
+}
 
+.modal-header {
+    background-color: #43006B;
+    color: white;
+    border-bottom: none;
+}
 
+.modal-footer{
+    border-color: #504A54;
+}
+
+.modal-footer .btn-secondary{
+    color: white;
+    border: none;
+    background-color: blueviolet;
+}
+
+.modal-footer .btn-primary{
+    background-color: #FFFFFF;
+    color: #43006B;
+    border: none;
+}
+
+.modal-header .btn-close {
+    filter: invert(1); 
+}
+
+.modal-body .btn {
+    color: white;
+    background-color: #43006B;
+    display: block;
+    width: 100%;   
+    margin: 10px 0px 10px 0px;
+}

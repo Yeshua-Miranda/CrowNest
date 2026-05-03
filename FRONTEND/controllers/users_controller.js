@@ -26,5 +26,9 @@ if (registerForm) registerForm.addEventListener("submit", register);
 
 async function initProfile() {
     console.log("Estas en perfil");
-    
+    let user = JSON.parse(sessionStorage.user);
+    let username = document.getElementById('username');
+    username.innerText = user.name;
+    let emailText = document.getElementById('emailText');
+    emailText.innerText = user.email;
 }

@@ -114,5 +114,5 @@ exports.updateUserInfo = (req,res) => {
 }
 
 exports.deleteUserInfo = (req,res) => {
-
+    
 }

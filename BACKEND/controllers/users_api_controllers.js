@@ -51,7 +51,7 @@ exports.login = async (req, res) => {
             });
         } else {
             const payload = { id: user._id, email: user.email };
-            const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+            const token = jwt.sign(payload, secretKey, { expiresIn: '3h' });
             return res.json({
                 token,
                 user: { id: user._id, email: user.email, name: user.name }
@@ -70,8 +70,8 @@ exports.login = async (req, res) => {
 exports.authMiddelwere = async (req, res, next) => {
     // Busca el token en el header de autorización
     const authHeader = req.headers.authorization;
-    const token = authHeader && authHeader.split(' ')[1]; 
-
+    //const token = authHeader && authHeader.split(' ')[1]; 
+    const token = authHeader;
     // Verifica que exista un token
     if (!token) {
         return res.status(401).json({ message: 'No hay token, acceso denegado', status: 401 });
@@ -82,9 +82,7 @@ exports.authMiddelwere = async (req, res, next) => {
         if (err) {
             return res.status(401).json({ message: 'Token inválido o expirado', status: 401 });
         }
-        
         req.user = decoded; 
-        
         next(); 
     });
 }
@@ -134,7 +132,7 @@ exports.updateUserInfo = async (req,res) => {
 
 exports.deleteUserInfo = async (req,res) => {
     try {
-        const userId = req.user.id || req.user._id;
+        const userId = req.params.id;
 
         const deletedUser = await User.findByIdAndDelete(userId);
 

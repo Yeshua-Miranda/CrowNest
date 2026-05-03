@@ -91,11 +91,11 @@
                 <span class="badge">Cinefilo Honorario</span>
                 <h2 id="username"></h2>
                 <div class="details">
-                  <p><i class="fa-solid fa-lock-open"></i><b> Perfil Publico</b></p>
+                  <p><i class="fa-solid fa-lock-open" style="display: none;" id="lock-open"></i><i class="fa-solid fa-lock" style="display: none;" id="lock-block"></i> Perfil <samp id="kind-profile"></samp> </p>
                   <p><b>Email: </b><span id="emailText"></span> </p>
                   <p><b>Genero Favorito:</b> Comedia </p>
                 </div>
-                <span class="location">Scranton, Pensilvania</span>
+                <span class="location" id="Locaciton"></span>
               </div>
             </div>
         
@@ -112,18 +112,27 @@
               </div>
               <form action="" id="formEdit">
                   <div class="modal-body">
-                  <div class="form-group">
+                  <div class="form-group" data-bs-theme="dark">
                       <label for="name_field" style="margin-bottom: 10px;"> Nombre </label>
                       <input type="text" class="form-control" style="margin-bottom: 15px;" id="name_field" required=true name="name">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" data-bs-theme="dark">
                       <label for="email_field" style="margin-bottom: 10px;"> Correo </label>
                       <input type="email" class="form-control" style="margin-bottom: 15px;" id="email_field" required=true name="email">
                   </div>
-                  <div class="form-group">
+                  <div class="form-group" data-bs-theme="dark">
                       <label for="password_field" style="margin-bottom: 10px;"> Contraseña </label>
                       <input type="password" class="form-control" style="margin-bottom: 15px;" id="password_field" required=true name="password">
                   </div>
+                  <div class="form-group d-flex align-items-center" data-bs-theme="dark">
+                    <label for="password_field" class="mb-0 me-2"> Privacidad </label>
+                    <label class="switch">
+                      <input type="checkbox">
+                      <span class="slider round"></span>
+                    </label>
+                    <label for="password_field" class="mb-0 me-2" style="margin-left: 10px;"> </label>
+                  </div>
+                  
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modalEliminar">Eliminar</button>
@@ -229,55 +238,7 @@
                     <span class="friend-badge">23 en común</span>
                 </a>
 
-                <a href="#" class="friend-card">
-                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Luis Martínez" />
-                    <p class="friend-name">Emilio Segura</p>
-                    <p class="friend-meta">98 películas</p>
-                    <span class="friend-badge">17 en común</span>
-                </a>
-
-                <a href="#" class="friend-card">
-                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Sofía López" />
-                    <p class="friend-name">Yeshua Miranda</p>
-                    <p class="friend-meta">210 películas</p>
-                    <span class="friend-badge">41 en común</span>
-                </a>
-
-                <a href="#" class="friend-card">
-                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Carlos Ruiz" />
-                    <p class="friend-name">Omara Camara</p>
-                    <p class="friend-meta">67 películas</p>
-                    <span class="friend-badge">9 en común</span>
-                </a>
-
-                <a href="#" class="friend-card">
-                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="María Torres" />
-                    <p class="friend-name">Dorx Profe</p>
-                    <p class="friend-meta">305 películas</p>
-                    <span class="friend-badge">58 en común</span>
-                </a>
-
-                <a href="#" class="friend-card">
-                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Diego Flores" />
-                    <p class="friend-name">Diego Ortiz</p>
-                    <p class="friend-meta">55 películas</p>
-                    <span class="friend-badge">5 en común</span>
-                </a>
-
-                <a href="#" class="friend-card">
-                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Valeria Díaz" />
-                    <p class="friend-name">Fabricio Rodriguez</p>
-                    <p class="friend-meta">189 películas</p>
-                    <span class="friend-badge">30 en común</span>
-                </a>
-
-                <a href="#" class="friend-card">
-                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Andrés Vega" />
-                    <p class="friend-name">Olivia Rodrigo</p>
-                    <p class="friend-meta">120 películas</p>
-                    <span class="friend-badge">14 en común</span>
-                </a>
-
+               
             </div>
 
             <div class="section-title">Sugerencias para ti</div>
@@ -291,46 +252,7 @@
                     <button class="boton-review">Agregar <i class="fa-solid fa-plus"></i></button>
                 </a>
 
-                <a href="#" class="friend-card">
-                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Rodrigo Silva" />
-                    <p class="friend-name">Ximena Segura</p>
-                    <p class="friend-meta">253 películas</p>
-                    <p class="friend-badge">36 en común</p>
-                    <button class="boton-review">Agregar <i class="fa-solid fa-plus"></i></button>
-                </a>
-
-                <a href="#" class="friend-card">
-                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Fernanda Cruz" />
-                    <p class="friend-name">Jane Doe</p>
-                    <p class="friend-meta">174 películas</p>
-                    <p class="friend-badge">21 en común</p>
-                    <button class="boton-review">Agregar <i class="fa-solid fa-plus"></i></button>
-                </a>
-
-                <a href="#" class="friend-card">
-                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Tomás Herrera" />
-                    <p class="friend-name">Michael Scott</p>
-                    <p class="friend-meta">41 películas</p>
-                    <p class="friend-badge">7 en común</p>
-                    <button class="boton-review">Agregar <i class="fa-solid fa-plus"></i></button>
-                </a>
-
-                <a href="#" class="friend-card">
-                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Camila Moreno" />
-                    <p class="friend-name">Malcolm</p>
-                    <p class="friend-meta">317 películas</p>
-                    <p class="friend-badge">49 en común</p>
-                    <button class="boton-review">Agregar <i class="fa-solid fa-plus"></i></button>
-                </a>
-
-                <a href="#" class="friend-card">
-                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Javier Soto" />
-                    <p class="friend-name">Reese</p>
-                    <p class="friend-meta">76 películas</p>
-                    <p class="friend-badge">11 en común</p>
-                    <button class="boton-review">Agregar <i class="fa-solid fa-plus"></i></button>
-                </a>
-
+                
             </div>
 
             <div class="section-title">Solicitud de Seguidores</div>
@@ -345,23 +267,7 @@
                     <button class="boton-review">Agregar <i class="fa-solid fa-plus"></i></button>
                 </a>
 
-                <a href="#" class="friend-card">
-                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Rodrigo Silva" />
-                    <p class="friend-name">Ximena Segura</p>
-                    <p class="friend-meta">253 películas</p>
-                    <p class="friend-badge">36 en común</p>
-                    <button class="boton-review">Aceptar</button>
-                    <button class="boton-review">Agregar <i class="fa-solid fa-plus"></i></button>
-                </a>
-
-                <a href="#" class="friend-card">
-                    <img class="friend-avatar" src="../assets/img/avatar.png" alt="Fernanda Cruz" />
-                    <p class="friend-name">Jane Doe</p>
-                    <p class="friend-meta">174 películas</p>
-                    <p class="friend-badge">21 en común</p>
-                    <button class="boton-review">Aceptar</button>
-                    <button class="boton-review">Agregar <i class="fa-solid fa-plus"></i></button>
-                </a>
+                
 
 
             </div>

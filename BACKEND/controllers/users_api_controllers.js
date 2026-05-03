@@ -55,7 +55,7 @@ exports.login = async (req, res) => {
             const token = jwt.sign(payload, secretKey, { expiresIn: '3h' });
             return res.json({
                 token,
-                user: { id: user._id, email: user.email, name: user.name }
+                user: user
             });
         }
 
@@ -98,7 +98,7 @@ exports.getUser = async (req,res) => {
             return res.status(404).json({ error: "Usuario no encontrada" });
         }
 
-        res.json({ id: user._id, email: user.email, name: user.name });
+        res.json(user);
 
     } catch (err) {
         res.status(500).json({ error: "Error al obtener el usuario" });

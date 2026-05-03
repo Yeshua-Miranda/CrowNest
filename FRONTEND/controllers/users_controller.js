@@ -111,4 +111,14 @@ async function initProfile() {
     username.innerText = user.name;
     let emailText = document.getElementById('emailText');
     emailText.innerText = user.email;
+    let kind_profile = document.getElementById('kind-profile');
+    if(user.public){
+        kind_profile.innerText = "Publico";
+        let lock = document.getElementById('lock-open');
+        lock.style.display = 'inline';
+    } else {
+        kind_profile.innerText = "Privado";   
+        let lock = document.getElementById('lock-block');
+        lock.style.display = 'inline';
+    }
 }

@@ -20,6 +20,16 @@ let userSchema = new mongoose.Schema({
     joined_at: { 
         type: Date,
         require: true
+    },
+    friends: {
+        type: [String]
+    },
+    friend_request: {
+        type: [String]
+    },
+    public: {
+        type: Boolean,
+        default: false
     }
 });
 

@@ -39,10 +39,11 @@ async function updateUser() {
     let data = new FormData(event.target);
     const token = sessionStorage.getItem('token'); 
     let user = JSON.parse(sessionStorage.user);
+    console.log(user)
     let route = '/users/' + user.id;
 
     try {
-        const user = await fetch(route, {
+        const response = await fetch(route, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -51,12 +52,13 @@ async function updateUser() {
             body: JSON.stringify(Object.fromEntries(data.entries()))
         });
 
-        if (!user.ok) {
+        if (!response.ok) {
             const errorData = await response.json();
             alert(errorData.msg || "Error al editar cuenta");
             return;
         }
-        sessionStorage.setItem('user', JSON.stringify(user.user));
+        console.log(response)
+        sessionStorage.setItem('user', JSON.stringify(response.user));
         init();
 
     } catch (err) {

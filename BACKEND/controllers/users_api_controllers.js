@@ -21,6 +21,7 @@ exports.registerUser = async (req, res) => {
             joined_at: new Date()
         });
         const savedUser = await newUser.save(); // Checar por que no se guarda elusuario
+        console.log(savedUser);
         return res.send(savedUser);
 
     } catch (err) {
@@ -91,13 +92,13 @@ exports.getUser = async (req,res) => {
     try {
         const id = parseInt(req.params.id);
 
-        const user = await User.findOne({ id });
+        const user = await User.findOne({ _id: id });
 
         if (!user) {
             return res.status(404).json({ error: "Usuario no encontrada" });
         }
 
-        res.json(user);
+        res.json({ id: user._id, email: user.email, name: user.name });
 
     } catch (err) {
         res.status(500).json({ error: "Error al obtener el usuario" });
@@ -119,11 +120,10 @@ exports.updateUserInfo = async (req,res) => {
         if (!updatedUser) {
             return res.status(404).json({ msg: "Usuario no encontrado", status: 404 });
         }
-
-        let user = await User.findOne({ userId });
+        const user = await User.findOne({ _id: userId });
         return res.json({
             msg: "Perfil actualizado correctamente",
-            user: user
+            user: { id: user._id, email: user.email, name: user.name }
         });
 
     } catch (err) {

@@ -80,3 +80,41 @@ exports.deleteReview = async (req, res) => {
         return res.status(500).json({ msg: "Error al eliminar reseña", status: 500 });
     }
 };
+
+
+exports.getMovieReviews = async (req, res) => {
+    try {
+        const movieId = req.params.movieId;
+        // Paginación y filtro de estrellas vienen por query params
+        const { page = 1, limit = 5, rating } = req.query; 
+
+        let filtro = { movieId: movieId };
+
+        // filtrar por estrella
+        if (rating && rating !== "Todas" && rating !== "Amigos") {
+            filtro.rating = Number(rating);
+        }
+
+        const skip = (page - 1) * limit;
+
+        // Buscamos los datos en mongodb
+        const reviews = await Review.find(filtro)
+            .populate('userId', 'name email')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(Number(limit));
+
+        
+        const totalReviews = await Review.countDocuments(filtro);
+
+        return res.json({
+            reviews: reviews,
+            totalPages: Math.ceil(totalReviews / limit),
+            currentPage: Number(page),
+            totalReviews: totalReviews
+        });
+
+    } catch (err) {
+        return res.status(500).json({ msg: "Error al obtener reseñas de la película", status: 500 });
+    }
+};

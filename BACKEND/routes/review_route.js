@@ -13,4 +13,6 @@ router.put('/editar/:id', authMiddelwere, reviewController.updateReview);
 
 router.delete('/borrar/:id', authMiddelwere, reviewController.deleteReview);
 
+router.get('/pelicula/:movieId', reviewController.getMovieReviews);
+
 module.exports = router;

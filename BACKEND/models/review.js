@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema({
     
-    userId: { type: mongoose.Schema.Types.ObjectId, required : true},
+    userId: { type: mongoose.Schema.Types.ObjectId,ref: 'User', required : true},
 
     // Información de la API
     movieId: { type: Number, required: [true, "El ID de la película es obligatorio"] },

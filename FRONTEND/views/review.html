@@ -110,8 +110,22 @@
                 <div id="div-review">
                     <label for="" class="form-label" id="movie-sub"> Reseñas: </label>
                     <div id="text-review">
-                        <textarea class="form-control review-box bg-dark text-white" name="" id="" rows="3"></textarea>
+                        <textarea class="form-control review-box bg-dark text-white" name="" id="reviewTextInput" rows="3"></textarea>
                     </div>
+
+                    <div class="form-check form-switch mt-3 mb-2">
+                        <input class="form-check-input" type="checkbox" role="switch" id="isWatchedInput" checked>
+                        <label class="form-check-label" style="color: white;" for="isWatchedInput">
+                            <i class="fa-solid fa-eye"></i> Ya vi esta película
+                        </label>
+                    </div>
+
+                    <div class="mb-3 mt-2" id="div-fecha">
+                        <label for="watchedAtInput" class="form-label" style="color: white;">¿Cuándo la viste?</label>
+                        <input type="date" class="form-control bg-dark text-white border-secondary" id="watchedAtInput">
+                    </div>
+
+
                     <div id="review-footer">
                         <div id="rating-review">
                             <span class="">  </span>
@@ -121,55 +135,32 @@
                             <span class="fa fa-star"></span>
                             <span class="fa fa-star"></span>
                         </div>
-                        <div id="div-boton"><button type="submit" class="boton-review"> Publicar Reseña </button></div>
+                        <div id="div-boton"><button type="submit" id="btnSubmitReview" class="boton-review"> Publicar Reseña </button></div>
                     </div>
                 </div>
 
                 <div class="reviews-section">
+                    
                     <div class="reviews-filter">
-                      <button class="boton-review">Todas</button>
-                      <button class="boton-review">Amigos</button>
-                      <button class="boton-review">★★★★★</button>
-                      <button class="boton-review">★★★★☆</button>
-                      <button class="boton-review">★★★☆☆</button>
-                      <button class="boton-review">★★☆☆☆</button>
-                      <button class="boton-review">★☆☆☆☆</button>
+                    <button class="boton-review filter-btn" data-rating="Todas">Todas</button>
+                    <button class="boton-review filter-btn" data-rating="Amigos">Amigos</button>
+                    <button class="boton-review filter-btn" data-rating="5">★★★★★</button>
+                    <button class="boton-review filter-btn" data-rating="4">★★★★☆</button>
+                    <button class="boton-review filter-btn" data-rating="3">★★★☆☆</button>
+                    <button class="boton-review filter-btn" data-rating="2">★★☆☆☆</button>
+                    <button class="boton-review filter-btn" data-rating="1">★☆☆☆☆</button>
                     </div>
-                  
+                
+                    
                     <div class="reviews-container" id="reviews">
-
-                      <div class="review" data-rating="5">
-                        <img src="https://vanguardia.com.mx/binrepository/1602x900/201c0/1200d900/down-right/11604/MASH/pokemon-20161121-ditto_VG3267923_MG2921288.jpg" class="avatar">
-                        <div class="review-content">
-                          <h5 class="review-name">Juan Pérez</h5>
-                          <div class="stars">★★★★★ <span style="color: white;"> 5.0 </span></div>
-                          <h6 class="review-title">Increíble película</h6>
-                          <p>Me encantó la historia y los efectos. Totalmente recomendada.</p>
-                        </div>
-                      </div>
-                  
-                      <div class="review" data-rating="3">
-                        <img src="https://avatarfiles.alphacoders.com/365/thumb-1920-365380.png" class="avatar">
-                        <div class="review-content">
-                          <h5 class="review-name">Ana López</h5>
-                          <div class="stars">★★★☆☆ <span style="color: white;"> 3.0 </span></div>
-                          <h6 class="review-title">Está bien</h6>
-                          <p>Entretenida, pero algo larga en algunas partes.</p>
-                        </div>
-                      </div>
-                  
-                      <div class="review" data-rating="4">
-                        <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/10f13510774061.560eadfde5b61.png" class="avatar">
-                        <div class="review-content">
-                          <h5 class="review-name">Carlos Ruiz</h5>
-                          <div class="stars">★★★★☆ <span style="color: white;"> 4.0 </span></div>
-                          <h6 class="review-title">Muy buena</h6>
-                          <p>Gran actuación y buena dirección.</p>
-                        </div>
-                      </div>
-                  
+                        
                     </div>
-                  </div>
+                    
+                    
+                    <div id="pagination-controls" class="d-flex justify-content-center mt-3 gap-2">
+                        
+                    </div>
+                </div>
 
     
                 <div id="recom">

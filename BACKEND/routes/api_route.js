@@ -6,10 +6,10 @@ const routerApi = express.Router();
 
 const reviewsRoutes = require('./review_route.js');
 const userRoutes = require('./user_route.js');
-//const listRoutes = require('./list_route.js');
+const listRoutes = require('./list_route.js');
 routerApi.use('/users',userRoutes);
 routerApi.use('/reviews', reviewsRoutes);
-//routerApi.use('/lists',listRoutes);
+routerApi.use('/lists',listRoutes);
 
 
 const usersControllers = require( '../controllers/users_api_controllers.js');

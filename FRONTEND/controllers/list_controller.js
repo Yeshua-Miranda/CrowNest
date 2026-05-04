@@ -1,11 +1,24 @@
+const getAuthHeaders = () => ({
+    "Content-Type": "application/json",
+    Authorization: sessionStorage.getItem("token")
+});
+
 async function cargarListas() {
-    const res = await fetch("http://localhost:3000/lists?userId=1");
+    const res = await fetch("http://localhost:3000/lists", {
+        headers: getAuthHeaders()
+    });
+
     const listas = await res.json();
-    let listaAEliminar = null;
+
+    if (!Array.isArray(listas)) {
+        console.error("Error:", listas);
+        return;
+    }
 
     renderListas(listas);
 }
 function renderListas(listas) {
+    listas.sort((a, b) => b.isDefault - a.isDefault);
     const container = document.querySelector(".listasContainer");
     container.innerHTML = "";
 
@@ -19,14 +32,18 @@ function renderListas(listas) {
         }
 
         card.innerHTML = `
-            <div class="listaCard__header">
-                <h5 class="listaCard__titulo">${lista.nombre}</h5>
+        <div class="listaCard__header">
+            <h5 class="listaCard__titulo">
+                ${lista.isDefault ? "⭐ " : ""}${lista.nombre}
+            </h5>
+            ${!lista.isDefault ? `
                 <button class="listaCard__deleteBtn" title="Eliminar lista">
                     <i class="fa-solid fa-trash"></i>
                 </button>
-            </div>
-            <p class="listaCard__count">${lista.peliculas.length} películas</p>
-        `;
+            ` : ""}
+        </div>
+        <p class="listaCard__count">${lista.peliculas.length} películas</p>
+    `;
 
         // click en la card para cambiar de lista
         card.addEventListener("click", () => {
@@ -37,9 +54,9 @@ function renderListas(listas) {
             renderPeliculas(lista);
         });
 
-        // click en el botón de basura
         const deleteBtn = card.querySelector(".listaCard__deleteBtn");
 
+        if (deleteBtn) {
         deleteBtn.addEventListener("click", (e) => {
             e.stopPropagation();
 
@@ -50,6 +67,7 @@ function renderListas(listas) {
             );
             modal.show();
         });
+    }
 
         container.appendChild(card);
     });
@@ -58,13 +76,14 @@ function renderPeliculas(lista) {
     const grid = document.getElementById("moviesListContainer");
     grid.innerHTML = "";
 
-    // 🔥 guardar lista actual
     listaActualId = lista.id;
 
     if (!lista.peliculas || lista.peliculas.length === 0) {
         grid.innerHTML = "<p style='color: white;'>No hay películas en esta lista</p>";
         return;
     }
+
+    
 
     lista.peliculas.forEach(peli => {
         const div = document.createElement("div");
@@ -131,11 +150,10 @@ const btn = document.getElementById("crearListaBtn");
             try {
                 const res = await fetch("http://localhost:3000/lists", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                    headers: 
+                        getAuthHeaders(),
+                    
                     body: JSON.stringify({
-                        userId: 1,
                         nombre,
                         descripcion,
                         visibilidad
@@ -162,6 +180,7 @@ const btn = document.getElementById("crearListaBtn");
 
 let peliculaAEliminar = null;
 let listaActualId = null;
+let listaAEliminar = null;
 
 
 document.getElementById("confirmDeleteBtn").addEventListener("click", async () => {
@@ -169,8 +188,11 @@ document.getElementById("confirmDeleteBtn").addEventListener("click", async () =
     if (!peliculaAEliminar || !listaActualId) return;
 
     await fetch(`http://localhost:3000/lists/${listaActualId}/movies/${peliculaAEliminar}`, {
-        method: "DELETE"
-    });
+    method: "DELETE",
+    headers: {
+        Authorization: sessionStorage.getItem("token")
+    }
+});
 
     const modal = bootstrap.Modal.getInstance(
         document.getElementById("modalEliminarPelicula")
@@ -183,9 +205,12 @@ document.getElementById("confirmDeleteBtn").addEventListener("click", async () =
 document.getElementById("confirmDeleteListaBtn").addEventListener("click", async () => {
     if (!listaAEliminar) return;
 
-    await fetch("http://localhost:3000/lists/" + listaAEliminar, {
-        method: "DELETE"
-    });
+    await fetch(`http://localhost:3000/lists/${listaAEliminar}`, {
+    method: "DELETE",
+    headers: {
+        Authorization: sessionStorage.getItem("token")
+    }
+});
 
     const modal = bootstrap.Modal.getInstance(
         document.getElementById("modalEliminarLista")

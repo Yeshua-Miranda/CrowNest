@@ -5,32 +5,53 @@ const jwt = require('jsonwebtoken');
 
 const secretKey = 'poo_el_guerrero_dragon';
 
+const List = require('../models/list.js');
+
 exports.registerUser = async (req, res) => { 
     try {
         if (req.body.password !== req.body.confirm_password) {
-            return res.status(401).json ({
+            return res.status(401).json({
                 msg: "Passwords Missmatch",
-                status:401
-            })
+                status: 401
+            });
         }
+
         let cryptPass = bcrypt.hashSync(req.body.password, 10);
+
         const newUser = new User({
             name: req.body.name,
             email: req.body.email,
             password: cryptPass,
             joined_at: new Date()
         });
-        const savedUser = await newUser.save(); // Checar por que no se guarda elusuario
-        console.log(savedUser);
-        return res.send(savedUser);
+
+        const savedUser = await newUser.save();
+
+        const last = await List.findOne().sort({ id: -1 });
+        const newId = last ? last.id + 1 : 1;
+
+        await List.create({
+            id: newId,
+            userId: savedUser._id,
+            nombre: "Favoritos",
+            descripcion: "Lista automática",
+            visibilidad: "privada",
+            isDefault: true,
+            peliculas: []
+        });
+
+        return res.json({
+            msg: "Usuario registrado correctamente",
+            user: savedUser
+        });
 
     } catch (err) {
         res.status(400).json({
             msg: err.message,
-            status:400
-        })
+            status: 400
+        });
     }
-}
+};
 
 exports.login = async (req, res) => {
     try {

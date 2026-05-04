@@ -157,10 +157,20 @@ function setupTags() {
 async function cargarListasEnModal() {
     console.log("Cargando listas en modal...");
 
-    const res = await fetch("http://localhost:3000/lists?userId=1");
+    const res = await fetch("http://localhost:3000/lists", {
+        headers: {
+            Authorization: sessionStorage.getItem("token")
+        }
+    });
+
     const listas = await res.json();
 
     console.log("Listas:", listas);
+
+    if (!Array.isArray(listas)) {
+        console.error("Error:", listas);
+        return;
+    }
 
     const container = document.getElementById("listasModalContainer");
     container.innerHTML = "";
@@ -181,18 +191,20 @@ async function agregarAPelicula(listId) {
     console.log("Película:", selectedMovie);
 
     await fetch(`http://localhost:3000/lists/${listId}/movies`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            tmdbId: selectedMovie.id,
-            titulo: selectedMovie.title,
-            poster_path: selectedMovie.poster_path,
-            año: selectedMovie.release_date ? selectedMovie.release_date.split("-")[0] : ""
-
-        })
-    });
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json",
+        Authorization: sessionStorage.getItem("token")
+    },
+    body: JSON.stringify({
+        tmdbId: selectedMovie.id,
+        titulo: selectedMovie.title,
+        poster_path: selectedMovie.poster_path,
+        año: selectedMovie.release_date 
+            ? selectedMovie.release_date.split("-")[0] 
+            : ""
+    })
+});
 
     console.log("POST enviado");
 

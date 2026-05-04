@@ -2,11 +2,14 @@ const express    = require("express");
 const routerLists  = express.Router();
 const listController   = require("../controllers/list_api_controllers");
 
-routerLists.get("/",                    listController.getLists);
-routerLists.get("/:id",                 listController.getListById);
-routerLists.post("/",                   listController.createList);
-routerLists.post("/:id/movies",         listController.addMovie);
-routerLists.delete("/:id/movies/:tmdbId", listController.removeMovie);
-routerLists.delete("/:id",              listController.deleteList);
+
+const { authMiddelwere } = require('../controllers/users_api_controllers.js'); 
+
+routerLists.get("/", authMiddelwere, listController.getLists);
+routerLists.get("/:id", authMiddelwere, listController.getListById);
+routerLists.post("/", authMiddelwere, listController.createList);
+routerLists.post("/:id/movies", authMiddelwere, listController.addMovie);
+routerLists.delete("/:id/movies/:tmdbId", authMiddelwere, listController.removeMovie);
+routerLists.delete("/:id", authMiddelwere, listController.deleteList);
 
 module.exports = routerLists;

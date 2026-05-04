@@ -2,11 +2,7 @@ const List = require('../models/list.js');
 
 async function getLists(req, res) {
     try {
-        const userId = parseInt(req.query.userId);
-
-        if (!userId) {
-            return res.status(400).json({ error: "userId es requerido" });
-        }
+        const userId = req.user.id;
 
         const lists = await List.find({ userId });
         res.json(lists);
@@ -20,8 +16,9 @@ async function getLists(req, res) {
 async function getListById(req, res) {
     try {
         const id = parseInt(req.params.id);
+        const userId = req.user.id;
 
-        const lista = await List.findOne({ id });
+        const lista = await List.findOne({ id, userId });
 
         if (!lista) {
             return res.status(404).json({ error: "Lista no encontrada" });
@@ -30,17 +27,18 @@ async function getListById(req, res) {
         res.json(lista);
 
     } catch (err) {
-        console.error("Error getListById:", err);
         res.status(500).json({ error: "Error al obtener la lista" });
     }
 }
 
 async function createList(req, res) {
     try {
-        const { userId, nombre, descripcion, visibilidad } = req.body;
+        const { nombre, descripcion, visibilidad } = req.body;
 
-        if (!userId || !nombre || !visibilidad) {
-            return res.status(400).json({ error: "userId, nombre y visibilidad son requeridos" });
+        const userId = req.user.id; // 🔥 del token
+
+        if (!nombre || !visibilidad) {
+            return res.status(400).json({ error: "nombre y visibilidad son requeridos" });
         }
 
         const last = await List.findOne().sort({ id: -1 });
@@ -58,7 +56,6 @@ async function createList(req, res) {
         res.status(201).json(nueva);
 
     } catch (err) {
-        console.error("Error createList:", err);
         res.status(500).json({ error: "Error al crear la lista" });
     }
 }
@@ -73,7 +70,7 @@ async function addMovie(req, res) {
         }
 
         const lista = await List.findOneAndUpdate(
-            { id: listId },
+            { id: listId, userId: req.user.id },
             {
                 $push: {
                     peliculas: {
@@ -107,7 +104,7 @@ async function removeMovie(req, res) {
         const tmdbId = parseInt(req.params.tmdbId);
 
         const lista = await List.findOneAndUpdate(
-            { id: listId },
+            { id: listId, userId: req.user.id },
             {
                 $pull: { peliculas: { tmdbId } },
                 actualizadaEn: new Date()
@@ -131,11 +128,22 @@ async function deleteList(req, res) {
     try {
         const id = parseInt(req.params.id);
 
-        const deleted = await List.findOneAndDelete({ id });
+        const lista = await List.findOne({
+            id,
+            userId: req.user.id
+        });
 
-        if (!deleted) {
+        if (!lista) {
             return res.status(404).json({ error: "Lista no encontrada" });
         }
+
+        if (lista.isDefault) {
+            return res.status(400).json({
+                error: "No puedes eliminar la lista de Favoritos"
+            });
+        }
+
+        await List.deleteOne({ id });
 
         res.json({ message: "Lista eliminada correctamente" });
 

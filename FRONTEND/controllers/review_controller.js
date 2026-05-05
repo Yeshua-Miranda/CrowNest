@@ -2,6 +2,10 @@ const API_KEY = ENV.TMDB_API_KEY;
 const BASE_URL = ENV.TMDB_BASE_URL;
 const IMG_URL = ENV.TMDB_IMG_URL;
 
+let peliculaActualTMDB = null; 
+let esFavorita = false;
+let listaFavoritosId = null;
+
 const params = new URLSearchParams(window.location.search);
 const movieId = params.get("id");
 
@@ -16,6 +20,10 @@ async function loadMovieDetails() {
 
         const movie = await detailRes.json();
         const recom = await recomRes.json();
+
+        peliculaActualTMDB = movie;
+
+        await verificarEstadoFavorito(movieId);
 
         renderMovieDetails(movie);
         renderRecommendations(recom.results);
@@ -416,5 +424,118 @@ window.eliminarResena = async function(idResena) {
     } catch (error) {
         console.error("Error de conexión al eliminar:", error);
         alert("No se pudo conectar con el servidor.");
+    }
+};
+
+
+async function verificarEstadoFavorito(idPelicula) {
+    const token = sessionStorage.getItem('token');
+    if (!token) return;
+
+    try {
+        const respuestaListas = await fetch('http://localhost:3000/lists', {
+            headers: { 'Authorization': token }
+        });
+        
+        if (!respuestaListas.ok) return;
+
+        const listas = await respuestaListas.json();
+        const listaDestino = listas.find(lista => lista.isDefault === true || lista.nombre === 'Favoritos');
+
+        if (listaDestino) {
+            listaFavoritosId = listaDestino.id; // Guardamos el ID de la lista para usarlo al dar clic
+            
+            // Buscamos si el ID de TMDB ya existe dentro del arreglo de películas de esa lista
+            const peliEncontrada = listaDestino.peliculas.find(p => p.tmdbId === parseInt(idPelicula));
+            
+            if (peliEncontrada) {
+                esFavorita = true;
+                actualizarBotonVisual(true);
+            }
+        }
+    } catch (error) {
+        console.error("Error verificando estado de favoritos:", error);
+    }
+}
+
+function actualizarBotonVisual(activa) {
+    const btn = document.getElementById('btn-favorito');
+    if (!btn) return;
+
+    if (activa) {
+        btn.classList.remove('btn-outline-danger');
+        btn.classList.add('btn-danger'); 
+        btn.innerHTML = '<i class="fa-solid fa-heart"></i> En Favoritos';
+    } else {
+        btn.classList.remove('btn-danger');
+        btn.classList.add('btn-outline-danger'); 
+        btn.innerHTML = '<i class="fa-regular fa-heart"></i> Agregar a Favoritos';
+    }
+}
+
+window.toggleFavorito = async function() {
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+        alert("Debes iniciar sesión para administrar favoritos.");
+        return;
+    }
+
+    if (!listaFavoritosId) {
+        alert("Aún no se ha cargado tu lista de Favoritos. Espera un segundo.");
+        return;
+    }
+
+    const btn = document.getElementById('btn-favorito');
+    const contenidoOriginal = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Procesando...';
+    btn.disabled = true;
+
+    try {
+        if (esFavorita) {
+            // Delete
+            const respuestaQuitar = await fetch(`http://localhost:3000/lists/${listaFavoritosId}/movies/${peliculaActualTMDB.id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': token }
+            });
+
+            if (respuestaQuitar.ok) {
+                esFavorita = false;
+                actualizarBotonVisual(false);
+            } else {
+                alert("Error al quitar de favoritos.");
+                btn.innerHTML = contenidoOriginal;
+            }
+        } else {
+            // Agregar
+            const bodyPelicula = {
+                tmdbId: peliculaActualTMDB.id,
+                titulo: peliculaActualTMDB.title,
+                poster_path: peliculaActualTMDB.poster_path,
+                año: peliculaActualTMDB.release_date ? peliculaActualTMDB.release_date.split('-')[0] : "Desconocido"
+            };
+
+            const respuestaAgregar = await fetch(`http://localhost:3000/lists/${listaFavoritosId}/movies`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                },
+                body: JSON.stringify(bodyPelicula)
+            });
+
+            if (respuestaAgregar.ok) {
+                esFavorita = true;
+                actualizarBotonVisual(true);
+            } else {
+                alert("Error al agregar a favoritos.");
+                btn.innerHTML = contenidoOriginal;
+            }
+        }
+    } catch (error) {
+        console.error("Error de conexión:", error);
+        alert("Ocurrió un error en el servidor.");
+        btn.innerHTML = contenidoOriginal;
+    } finally {
+        btn.disabled = false; 
     }
 };

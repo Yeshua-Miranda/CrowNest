@@ -54,6 +54,70 @@ async function loadRatedMovies() {
     }
 }
 
+async function loadUserRatedMovies() {
+    const token = sessionStorage.getItem("token");
+    if (!token) return;
+
+    try {
+        const res = await fetch("http://localhost:3000/reviews/mis-resenas", {
+            headers: { Authorization: token }
+        });
+
+        const reviews = await res.json();
+        if (!Array.isArray(reviews)) return;
+
+        const unique = Object.values(
+            reviews.reduce((acc, review) => {
+                if (!acc[review.movieId]) acc[review.movieId] = review;
+                return acc;
+            }, {})
+        );
+
+        const container = document.getElementById("ratedByUserContainer");
+        container.innerHTML = "";
+
+        if (reviews.length === 0) {
+            container.innerHTML = `<p style="color:gray; padding: 1rem;">Aún no has calificado ninguna película.</p>`;
+            return;
+        }
+
+        unique.forEach(review => {
+            const posterSrc = review.moviePoster
+                ? `${IMG_URL}${review.moviePoster}`
+                : `${IMG_URL}/w500${review.moviePoster}`;
+
+            const estrellas = "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+
+            const movieBox = document.createElement("div");
+            movieBox.classList.add("movieBox");
+
+            movieBox.innerHTML = `
+                <div class="movieWrapper">
+                    <img 
+                        class="poster"
+                        src="${posterSrc}"
+                        alt="${review.movieTitle}"
+                        onerror="this.src='../assets/img/no-poster.png'"
+                    >
+                    <div class="overlay">
+                        <div class="movieTitle">${review.movieTitle}</div>
+                        <div class="movieYear" style="color: gold;">${estrellas}</div>
+                    </div>
+                </div>
+            `;
+
+            movieBox.addEventListener("click", () => {
+                window.location.href = `review.html?id=${review.movieId}`;
+            });
+
+            container.appendChild(movieBox);
+        });
+
+    } catch (err) {
+        console.error("Error cargando reseñas del usuario:", err);
+    }
+}
+
 
 function loadMoviesByGenre(genreId) {
     const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&language=es-MX`;
@@ -236,4 +300,5 @@ document.addEventListener("DOMContentLoaded", () => {
     loadRatedMovies();
     loadMoviesByGenreDefault();
     setupTags();
+    loadUserRatedMovies(); 
 });

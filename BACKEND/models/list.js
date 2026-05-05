@@ -6,6 +6,7 @@ const listSchema = new mongoose.Schema({
     nombre:      { type: String, required: [true, "La lista debe tener nombre"] },
     descripcion: { type: String },
     visibilidad: { type: String, required: [true, "Debes asignar visibilidad"] },
+    isDefault: { type: Boolean, default: false },
     peliculas: [
         {
             tmdbId:      { type: Number, required: true },
@@ -16,8 +17,8 @@ const listSchema = new mongoose.Schema({
         }
     ],
     creadaEn:      { type: Date, default: Date.now },
-    actualizadaEn: { type: Date, default: Date.now },
-    isDefault: { type: Boolean, default: false }
+    actualizadaEn: { type: Date, default: Date.now }
+    
 });
 
 module.exports = mongoose.model('List', listSchema);

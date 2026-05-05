@@ -163,6 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     body: JSON.stringify({
                         movieId: movieId, 
                         movieTitle: movieTitle,
+                        moviePoster: document.querySelector(".movie")?.src?.replace(IMG_URL, "") || "",
                         rating: calificacionSeleccionada,
                         reviewText: reviewText,
                         isWatched: isWatchedValue,

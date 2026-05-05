@@ -27,6 +27,44 @@ function populateModal(){
     document.getElementById('name_field').value = JSON.parse(sessionStorage.user).name;
     document.getElementById('email_field').value = JSON.parse(sessionStorage.user).email;
     document.getElementById('password_field').value = JSON.parse(sessionStorage.user).password;
+    const privacyCheckbox = document.getElementById('privacity');
+    privacyCheckbox.checked = JSON.parse(sessionStorage.user).public;
+    privacyCheckbox.addEventListener('change', () => {
+        changePrivacity();
+    })
+}
+
+async function changePrivacity() {
+    event.preventDefault();
+    const token = sessionStorage.getItem('token'); 
+    let user = JSON.parse(sessionStorage.user);
+    let route = '/users/' + user.id;
+    const newStatus = !user.public;
+    const bodyData = { public: newStatus };
+    try {
+        const response = await fetch(route, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            body: JSON.stringify(bodyData)
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            alert(errorData.msg || "Error al editar cuenta");
+            document.getElementById('privacity').checked = user.public;
+            return;
+        }
+        const result = await response.json();
+        sessionStorage.setItem('user', JSON.stringify(result.user));
+        init();
+
+    } catch (err) {
+        console.error('Error en updateUser:', err);
+        alert("Ocurrió un error de red");
+    }
 }
 
 window.addEventListener('load', () => {
@@ -46,7 +84,7 @@ async function updateUser() {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': sessionStorage.token
+                'Authorization': token
             },
             body: JSON.stringify(Object.fromEntries(data.entries()))
         });

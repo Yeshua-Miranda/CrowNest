@@ -86,13 +86,17 @@ exports.getMovieReviews = async (req, res) => {
     try {
         const movieId = req.params.movieId;
         // Paginación y filtro de estrellas vienen por query params
-        const { page = 1, limit = 5, rating } = req.query; 
+        const { page = 1, limit = 5, rating, autor } = req.query; 
 
         let filtro = { movieId: movieId };
 
         // filtrar por estrella
-        if (rating && rating !== "Todas" && rating !== "Amigos") {
+        if (rating && rating !== "Todas" && rating !== "Amigos" && rating !== "Mias") {
             filtro.rating = Number(rating);
+        }
+
+        if (autor) {
+            filtro.userId = autor;
         }
 
         const skip = (page - 1) * limit;

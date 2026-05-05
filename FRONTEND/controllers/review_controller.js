@@ -71,6 +71,27 @@ function renderRecommendations(movies) {
 
 document.addEventListener("DOMContentLoaded", loadMovieDetails);
 
+let idResenaEnEdicion = null; // Variable para saber si estamos editando
+
+// Esta función se dispara al darle clic al botón "Editar" de tu tarjeta
+window.prepararEdicion = function(id, texto, rating) {
+    idResenaEnEdicion = id; // Guardamos el ID de la reseña a modificar
+    
+    // 1. Llenamos la caja de texto
+    document.getElementById('reviewTextInput').value = texto;
+    
+    // 2. Simulamos el clic en la estrella correspondiente
+    const stars = document.querySelectorAll('#rating-review .fa-star');
+    if(stars[rating - 1]) stars[rating - 1].click();
+
+    // 3. Cambiamos el texto de tu botón principal
+    const btnSubmit = document.getElementById('btnSubmitReview');
+    btnSubmit.innerHTML = 'Actualizar Reseña';
+    
+    // 4. Subimos la pantalla suavemente hacia el formulario
+    window.scrollTo({ top: document.getElementById('div-review').offsetTop, behavior: 'smooth' });
+};
+
 document.addEventListener("DOMContentLoaded", () => {
     
     loadMovieDetails();
@@ -128,10 +149,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
+            const metodoFetch = idResenaEnEdicion ? 'PUT' : 'POST';
+            const urlFetch = idResenaEnEdicion ? `/reviews/editar/${idResenaEnEdicion}` : '/reviews/crear';
+
             try {
               
-                const respuesta = await fetch('http://localhost:3000/reviews/crear', {
-                    method: 'POST',
+                const respuesta = await fetch('http://localhost:3000' + urlFetch, {
+                    method: metodoFetch,
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': sessionStorage.token
@@ -150,6 +174,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (respuesta.ok) { 
                     document.getElementById('reviewTextInput').value = ''; 
+
+                    idResenaEnEdicion = null;
+                    document.getElementById('btnSubmitReview').innerHTML = 'Publicar Reseña';
 
                     fetchMovieReviews(1, 'Todas'); // otra ves reseña
                     
@@ -177,7 +204,21 @@ async function fetchMovieReviews(page = 1, rating = 'Todas') {
 
     try {
         let url = `/reviews/pelicula/${movieId}?page=${page}&limit=5`;
-        if (rating !== 'Todas' && rating !== 'Amigos') {
+
+        if (rating === 'Mias') {
+            const userStorage = sessionStorage.getItem('user');
+            if (userStorage && userStorage !== "undefined") {
+                const user = JSON.parse(userStorage);
+                
+                const idAutor = user._id || user.id; 
+                
+                if (idAutor) {
+                    url += `&autor=${idAutor}`; 
+                } else {
+                    console.error("No se encontró el ID del usuario en la sesión.");
+                }
+            }
+        } else if (rating !== 'Todas' && rating !== 'Amigos') {
             url += `&rating=${rating}`;
         }
 
@@ -206,6 +247,9 @@ function renderReviews(reviews) {
         return;
     }
 
+    // Sacamos al usuario
+    const currentUser = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null;
+
     reviews.forEach(review => {
         
         const estrellasLlenas = '★'.repeat(review.rating);
@@ -215,18 +259,37 @@ function renderReviews(reviews) {
         
         const userName = (review.userId && review.userId.name) ? review.userId.name : "Usuario";
 
+        const miId = currentUser ? (currentUser._id || currentUser.id) : null;
+        const autorId = review.userId ? (review.userId._id || review.userId) : null;
+        const isMine = miId && autorId && (miId.toString() === autorId.toString());
+
         // Foto de avatar
         const avatarUrl = "https://avatarfiles.alphacoders.com/365/thumb-1920-365380.png";
         
         const fechaFormateada = new Date(review.createdAt).toLocaleDateString('es-MX');
 
+        const enlacePerfil = autorId 
+                ? `<a href="profile.html?id=${autorId}" style="color: white; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${userName}</a>` 
+                : userName;
+
+        const botonesAccion = isMine ? 
+            `<div class="mt-2">
+                <button class="btn btn-sm btn-outline-warning me-2" onclick="prepararEdicion('${review._id}', '${review.reviewText}', ${review.rating})">
+                    <i class="fa-solid fa-pen"></i> Editar
+                </button>
+                <button class="btn btn-sm btn-outline-danger" onclick="eliminarResena('${review._id}')">
+                    <i class="fa-solid fa-trash"></i> Eliminar
+                </button>
+            </div>` : '';
+
         const reviewHTML = `
             <div class="review" data-rating="${review.rating}">
                 <img src="${avatarUrl}" class="avatar" alt="Avatar">
                 <div class="review-content">
-                    <h5 class="review-name">${userName} <span style="font-size: 0.8em; color: gray; margin-left: 10px;">${fechaFormateada}</span></h5>
+                    <h5 class="review-name">${enlacePerfil} <span style="font-size: 0.8em; color: gray; margin-left: 10px;">${fechaFormateada}</span></h5>
                     <div class="stars">${estrellasVisuales} <span style="color: white; font-weight: bold;"> ${review.rating}.0 </span></div>
                     <p style="margin-top: 5px;">${review.reviewText}</p>
+                    ${botonesAccion}
                 </div>
             </div>
         `;
@@ -322,3 +385,35 @@ function renderPagination(totalPages, currentPage) {
     }
     paginationContainer.appendChild(nextBtn);
 }
+
+window.eliminarResena = async function(idResena) {
+    
+    if (!confirm("¿Estás seguro de que deseas eliminar esta reseña? Esta acción no se puede deshacer.")) {
+        return; 
+    }
+
+    try {
+        
+        const token = sessionStorage.getItem('token');
+        
+        const respuesta = await fetch(`/reviews/borrar/${idResena}`, { 
+            method: 'DELETE',
+            headers: {
+                'Authorization': token
+            }
+        });
+
+        const datos = await respuesta.json();
+
+        if (respuesta.ok) {
+            alert("¡Reseña eliminada correctamente!");
+            
+            fetchMovieReviews(currentPage, currentRating);
+        } else {
+            alert("Error al eliminar: " + datos.msg);
+        }
+    } catch (error) {
+        console.error("Error de conexión al eliminar:", error);
+        alert("No se pudo conectar con el servidor.");
+    }
+};

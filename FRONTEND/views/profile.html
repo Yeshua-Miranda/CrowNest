@@ -110,7 +110,7 @@
                 <h4 class="modal-title">Editar Usuario</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
               </div>
-              <form action="" id="formEdit">
+              <form id="formEdit" onsubmit="updateUser(event)">
                   <div class="modal-body">
                   <div class="form-group" data-bs-theme="dark">
                       <label for="name_field" style="margin-bottom: 10px;"> Nombre </label>
@@ -127,7 +127,7 @@
                   <div class="form-group d-flex align-items-center" data-bs-theme="dark">
                     <label for="password_field" class="mb-0 me-2"> Privacidad </label>
                     <label class="switch">
-                      <input type="checkbox" id="privacity">
+                      <input type="checkbox" id="privacity" name="public">
                       <span class="slider round"></span>
                     </label>
                     <label for="password_field" class="mb-0 me-2" style="margin-left: 10px;"> </label>

@@ -27,20 +27,28 @@ function populateModal(){
     document.getElementById('name_field').value = JSON.parse(sessionStorage.user).name;
     document.getElementById('email_field').value = JSON.parse(sessionStorage.user).email;
     document.getElementById('password_field').value = JSON.parse(sessionStorage.user).password;
-    const privacyCheckbox = document.getElementById('privacity');
-    privacyCheckbox.checked = JSON.parse(sessionStorage.user).public;
-    privacyCheckbox.addEventListener('change', () => {
-        changePrivacity();
-    })
+    document.getElementById('privacity').checked = JSON.parse(sessionStorage.user).public;
 }
 
-async function changePrivacity() {
+
+window.addEventListener('load', () => {
+    const modalEdit = document.getElementById('modalUpdateUser');
+    if (modalEdit) modalEdit.addEventListener('show.bs.modal', populateModal);
+});
+
+async function updateUser(event) {
     event.preventDefault();
+    
     const token = sessionStorage.getItem('token'); 
     let user = JSON.parse(sessionStorage.user);
     let route = '/users/' + user.id;
-    const newStatus = !user.public;
-    const bodyData = { public: newStatus };
+
+    const form = document.getElementById('formEdit');
+    const formData = new FormData(form);
+    const bodyData = Object.fromEntries(formData.entries());
+
+    bodyData.public = document.getElementById('privacity').checked;
+
     try {
         const response = await fetch(route, {
             method: 'PUT',
@@ -54,49 +62,13 @@ async function changePrivacity() {
         if (!response.ok) {
             const errorData = await response.json();
             alert(errorData.msg || "Error al editar cuenta");
-            document.getElementById('privacity').checked = user.public;
             return;
         }
+
         const result = await response.json();
         sessionStorage.setItem('user', JSON.stringify(result.user));
-        init();
-
-    } catch (err) {
-        console.error('Error en updateUser:', err);
-        alert("Ocurrió un error de red");
-    }
-}
-
-window.addEventListener('load', () => {
-    const modalEdit = document.getElementById('modalUpdateUser');
-    if (modalEdit) modalEdit.addEventListener('show.bs.modal', populateModal);
-});
-
-async function updateUser() {
-    event.preventDefault();
-    let data = new FormData(event.target);
-    const token = sessionStorage.getItem('token'); 
-    let user = JSON.parse(sessionStorage.user);
-    let route = '/users/' + user.id;
-
-    try {
-        const response = await fetch(route, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token
-            },
-            body: JSON.stringify(Object.fromEntries(data.entries()))
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            alert(errorData.msg || "Error al editar cuenta");
-            return;
-        }
-        const result = await response.json();
-        sessionStorage.setItem('user', JSON.stringify(result.user));
-        init();
+        alert("Perfil actualizado con éxito");
+        init(); 
 
     } catch (err) {
         console.error('Error en updateUser:', err);
@@ -152,11 +124,15 @@ async function initProfile() {
     let kind_profile = document.getElementById('kind-profile');
     if(user.public){
         kind_profile.innerText = "Publico";
-        let lock = document.getElementById('lock-open');
-        lock.style.display = 'inline';
+        let lock1 = document.getElementById('lock-open');
+        let lock2 = document.getElementById('lock-block');
+        lock1.style.display = 'inline';
+        lock2.style.display = 'none';
     } else {
         kind_profile.innerText = "Privado";   
-        let lock = document.getElementById('lock-block');
-        lock.style.display = 'inline';
+        let lock1 = document.getElementById('lock-block');
+        let lock2 = document.getElementById('lock-open');
+        lock1.style.display = 'inline';
+        lock2.style.display = 'none';
     }
 }

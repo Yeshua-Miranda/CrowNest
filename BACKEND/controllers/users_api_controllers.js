@@ -144,7 +144,7 @@ exports.updateUserInfo = async (req,res) => {
         const user = await User.findOne({ _id: userId });
         return res.json({
             msg: "Perfil actualizado correctamente",
-            user: { id: user._id, email: user.email, name: user.name }
+            user: user
         });
 
     } catch (err) {

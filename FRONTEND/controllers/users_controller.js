@@ -185,7 +185,7 @@ async function friendRecom(){
     event.preventDefault();
     const token = sessionStorage.getItem('token'); 
     let user = JSON.parse(sessionStorage.user);
-    let route = '/users/friends/' + user.id;
+    let route = '/users/recom/' + user._id +"?page=1&limit=5";
 
     try {
         const response = await fetch(route, {
@@ -201,7 +201,8 @@ async function friendRecom(){
             alert(errorData.msg || "Error al obterner usuarios");
             return;
         }
-        return response.data;
+        const json = await response.json();
+        return json.data;
 
     } catch (err) {
         console.error('Error en deleteUser:', err);
@@ -214,10 +215,55 @@ async function populeteFriends() {
     let recom = await friendRecom();
 
     for(const r of recom){
-        
+        friendPerfil(r,true,false);
     }
 }
 
+async function getPerfil(user){
+    window.location.href = ENV.BACKEND_URL + 'profile.html';
+    let box_friends = document.getElementById('friends-box-vis');
+    box_friends.style.display = 'none';
+}
+
+function friendPerfil(user,recom,reque){
+    let box = document.getElementById('container-suggestions');
+    let a = document.createElement('a');
+    a.classList.add("friend-card");
+    let img = document.createElement('img');
+    img.classList.add('friend-avatar');
+    img.alt = user.username;
+    img.src =  `assets/profiles/${user.profile_photo || 1}.jpg`;
+    img.addEventListener('click', () => {
+        getPerfil(user);
+    })
+    a.append(img);
+    let p1 = document.createElement('p');
+    p1.classList.add("friend-name");
+    p1.innerText = user.name;
+    a.append(p1);
+
+    if(recom){
+        let btn = document.createElement('button');
+        btn.classList.add('boton-review');
+        btn.innerText = 'Agregar';
+        btn.addEventListener('click', () => {
+            console.log('se envio una solicitud');
+        })
+        a.append(btn);
+    }
+
+    box.append(a);
+}
+/*
+    <a href="#" class="friend-card">
+      <img class="friend-avatar" src="../assets/img/avatar.png" alt="Paula Reyes" />
+      <p class="friend-name">John Doe</p>
+      <p class="friend-meta">88 películas</p>
+      <p class="friend-badge">12 en común</p>
+      <button class="boton-review">Aceptar</button>
+      <button class="boton-review">Agregar <i class="fa-solid fa-plus"></i></button>
+    </a>
+*/
 async function initProfile() {
     let user = JSON.parse(sessionStorage.user);
     let avatar = document.getElementById('avatar');
@@ -235,6 +281,11 @@ async function initProfile() {
     let kind_profile = document.getElementById('kind-profile');
     let userText = document.getElementById('userText');
     userText.innerText = user.name;
+
+    let num_friends = document.getElementById("number_friends");
+    num_friends.innerText = user.friends.lenght || 0;
+
+    populeteFriends();
 
     if(user.public){
         kind_profile.innerText = "Publico";

@@ -5,11 +5,11 @@ const express = require('express');
 const routerUsers = express.Router();
 routerUsers.post('/',usersControllers.registerUser);
 
-routerUsers.use('/:id', usersControllers.authMiddelwere)
+routerUsers.get('/recom/:id',usersControllers.getUsers);
 
-routerUsers.get('/:id',usersControllers.getUser);
+routerUsers.use('/:id', usersControllers.authMiddelwere);
 
-routerUsers.get('friends/:id',usersControllers.getSocialData);
+routerUsers.get('/:id', usersControllers.getUser);
 
 routerUsers.put('/:id',usersControllers.updateUserInfo);
 

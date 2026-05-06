@@ -146,26 +146,37 @@ exports.getSocialData = async (req, res) => {
 
 
 exports.getUsers = async (req, res) => {
-    let page = req.query.page;
-    let limit = req.query.limit;
-    let user = await User.findOne({ _id: id });
     try {
-        const users = (await User.find({})).filter(u => {
-            user.friends.contains(u.id) || user.friend_request.contains(u.id)
-        });
-        let paginatedUsers = users.slice((page-1)*limit,page*limit);
+        let page = parseInt(req.query.page) || 1;
+        let limit = parseInt(req.query.limit) || 20;
+        let id = req.params.id;
+
+        let user = await User.findById(id);
+        
+        const allUsers = await User.find({ _id: { $ne: id } }); 
+
+        const filtered = allUsers.filter(u => 
+            !(user.friends.includes(u.id)) || !(user.friend_request.includes(u.id))
+        );
+        
+        const recom = filtered.map(u => ({
+            name: u.name,
+            nick_name: u.nick_name,
+            friends: u.friends,
+            public: u.public,
+            profile_photo: u.profile_photo,
+            banner_photo: u.banner_photo
+        }));
+
+        let paginatedUsers = filtered.slice((page - 1) * limit, page * limit);
+
         res.json({
             page,
-            next_page: parseInt(page) + 1,
-            limit,
-            total: users.length,
+            total: filtered.length,
             data: paginatedUsers
-        })
-    } catch (error) {
-        res.status(500).json({ 
-            mensaje: "Error al obtener los datos", 
-            error: error.message 
         });
+    } catch (error) {
+        res.status(500).json({ mensaje: "Error", error: error.message });
     }
 }
 

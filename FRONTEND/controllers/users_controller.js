@@ -214,7 +214,7 @@ async function populeteFriends() {
     let recom = await friendRecom();
 
     for(const r of recom){
-        
+        console.log(r);
     }
 }
 
@@ -235,6 +235,8 @@ async function initProfile() {
     let kind_profile = document.getElementById('kind-profile');
     let userText = document.getElementById('userText');
     userText.innerText = user.name;
+
+    populeteFriends();
 
     if(user.public){
         kind_profile.innerText = "Publico";

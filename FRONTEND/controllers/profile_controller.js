@@ -7,7 +7,7 @@ async function cargarFavoritos() {
     try {
         const res = await fetch("http://localhost:3000/lists", {
             headers: { Authorization: token }
-        });
+        }); 
         const listas = await res.json();
         if (!Array.isArray(listas)) return;
 

@@ -231,10 +231,10 @@ function friendPerfil(user,recom,reque){
     a.classList.add("friend-card");
     let img = document.createElement('img');
     img.classList.add('friend-avatar');
-    img.alt = user.username;
+    img.alt = user.name;
     img.src =  `assets/profiles/${user.profile_photo || 1}.jpg`;
     img.addEventListener('click', () => {
-        getPerfil(user);
+        getOtherUser(user._id);
     })
     a.append(img);
     let p1 = document.createElement('p');
@@ -264,6 +264,33 @@ function friendPerfil(user,recom,reque){
       <button class="boton-review">Agregar <i class="fa-solid fa-plus"></i></button>
     </a>
 */
+
+async function getOtherUser(userId) {
+    try {
+        const token = sessionStorage.getItem("token");
+
+        const response = await fetch(`http://localhost:3000/users/other/${userId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.msg || "Error al obtener usuario");
+        }
+        console.log(data);
+        return data;
+
+    } catch (error) {
+        console.error("Error:", error.message);
+        return null;
+    }
+}
+
 async function initProfile() {
     let user = JSON.parse(sessionStorage.user);
     let avatar = document.getElementById('avatar');

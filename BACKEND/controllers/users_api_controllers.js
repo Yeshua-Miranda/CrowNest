@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const secretKey = 'poo_el_guerrero_dragon';
 
 const List = require('../models/list.js');
+const Review = require('../models/review.js');
 
 exports.registerUser = async (req, res) => { 
     try {
@@ -14,7 +15,7 @@ exports.registerUser = async (req, res) => {
                 msg: "Passwords Missmatch",
                 status: 401
             });
-        }
+        } 
 
         let cryptPass = bcrypt.hashSync(req.body.password, 10);
 
@@ -222,3 +223,86 @@ exports.deleteUserInfo = async (req,res) => {
         return res.status(500).json({ msg: "Error al eliminar el usuario", status: 500 });
     }
 }
+
+/*
+exports.getOtherUser = async (req, res) => {
+    try {
+        const requestedUserId = req.params.id;
+        const currentUserId = req.user.id; 
+
+        if (requestedUserId === currentUserId) {
+            return res.status(400).json({
+                msg: "Usa la ruta de perfil propio",
+                status: 400
+            });
+        }
+
+        const user = await User.findById(requestedUserId)
+            .select("name nick_name profile_photo banner_photo friends public")
+
+        if (!user) {
+            return res.status(404).json({
+                msg: "Usuario no encontrado"
+            });
+        }
+
+        return res.json(user);
+
+    } catch (err) {
+        return res.status(500).json({
+            msg: "Error al obtener usuario",
+            error: err.message
+        });
+    }
+};
+*/
+const mongoose = require('mongoose');
+
+exports.getOtherUser = async (req, res) => {
+    try {
+        const requestedUserId = req.params.id;
+        const currentUserId = req.user.id;
+
+        if (!mongoose.Types.ObjectId.isValid(requestedUserId)) {
+            return res.status(400).json({ msg: "ID inválido" });
+        }
+
+        if (requestedUserId === currentUserId) {
+            return res.status(400).json({ msg: "Usa tu perfil propio" });
+        }
+
+        const user = await User.findById(requestedUserId)
+            .select("name nick_name profile_photo banner_photo public");
+
+        if (!user) {
+            return res.status(404).json({ msg: "Usuario no encontrado" });
+        }
+
+        const objectId = new mongoose.Types.ObjectId(requestedUserId);
+
+        const favorites = await List.findOne({
+            userId: objectId,
+            isDefault: true
+        });
+
+        const reviews = await Review.find({
+            userId: objectId
+        })
+        .sort({ createdAt: -1 })
+        .limit(3)
+        .select("movieTitle moviePoster rating reviewText createdAt");
+
+        return res.json({
+            user,
+            favorites: favorites?.peliculas || [],
+            recentReviews: reviews
+        });
+
+    } catch (err) {
+        console.error("ERROR REAL:", err); 
+        return res.status(500).json({
+            msg: "Error al obtener perfil",
+            error: err.message
+        });
+    }
+};

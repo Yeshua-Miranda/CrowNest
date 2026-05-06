@@ -7,6 +7,8 @@ routerUsers.post('/',usersControllers.registerUser);
 
 routerUsers.get('/recom/:id',usersControllers.getUsers);
 
+routerUsers.get("/other/:id",usersControllers.authMiddelwere,usersControllers.getOtherUser);
+
 routerUsers.use('/:id', usersControllers.authMiddelwere);
 
 routerUsers.get('/:id', usersControllers.getUser);

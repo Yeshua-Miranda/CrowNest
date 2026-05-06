@@ -7,9 +7,11 @@ routerUsers.post('/',usersControllers.registerUser);
 
 routerUsers.get('/:type/:id',usersControllers.getUsers);
 
-routerUsers.get("/other/:id",usersControllers.authMiddelwere,usersControllers.getOtherUser);
+routerUsers.get("/other/:id", usersControllers.authMiddelwere, usersControllers.getOtherUser);
 
 routerUsers.post('/add-friend/:id', usersControllers.authMiddelwere, usersControllers.addFriend);
+
+routerUsers.post('/friend-request/:requestId', usersControllers.authMiddelwere, usersControllers.handleFriendRequest);
 
 routerUsers.use('/:id', usersControllers.authMiddelwere);
 

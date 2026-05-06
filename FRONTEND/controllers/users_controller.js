@@ -345,6 +345,8 @@ function friendPerfil(user,recom,reque,id){
     img.alt = user.name;
     img.src =  `assets/profiles/${user.profile_photo || 1}.jpg`;
     img.addEventListener('click', () => {
+        console.log(user);
+        console.log(user._id);
         getPerfil(user._id);
     })
     a.append(img);
@@ -358,10 +360,31 @@ function friendPerfil(user,recom,reque,id){
         btn.classList.add('boton-review');
         btn.innerText = 'Agregar';
         btn.addEventListener('click', () => {
-            console.log('se envio una solicitud');
             handleAddFriend(user._id);
         })
         a.append(btn);
+    } else if (reque){
+        let btn = document.createElement('button');
+        btn.classList.add('boton-review');
+        btn.innerText = 'Agregar';
+        btn.addEventListener('click', () => {
+            handleAddFriend(user._id);
+        })
+        a.append(btn);
+        let btn1 = document.createElement('button');
+        btn1.classList.add('boton-review');
+        btn1.innerText = 'Aceptar';
+        btn1.addEventListener('click', () => {
+            processRequest(user._id, 'accept');
+        })
+        a.append(btn1);
+        let btn2 = document.createElement('button');
+        btn2.classList.add('boton-review');
+        btn2.innerText = 'Eliminar';
+        btn2.addEventListener('click', () => {
+            processRequest(user._id, 'reject');
+        })
+        a.append(btn1);
     }
 
     box.append(a);
@@ -413,6 +436,32 @@ async function handleAddFriend(UserId) {
         } else {
             console.error(data.msg);
             alert("Error: " + data.msg);
+        }
+    } catch (error) {
+        console.error("Error en la petición:", error);
+    }
+}
+
+async function processRequest(requestId, actionType) {
+    const token = sessionStorage.getItem("token");
+
+    try {
+        const response = await fetch(`http://localhost:3000/users/friend-request/${requestId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify({ action: actionType })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert(data.msg);
+            location.reload(); 
+        } else {
+            console.error(data.msg);
         }
     } catch (error) {
         console.error("Error en la petición:", error);

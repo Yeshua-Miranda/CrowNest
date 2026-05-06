@@ -354,3 +354,35 @@ exports.addFriend = async (req, res) => {
         });
     }
 };
+
+exports.handleFriendRequest = async (req, res) => {
+    try {
+        const { requestId } = req.params; 
+        const { action } = req.body;     
+        const currentUserId = req.user.id; 
+
+        if (!['accept', 'reject'].includes(action)) {
+            return res.status(400).json({ msg: "Acción no válida" });
+        }
+
+        const user = await User.findByIdAndUpdate(currentUserId, {
+            $pull: { friend_request: requestId }
+        }, { new: true });
+
+        if (action === 'accept') {
+            await User.findByIdAndUpdate(requestId, {
+                $addToSet: { friends: currentUserId }
+            });
+            await User.findByIdAndUpdate(currentUserId, {
+                $addToSet: { friends: requestId }
+            });
+
+            return res.json({ msg: "Solicitud aceptada. Ahora son amigos." });
+        }
+
+        return res.json({ msg: "Solicitud rechazada correctamente." });
+
+    } catch (err) {
+        return res.status(500).json({ msg: "Error al procesar la solicitud", error: err.message });
+    }
+};

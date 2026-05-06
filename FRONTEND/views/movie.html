@@ -18,60 +18,7 @@
 
     <body>
         <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-            <div class="container">
-                <a class="navbar-brand fw-bold"  href="home.html">
-                    <img 
-                        src="../assets/img/logo.png" 
-                        alt="Foto de perfil" 
-                        width="45" 
-                        height="45" 
-                        class="rounded-circle border border-2 border-secondary"
-                    >
-                </a>
-                
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPrincipal" aria-controls="navbarPrincipal" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarPrincipal">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="home.html">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="movie.html">Movies</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="calendar.html">Calendar</a>
-                        </li>
-                    </ul>
-
-                    <form class="d-flex align-items-center" action="review.html" method="GET">
-                        <input 
-                            class="form-control me-3" 
-                            type="search" 
-                            name="pelicula" 
-                            placeholder="Search" 
-                            aria-label="Search"
-                            required
-                        >
-                        <button class="btn btn-outline-light me-4" type="submit">Buscar</button>
-                        
-                        <a href="profile.html" class="d-block" title="Ir a mi perfil">
-                            <img 
-                                src="../assets/img/avatar.png" 
-                                alt="Foto de perfil" 
-                                width="45" 
-                                height="45" 
-                                class="rounded-circle border border-2 border-secondary"
-                            >
-                        </a>
-                        <button class="btn" type="button" style="cursor: pointer; color: white;" onclick="logout()"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
-                    </form>
-                </div>
-            </div>
-        </nav>
+            <div id="navbar"></div>
         </header>
         <main>
             
@@ -241,6 +188,59 @@
             </div>
         </div>
 
+        <div class="modal fade" id="modalEditarLista" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark text-white">
+                    
+                    <div class="modal-header border-secondary">
+                        <h5 class="modal-title">Editar lista</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input 
+                                type="text"
+                                id="editNombreLista"
+                                class="form-control bg-secondary text-white border-0"
+                            >
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Descripción</label>
+                            <textarea 
+                                id="editDescripcionLista"
+                                class="form-control bg-secondary text-white border-0"
+                            ></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Visibilidad</label>
+
+                            <div class="form-check">
+                                <input type="radio" name="editVisibilidad" id="editVisPublica" value="publica" class="form-check-input">
+                                <label class="form-check-label">Pública</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input type="radio" name="editVisibilidad" id="editVisPrivada" value="privada" class="form-check-input">
+                                <label class="form-check-label">Privada</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer border-secondary">
+                        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button id="guardarCambiosBtn" class="btn btn-outline-light">
+                            Guardar cambios
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
         
 
         <script
@@ -253,5 +253,6 @@
         <script src="../controllers/auth_controller.js"></script>
         <script src="../controllers/movie_controller.js"></script>
         <script src="../controllers/list_controller.js"></script>
+        <script src="../controllers/navbar_controller.js"></script>
     </body>
 </html>

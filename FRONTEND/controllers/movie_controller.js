@@ -25,6 +25,23 @@ const genreMap = {
     "western": 37
 };
 
+async function buscarPeliculas(query) {
+    try {
+        const res = await fetch(
+            `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}&language=es-MX`
+        );
+
+        const data = await res.json();
+
+        return data.results;
+
+    } catch (err) {
+        console.error("Error buscando:", err);
+        return [];
+    }
+}
+
+
 
 async function loadPopularMovies() {
     try {
@@ -250,6 +267,46 @@ async function cargarListasEnModal() {
     });
 }
 
+function renderResultadosBusqueda(peliculas) {
+    const container = document.getElementById("searchResults");
+    container.innerHTML = "";
+
+    if (!peliculas || peliculas.length === 0) {
+        container.classList.display = "none";
+        return;
+    }
+
+    container.classList.add("show");
+    container.style.opacity = "1";
+    container.style.pointerEvents = "auto";
+    container.style.display = "block";
+
+    peliculas.slice(0, 8).forEach(peli => {
+        const div = document.createElement("div");
+        div.classList.add("searchItem");
+
+        const poster = peli.poster_path
+            ? `https://image.tmdb.org/t/p/w92${peli.poster_path}`
+            : "../assets/img/no-poster.png";
+
+        div.innerHTML = `
+            <img src="${poster}">
+            <span>
+                <strong>${peli.title}</strong><br>
+                <small>${peli.release_date?.split("-")[0] || "Año desconocido"}</small>
+            </span>
+        `;
+
+        div.addEventListener("click", () => {
+            window.location.href = `review.html?id=${peli.id}`;
+        });
+
+        container.appendChild(div);
+
+        
+    });
+}
+
 async function agregarAPelicula(listId) {
     console.log("Agregando a lista:", listId);
     console.log("Película:", selectedMovie);
@@ -269,7 +326,6 @@ async function agregarAPelicula(listId) {
             : ""
     })
 });
-
     console.log("POST enviado");
 
     const modal = bootstrap.Modal.getInstance(document.getElementById("modalAgregarPelicula"));
@@ -278,11 +334,12 @@ async function agregarAPelicula(listId) {
     cargarListas();
 }
 
-const input = document.getElementById("customGenreInput");
 
-input.addEventListener("keypress", (e) => {
+const inputGenre = document.getElementById("customGenreInput");
+
+inputGenre.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
-        const value = input.value.toLowerCase().trim();
+        const value = inputGenre.value.toLowerCase().trim();
 
         const genreId = genreMap[value];
 
@@ -293,12 +350,88 @@ input.addEventListener("keypress", (e) => {
         }
     }
 });
+document.addEventListener("click", (e) => {
+    const container = document.getElementById("searchResults");
+
+    if (!e.target.closest(".searchWrapper")) {
+        container.style.display = "none";
+    }
+});
 
 
 document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("searchForm");
+    const inputGenre = document.getElementById("customGenreInput");
+    const searchInput = document.getElementById("searchInput");
+
+    
+
+    if (form && searchInput) {
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault(); 
+
+        const query = searchInput.value.trim();
+
+        if (query.length < 2) {
+            document.getElementById("searchResults").innerHTML = "";
+            return;
+        }
+        if (!query) return;
+
+        const pelis = await buscarConFallback(query);
+
+        if (pelis.length > 0 && pelis[0].id) {
+            window.location.href = `review.html?id=${pelis[0].id}`;
+        } else {
+            console.warn("No se encontró película válida");
+        }
+    });
+}
+
+    if (inputGenre) {
+        inputGenre.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                const value = inputGenre.value.toLowerCase().trim();
+
+                const genreId = genreMap[value];
+
+                if (genreId) {
+                    loadMoviesByGenre(genreId);
+                } else {
+                    loadMoviesByGenreDefault();
+                }
+            }
+        });
+    }
+
+    if (searchInput) {
+        let timeout;
+
+        searchInput.addEventListener("input", () => {
+        clearTimeout(timeout);
+
+        timeout = setTimeout(async () => {
+            const query = searchInput.value.trim();
+
+            if (query.length < 2) {
+                document.getElementById("searchResults").innerHTML = "";
+                return;
+            }
+
+            const pelis = await buscarPeliculas(query);
+            renderResultadosBusqueda(pelis);
+
+        }, 300);
+    }); 
+    }
     loadPopularMovies();
     loadRatedMovies();
     loadMoviesByGenreDefault();
     setupTags();
-    loadUserRatedMovies(); 
+    loadUserRatedMovies();
+
 });
+
+
+    
+     

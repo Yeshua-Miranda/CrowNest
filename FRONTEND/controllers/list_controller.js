@@ -31,19 +31,24 @@ function renderListas(listas) {
             renderPeliculas(lista);
         }
 
-        card.innerHTML = `
-        <div class="listaCard__header">
+                card.innerHTML = `
             <h5 class="listaCard__titulo">
                 ${lista.isDefault ? "⭐ " : ""}${lista.nombre}
             </h5>
+
+            <p class="listaCard__count">${lista.peliculas.length} películas</p>
+
             ${!lista.isDefault ? `
-                <button class="listaCard__deleteBtn" title="Eliminar lista">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
+                <div class="listaCard__actions">
+                    <button class="listaCard__editBtn">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                    <button class="listaCard__deleteBtn">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
             ` : ""}
-        </div>
-        <p class="listaCard__count">${lista.peliculas.length} películas</p>
-    `;
+        `;
 
         // click en la card para cambiar de lista
         card.addEventListener("click", () => {
@@ -64,6 +69,31 @@ function renderListas(listas) {
 
             const modal = new bootstrap.Modal(
                 document.getElementById("modalEliminarLista")
+            );
+            modal.show();
+        });
+    }
+
+    const editBtn = card.querySelector(".listaCard__editBtn");
+
+    if (editBtn) {
+        editBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+
+            listaAEditar = lista;
+
+            // llenar inputs del modal
+            document.getElementById("editNombreLista").value = lista.nombre;
+            document.getElementById("editDescripcionLista").value = lista.descripcion || "";
+
+            if (lista.visibilidad === "publica") {
+                document.getElementById("editVisPublica").checked = true;
+            } else {
+                document.getElementById("editVisPrivada").checked = true;
+            }
+
+            const modal = new bootstrap.Modal(
+                document.getElementById("modalEditarLista")
             );
             modal.show();
         });
@@ -181,6 +211,7 @@ const btn = document.getElementById("crearListaBtn");
 let peliculaAEliminar = null;
 let listaActualId = null;
 let listaAEliminar = null;
+let listaAEditar = null;
 
 
 document.getElementById("confirmDeleteBtn").addEventListener("click", async () => {
@@ -219,4 +250,40 @@ document.getElementById("confirmDeleteListaBtn").addEventListener("click", async
 
     listaAEliminar = null;
     cargarListas();
+});
+
+
+document.getElementById("guardarCambiosBtn").addEventListener("click", async () => {
+
+    if (!listaAEditar) return;
+
+    const nombre = document.getElementById("editNombreLista").value;
+    const descripcion = document.getElementById("editDescripcionLista").value;
+    const visibilidad = document.querySelector('input[name="editVisibilidad"]:checked')?.value;
+
+    try {
+        const res = await fetch(`http://localhost:3000/lists/${listaAEditar.id}`, {
+            method: "PUT",
+            headers: getAuthHeaders(),
+            body: JSON.stringify({
+                nombre,
+                descripcion,
+                visibilidad
+            })
+        });
+
+        if (!res.ok) throw new Error("Error al actualizar");
+
+        const modal = bootstrap.Modal.getInstance(
+            document.getElementById("modalEditarLista")
+        );
+        modal.hide();
+
+        listaAEditar = null;
+
+        cargarListas();
+
+    } catch (err) {
+        console.error(err);
+    }
 });

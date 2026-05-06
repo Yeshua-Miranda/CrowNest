@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user.js');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 const secretKey = 'poo_el_guerrero_dragon';
 
@@ -148,36 +149,62 @@ exports.getSocialData = async (req, res) => {
 
 exports.getUsers = async (req, res) => {
     try {
-        let page = parseInt(req.query.page) || 1;
-        let limit = parseInt(req.query.limit) || 20;
-        let id = req.params.id;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 20;
+        const id = req.params.id;
+        const type = parseInt(req.params.type);
 
-        let user = await User.findById(id);
-        
+        const user = await User.findById(id);
+        if (!user) return res.status(404).json({ mensaje: "Usuario no encontrado" });
+
         const allUsers = await User.find({ _id: { $ne: id } }); 
-
-        const filtered = allUsers.filter(u => 
-            !(user.friends.includes(u.id)) || !(user.friend_request.includes(u.id))
-        );
         
-        const recom = filtered.map(u => ({
+        let filtered = [];
+
+        const userFriends = user.friends || [];
+        const userRequests = user.friend_request || [];
+
+        switch (type) {
+            case 1: 
+                filtered = allUsers.filter(u => 
+                    !userFriends.includes(u._id.toString()) && 
+                    !userRequests.includes(u._id.toString())
+                );
+                break;
+            case 2:
+                filtered = allUsers.filter(u => 
+                    userFriends.includes(u._id.toString())
+                );
+                break;
+            case 3: 
+                filtered = allUsers.filter(u => 
+                    userRequests.includes(u._id.toString())
+                );
+                break;
+            default:
+                return res.status(400).json({ mensaje: "Tipo de búsqueda inválido" });
+        }
+        
+        const total = filtered.length;
+        const paginatedUsers = filtered.slice((page - 1) * limit, page * limit);
+
+        const result = paginatedUsers.map(u => ({
+            _id: u._id,
             name: u.name,
             nick_name: u.nick_name,
-            friends: u.friends,
             public: u.public,
             profile_photo: u.profile_photo,
             banner_photo: u.banner_photo
         }));
 
-        let paginatedUsers = filtered.slice((page - 1) * limit, page * limit);
-
         res.json({
             page,
-            total: filtered.length,
-            data: paginatedUsers
+            total,
+            data: result
         });
+
     } catch (error) {
-        res.status(500).json({ mensaje: "Error", error: error.message });
+        res.status(500).json({ mensaje: "Error en el servidor", error: error.message });
     }
 }
 
@@ -224,44 +251,12 @@ exports.deleteUserInfo = async (req,res) => {
     }
 }
 
-/*
-exports.getOtherUser = async (req, res) => {
-    try {
-        const requestedUserId = req.params.id;
-        const currentUserId = req.user.id; 
-
-        if (requestedUserId === currentUserId) {
-            return res.status(400).json({
-                msg: "Usa la ruta de perfil propio",
-                status: 400
-            });
-        }
-
-        const user = await User.findById(requestedUserId)
-            .select("name nick_name profile_photo banner_photo friends public")
-
-        if (!user) {
-            return res.status(404).json({
-                msg: "Usuario no encontrado"
-            });
-        }
-
-        return res.json(user);
-
-    } catch (err) {
-        return res.status(500).json({
-            msg: "Error al obtener usuario",
-            error: err.message
-        });
-    }
-};
-*/
-const mongoose = require('mongoose');
 
 exports.getOtherUser = async (req, res) => {
     try {
         const requestedUserId = req.params.id;
         const currentUserId = req.user.id;
+
 
         if (!mongoose.Types.ObjectId.isValid(requestedUserId)) {
             return res.status(400).json({ msg: "ID inválido" });
@@ -303,6 +298,59 @@ exports.getOtherUser = async (req, res) => {
         return res.status(500).json({
             msg: "Error al obtener perfil",
             error: err.message
+        });
+    }
+};
+
+exports.addFriend = async (req, res) => {
+    try {
+        const targetUserId = req.params.id; 
+        const currentUserId = req.user.id; 
+
+        if (targetUserId === currentUserId) {
+            return res.status(400).json({ msg: "No puedes agregarte a ti mismo" });
+        }
+
+        const targetUser = await User.findById(targetUserId);
+        if (!targetUser) {
+            return res.status(404).json({ msg: "Usuario no encontrado" });
+        }
+
+        if (targetUser.friends.includes(currentUserId)) {
+            return res.status(400).json({ msg: "Ya eres amigo de este usuario" });
+        }
+        
+        if (targetUser.friend_request.includes(currentUserId)) {
+            return res.status(400).json({ msg: "Ya has enviado una solicitud a este usuario" });
+        }
+
+        if (targetUser.public) {
+            await User.findByIdAndUpdate(targetUserId, { 
+                $addToSet: { friends: currentUserId } 
+            });
+            await User.findByIdAndUpdate(currentUserId, { 
+                $addToSet: { friends: targetUserId } 
+            });
+
+            return res.json({ 
+                msg: "Usuario agregado a tu lista de amigos", 
+                status: "friends" 
+            });
+        } else {
+            await User.findByIdAndUpdate(targetUserId, { 
+                $addToSet: { friend_request: currentUserId } 
+            });
+
+            return res.json({ 
+                msg: "Solicitud de amistad enviada", 
+                status: "pending" 
+            });
+        }
+
+    } catch (err) {
+        return res.status(500).json({ 
+            msg: "Error al procesar la solicitud de amistad", 
+            error: err.message 
         });
     }
 };

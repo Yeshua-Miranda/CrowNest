@@ -181,17 +181,15 @@ async function deleteUser() {
     }
 }
 
-async function friendRecom(){
-    event.preventDefault();
+async function friendRecom(type){
     const token = sessionStorage.getItem('token'); 
     let user = JSON.parse(sessionStorage.user);
-    let route = '/users/recom/' + user._id +"?page=1&limit=5";
+    let route = '/users/'+ type +'/' + user._id +"?page=1&limit=7";
 
     try {
         const response = await fetch(route, {
             method: 'GET',
             headers: {
-                //'Content-Type': 'application/json',
                 'Authorization': token
             }
         });
@@ -205,24 +203,36 @@ async function friendRecom(){
         return json.data;
 
     } catch (err) {
-        console.error('Error en deleteUser:', err);
+        console.error('Error en getUsers:', err);
         alert("Ocurrió un error de red");
     }
 }
 
 async function populeteFriends() {
     let user = JSON.parse(sessionStorage.user);
-    let recom = await friendRecom();
+    let recom = await friendRecom(1);
 
     for(const r of recom){
-        friendPerfil(r,true,false);
+        friendPerfil(r,true,false,"container-suggestions");
     }
+
+    let friends = await friendRecom(2);
+
+    for(const f of friends){
+        friendPerfil(f,false,false,"container-friends");
+    }
+
+    let request = await friendRecom(3);
+
+    for(const r of request){
+        friendPerfil(r,true,true,"container-requests");
+    }
+
 }
 
 async function getPerfil(userId){
-
+    if(window.location.href !== ENV.BACKEND_URL + 'profile.html') window.location.href = NV.BACKEND_URL + 'profile.html';
     let data = await(getOtherUser(userId)); 
-
     let user = data.user;
     let favorites = data.favorites;
     let recentReviews = data.recentReviews;
@@ -326,8 +336,8 @@ async function getPerfil(userId){
     }
 }
 
-function friendPerfil(user,recom,reque){
-    let box = document.getElementById('container-suggestions');
+function friendPerfil(user,recom,reque,id){
+    let box = document.getElementById(id);
     let a = document.createElement('a');
     a.classList.add("friend-card");
     let img = document.createElement('img');
@@ -349,24 +359,17 @@ function friendPerfil(user,recom,reque){
         btn.innerText = 'Agregar';
         btn.addEventListener('click', () => {
             console.log('se envio una solicitud');
+            handleAddFriend(user._id);
         })
         a.append(btn);
     }
 
     box.append(a);
 }
-/*
-    <a href="#" class="friend-card">
-      <img class="friend-avatar" src="../assets/img/avatar.png" alt="Paula Reyes" />
-      <p class="friend-name">John Doe</p>
-      <p class="friend-meta">88 películas</p>
-      <p class="friend-badge">12 en común</p>
-      <button class="boton-review">Aceptar</button>
-      <button class="boton-review">Agregar <i class="fa-solid fa-plus"></i></button>
-    </a>
-*/
+
 
 async function getOtherUser(userId) {
+    console.log("Consultando ID:", userId);
     try {
         const token = sessionStorage.getItem("token");
 
@@ -391,6 +394,31 @@ async function getOtherUser(userId) {
     }
 }
 
+async function handleAddFriend(UserId) {
+    const token = sessionStorage.getItem('token'); 
+
+    try {
+        const response = await fetch(`/users/add-friend/${UserId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': token, 
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert(data.msg); 
+        } else {
+            console.error(data.msg);
+            alert("Error: " + data.msg);
+        }
+    } catch (error) {
+        console.error("Error en la petición:", error);
+    }
+}
+
 async function initProfile() {
     let user = JSON.parse(sessionStorage.user);
     let avatar = document.getElementById('avatar');
@@ -410,7 +438,7 @@ async function initProfile() {
     userText.innerText = user.name;
 
     let num_friends = document.getElementById("number_friends");
-    num_friends.innerText = "(" + user.friends.length || 0 +")";
+    num_friends.innerText = "(" + user.friends.length + ")";
 
     populeteFriends();
 

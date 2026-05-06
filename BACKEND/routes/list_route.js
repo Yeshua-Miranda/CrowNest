@@ -11,5 +11,6 @@ routerLists.post("/", authMiddelwere, listController.createList);
 routerLists.post("/:id/movies", authMiddelwere, listController.addMovie);
 routerLists.delete("/:id/movies/:tmdbId", authMiddelwere, listController.removeMovie);
 routerLists.delete("/:id", authMiddelwere, listController.deleteList);
+routerLists.put("/:id", authMiddelwere, listController.updateList);
 
 module.exports = routerLists;

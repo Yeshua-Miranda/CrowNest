@@ -47,16 +47,21 @@
                         </li>
                     </ul>
 
-                    <form class="d-flex align-items-center" action="review.html" method="GET">
+                    <form class="d-flex align-items-center" id="searchForm" method="GET">
+                        <div class="searchWrapper">
                         <input 
                             class="form-control me-3" 
+                            id="searchInput"
                             type="search" 
                             name="pelicula" 
                             placeholder="Search" 
-                            aria-label="Search"
                             required
                         >
-                        <button class="btn btn-outline-light me-4" type="submit">Buscar</button>
+
+                        <div id="searchResults" class="searchResults"></div>
+                    </div>
+
+                    <button class="btn btn-outline-light me-4" type="submit">Buscar</button>
                         
                         <a href="profile.html" class="d-block" title="Ir a mi perfil">
                             <img 
@@ -237,6 +242,59 @@
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <button type="button" class="btn btn-danger" id="confirmDeleteListaBtn">Eliminar</button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalEditarLista" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark text-white">
+                    
+                    <div class="modal-header border-secondary">
+                        <h5 class="modal-title">Editar lista</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nombre</label>
+                            <input 
+                                type="text"
+                                id="editNombreLista"
+                                class="form-control bg-secondary text-white border-0"
+                            >
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Descripción</label>
+                            <textarea 
+                                id="editDescripcionLista"
+                                class="form-control bg-secondary text-white border-0"
+                            ></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Visibilidad</label>
+
+                            <div class="form-check">
+                                <input type="radio" name="editVisibilidad" id="editVisPublica" value="publica" class="form-check-input">
+                                <label class="form-check-label">Pública</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input type="radio" name="editVisibilidad" id="editVisPrivada" value="privada" class="form-check-input">
+                                <label class="form-check-label">Privada</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer border-secondary">
+                        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button id="guardarCambiosBtn" class="btn btn-outline-light">
+                            Guardar cambios
+                        </button>
+                    </div>
+
                 </div>
             </div>
         </div>

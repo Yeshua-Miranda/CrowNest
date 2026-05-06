@@ -153,11 +153,43 @@ async function deleteList(req, res) {
     }
 }
 
+
+async function updateList(req, res) {
+    try {
+        const id = parseInt(req.params.id);
+        const userId = req.user.id;
+
+        const { nombre, descripcion, visibilidad } = req.body;
+
+        const lista = await List.findOneAndUpdate(
+            { id, userId },
+            {
+                ...(nombre && { nombre }),
+                ...(descripcion && { descripcion }),
+                ...(visibilidad && { visibilidad }),
+                actualizadaEn: new Date()
+            },
+            { new: true }
+        );
+
+        if (!lista) {
+            return res.status(404).json({ error: "Lista no encontrada" });
+        }
+
+        res.json(lista);
+
+    } catch (err) {
+        console.error("Error updateList:", err);
+        res.status(500).json({ error: "Error al actualizar la lista" });
+    }
+}
+
 module.exports = {
     getLists,
     getListById,
     createList,
     addMovie,
     removeMovie,
-    deleteList
+    deleteList,
+    updateList
 };

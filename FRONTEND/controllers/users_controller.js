@@ -181,7 +181,42 @@ async function deleteUser() {
     }
 }
 
+async function friendRecom(){
+    event.preventDefault();
+    const token = sessionStorage.getItem('token'); 
+    let user = JSON.parse(sessionStorage.user);
+    let route = '/users/friends/' + user.id;
 
+    try {
+        const response = await fetch(route, {
+            method: 'GET',
+            headers: {
+                //'Content-Type': 'application/json',
+                'Authorization': token
+            }
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            alert(errorData.msg || "Error al obterner usuarios");
+            return;
+        }
+        return response.data;
+
+    } catch (err) {
+        console.error('Error en deleteUser:', err);
+        alert("Ocurrió un error de red");
+    }
+}
+
+async function populeteFriends() {
+    let user = JSON.parse(sessionStorage.user);
+    let recom = await friendRecom();
+
+    for(const r of recom){
+        
+    }
+}
 
 async function initProfile() {
     let user = JSON.parse(sessionStorage.user);

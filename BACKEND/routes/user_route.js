@@ -9,6 +9,8 @@ routerUsers.use('/:id', usersControllers.authMiddelwere)
 
 routerUsers.get('/:id',usersControllers.getUser);
 
+routerUsers.get('friends/:id',usersControllers.getSocialData);
+
 routerUsers.put('/:id',usersControllers.updateUserInfo);
 
 routerUsers.delete('/:id',usersControllers.deleteUserInfo);

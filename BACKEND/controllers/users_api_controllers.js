@@ -144,29 +144,15 @@ exports.getSocialData = async (req, res) => {
     }
 };
 
-exports.getUsers = (req,res) => {
-    let auth = req.get('x-auth');
-    if(auth=="admin_auth"){
-        let page = req.query.page;
-        let limit = req.query.limit;
-        let paginatedUsers = users.slice((page-1)*limit,page*limit);
-        res.json({
-            page,
-            next_page: parseInt(page) + 1,
-            limit,
-            total: users.length,
-            data: paginatedUsers
-        })
-    } else {
-        res.status(401).send(err.errorMessage);
-    }
-}
 
 exports.getUsers = async (req, res) => {
     let page = req.query.page;
     let limit = req.query.limit;
+    let user = await User.findOne({ _id: id });
     try {
-        const users = await User.find({});
+        const users = (await User.find({})).filter(u => {
+            user.friends.contains(u.id) || user.friend_request.contains(u.id)
+        });
         let paginatedUsers = users.slice((page-1)*limit,page*limit);
         res.json({
             page,

@@ -219,10 +219,111 @@ async function populeteFriends() {
     }
 }
 
-async function getPerfil(user){
-    window.location.href = ENV.BACKEND_URL + 'profile.html';
+async function getPerfil(userId){
+
+    let data = await(getOtherUser(userId)); 
+
+    let user = data.user;
+    let favorites = data.favorites;
+    let recentReviews = data.recentReviews;
+
     let box_friends = document.getElementById('friends-box-vis');
     box_friends.style.display = 'none';
+
+    let avatar = document.getElementById('avatar');
+    const photoId = user.profile_photo || 1;
+    avatar.src = `assets/profiles/${photoId}.jpg`;
+
+    let banner = document.getElementById('banner');
+    const bannerId = user.banner_photo || 1;
+    banner.style.backgroundImage = `url('assets/banners/${bannerId}.jpg')`;
+
+    let username = document.getElementById('username');
+    username.innerText = user.nick_name?user.nick_name:user.name;
+    let emailText = document.getElementById('emailText');
+    emailText.innerText = user.email;
+    let kind_profile = document.getElementById('kind-profile');
+    let userText = document.getElementById('userText');
+    userText.innerText = user.name;
+
+    const container = document.querySelector(".pestaña:last-child");
+    container.innerHTML = "";
+    const grid = document.createElement("div");
+    grid.className = "recommendations";
+    container.appendChild(grid);
+
+    //Reviews
+    if (recentReviews.length === 0) {
+        grid.innerHTML = "<p style='color:gray;'>Sin actividad reciente.</p>";
+        return;
+    }
+    recentReviews.slice(0, 4).forEach(review => {
+        if (!review.moviePoster) return;
+        const box = document.createElement("div");
+        box.className = "movieBox";
+        box.innerHTML = `
+            <a href="review.html?id=${review.movieId}">
+                <img class="poster" src="${IMG_URL}${review.moviePoster}" alt="${review.movieTitle}">
+            </a>
+        `;
+        grid.appendChild(box);
+    });
+
+    //REviewa
+    const container2 = document.getElementById("reviews");
+    container2.innerHTML = "";
+    if (recentReviews.length === 0) {
+        container2.innerHTML = "<p style='color:gray;'>Sin reseñas aún.</p>";
+        return;
+    }
+    recentReviews.slice(0, 3).forEach(review => {
+        const estrellas = "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+        container2.innerHTML += `
+            <div class="review" data-rating="${review.rating}">
+                <div class="review-content">
+                    <h5 class="review-name">${review.movieTitle}</h5>
+                    <div class="stars">${estrellas} <span style="color:white;"> ${review.rating}.0 </span></div>
+                    <p>${review.reviewText}</p>
+                </div>
+            </div>
+        `;
+    });
+
+    //Favoritos
+    const container3 = document.querySelector(".recommendations");
+    container3.innerHTML = "";
+    if (favorites.length === 0) {
+        container3.innerHTML = "<p style='color:gray;'>Sin favoritos aún.</p>";
+        return;
+    }
+    favorites.slice(0, 4).forEach(peli => {
+        const box = document.createElement("div");
+        box.className = "movieBox";
+        box.innerHTML = `
+            <a href="review.html?id=${peli.tmdbId}">
+                <img class="poster" src="${IMG_URL}${peli.poster_path}" alt="${peli.titulo}">
+            </a>
+        `;
+        container3.appendChild(box);
+    });
+
+    if(user.public){
+        kind_profile.innerText = "Publico";
+        let lock1 = document.getElementById('lock-open');
+        let lock2 = document.getElementById('lock-block');
+        lock1.style.display = 'inline';
+        lock2.style.display = 'none';
+        let solicitud = document.getElementById('solicitudes');
+        solicitud.style.display = 'none';
+    } else {
+        kind_profile.innerText = "Privado";   
+        let lock1 = document.getElementById('lock-block');
+        let lock2 = document.getElementById('lock-open');
+        lock1.style.display = 'inline';
+        lock2.style.display = 'none';
+        let solicitud = document.getElementById('solicitudes');
+        solicitud.style.display = 'inline';
+    }
 }
 
 function friendPerfil(user,recom,reque){
@@ -234,7 +335,7 @@ function friendPerfil(user,recom,reque){
     img.alt = user.name;
     img.src =  `assets/profiles/${user.profile_photo || 1}.jpg`;
     img.addEventListener('click', () => {
-        getOtherUser(user._id);
+        getPerfil(user._id);
     })
     a.append(img);
     let p1 = document.createElement('p');
@@ -282,7 +383,6 @@ async function getOtherUser(userId) {
         if (!response.ok) {
             throw new Error(data.msg || "Error al obtener usuario");
         }
-        console.log(data);
         return data;
 
     } catch (error) {
@@ -310,7 +410,7 @@ async function initProfile() {
     userText.innerText = user.name;
 
     let num_friends = document.getElementById("number_friends");
-    num_friends.innerText = user.friends.lenght || 0;
+    num_friends.innerText = "(" + user.friends.length || 0 +")";
 
     populeteFriends();
 

@@ -80,20 +80,20 @@
 
         </header>
         <main>
-        <section class="hero">
+        <section class="hero" id="banner">
           <div class="hero-content">
             
             <div class="profile-card">
-              <span class="gear"><i class="fa-solid fa-pen-to-square"></i> <i class="fa-solid fa-gear" data-bs-toggle="modal" data-bs-target="#modalUpdateUser"></i></span>
-              <img src="https://preview.redd.it/is-michael-scott-autistic-v0-9ywdrwlqdmdc1.jpeg?width=640&crop=smart&auto=webp&s=36fa472f240007b7a1db688ce423713dee4d6c02" alt="Foto de perfil" class="avatar">
+              <span class="gear"><i class="fa-solid fa-pen-to-square" data-bs-toggle="modal" data-bs-target="#modalEditUser"></i> <i class="fa-solid fa-gear" data-bs-toggle="modal" data-bs-target="#modalUpdateUser"></i></span>
+              <img src="" alt="Foto de perfil" class="avatar" id="avatar">
               
               <div class="card-body">
                 <span class="badge">Cinefilo Honorario</span>
                 <h2 id="username"></h2>
                 <div class="details">
                   <p><i class="fa-solid fa-lock-open" style="display: none;" id="lock-open"></i><i class="fa-solid fa-lock" style="display: none;" id="lock-block"></i> Perfil <samp id="kind-profile"></samp> </p>
+                  <p><b>Username: </b><span id="userText"></span> </p>
                   <p><b>Email: </b><span id="emailText"></span> </p>
-                  <p><b>Genero Favorito:</b> Comedia </p>
                 </div>
                 <span class="location" id="Locaciton"></span>
               </div>
@@ -110,7 +110,7 @@
                 <h4 class="modal-title">Editar Usuario</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
               </div>
-              <form id="formEdit" onsubmit="updateUser(event)">
+              <form id="formEdit">
                   <div class="modal-body">
                   <div class="form-group" data-bs-theme="dark">
                       <label for="name_field" style="margin-bottom: 10px;"> Nombre </label>
@@ -139,6 +139,97 @@
                     <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar Cambios</button>
                   </div>
               </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal" id="modalEditUser">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+        
+              <div class="modal-header">
+                <h4 class="modal-title">Editar Perfil</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <form>
+                  <div class="modal-body">
+                  <div class="form-group" data-bs-theme="dark">
+                      <label for="name_field" style="margin-bottom: 10px;"> Apodo </label>
+                      <input type="text" class="form-control" style="margin-bottom: 15px;" id="nick_name_field" required=true name="nick_name">
+                  </div>
+                  <label for="name_field" style="margin-bottom: 10px;"> Fotos </label>
+                  <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modalUpdatePhotos"> Personalizar Perfil </button>
+                  
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar Cambios</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal fade" id="modalUpdatePhotos" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+              <div class="modal-header">
+                <h5 class="modal-title">Personalizar Perfil</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                
+                <h6 class="mb-3">Selecciona tu Foto de Perfil</h6>
+                <div class="d-flex flex-wrap gap-2 mb-4 justify-content-center" id="profile-options">
+                  <div class="photo-option" onclick="selectPhoto('profile', 1)">
+                    <img src="assets/profiles/1.jpg" id="p-opt-1" class="img-thumbnail" width="80">
+                  </div>
+                  <div class="photo-option" onclick="selectPhoto('profile', 2)">
+                    <img src="assets/profiles/2.jpg" id="p-opt-2" class="img-thumbnail" width="80">
+                  </div>
+                  <div class="photo-option" onclick="selectPhoto('profile', 3)">
+                    <img src="assets/profiles/3.jpg" id="p-opt-3" class="img-thumbnail" width="80">
+                  </div>
+                  <div class="photo-option" onclick="selectPhoto('profile', 4)">
+                    <img src="assets/profiles/4.jpg" id="p-opt-4" class="img-thumbnail" width="80">
+                  </div>
+                  <div class="photo-option" onclick="selectPhoto('profile', 5)">
+                    <img src="assets/profiles/5.jpg" id="p-opt-5" class="img-thumbnail" width="80">
+                  </div>
+                  <div class="photo-option" onclick="selectPhoto('profile', 6)">
+                    <img src="assets/profiles/6.jpg" id="p-opt-6" class="img-thumbnail" width="80">
+                  </div>
+                </div>
+        
+                <hr>
+        
+                <h6 class="mb-3">Selecciona tu Banner</h6>
+                <div class="row g-2 justify-content-center" id="banner-options">
+                  <div class="col-4" onclick="selectPhoto('banner', 1)">
+                    <img src="assets/banners/1.jpg" id="b-opt-1" class="img-fluid border rounded" style="cursor:pointer">
+                  </div>
+                  <div class="col-4" onclick="selectPhoto('banner', 2)">
+                    <img src="assets/banners/2.jpg" id="b-opt-2" class="img-fluid border rounded" style="cursor:pointer">
+                  </div>
+                  <div class="col-4" onclick="selectPhoto('banner', 3)">
+                    <img src="assets/banners/3.jpg" id="b-opt-3" class="img-fluid border rounded" style="cursor:pointer">
+                  </div>
+                  <div class="col-4" onclick="selectPhoto('banner', 4)">
+                    <img src="assets/banners/4.jpg" id="b-opt-4" class="img-fluid border rounded" style="cursor:pointer">
+                  </div>
+                  <div class="col-4" onclick="selectPhoto('banner', 5)">
+                    <img src="assets/banners/5.jpg" id="b-opt-5" class="img-fluid border rounded" style="cursor:pointer">
+                  </div>
+                  <div class="col-4" onclick="selectPhoto('banner', 6)">
+                    <img src="assets/banners/6.jpg" id="b-opt-6" class="img-fluid border rounded" style="cursor:pointer">
+                  </div>
+                </div>
+        
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="updateUserPhotos()">Guardar Cambios</button>
+              </div>
             </div>
           </div>
         </div>

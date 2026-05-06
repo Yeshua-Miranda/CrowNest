@@ -5,6 +5,11 @@ let userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        min:[1,"El nombre no puede ser nulo"],
+        unique: true
+    },
+    nick_name: {
+        type: String,
         min:[1,"El nombre no puede ser nulo"]
     },
     email: {
@@ -30,6 +35,14 @@ let userSchema = new mongoose.Schema({
     public: {
         type: Boolean,
         default: false
+    },
+    profile_photo: {
+        type: Number,
+        default: 1
+    },
+    banner_photo: {
+        type: Number,
+        default: 1
     }
 });
 

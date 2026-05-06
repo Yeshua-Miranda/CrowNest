@@ -1,3 +1,6 @@
+let selectedProfilePhoto = 1;
+let selectedBannerPhoto = 1;
+
 async function register(){
     event.preventDefault();
     let data = new FormData(event.target);
@@ -83,6 +86,70 @@ window.addEventListener('load', () => {
     }
 });
 
+function selectPhoto(type, id) {
+    if (type === 'profile') {
+        selectedProfilePhoto = id;
+        document.querySelectorAll('#profile-options img').forEach(img => img.classList.remove('border-primary', 'border-4'));
+        document.getElementById(`p-opt-${id}`).classList.add('border-primary', 'border-4');
+    } else {
+        selectedBannerPhoto = id;
+        document.querySelectorAll('#banner-options img').forEach(img => img.classList.remove('border-primary', 'border-4'));
+        document.getElementById(`b-opt-${id}`).classList.add('border-primary', 'border-4');
+    }
+}
+
+async function updateUserPhotos() {
+    const token = sessionStorage.getItem('token');
+    const user = JSON.parse(sessionStorage.user);
+    const route = `/users/${user.id}`; 
+
+    const bodyData = {
+        profile_photo: selectedProfilePhoto,
+        banner_photo: selectedBannerPhoto
+    };
+
+    try {
+        const response = await fetch(route, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token 
+            },
+            body: JSON.stringify(bodyData)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.msg || "Error al actualizar fotos");
+        }
+
+        sessionStorage.setItem('user', JSON.stringify(result.user));
+        
+        alert("¡Apariencia actualizada!");
+        
+        const modal = bootstrap.Modal.getInstance(document.getElementById('modalUpdatePhotos'));
+        modal.hide();
+        
+        if (typeof init === 'function') init(); 
+
+    } catch (err) {
+        console.error('Error:', err);
+        alert(err.message);
+    }
+}
+
+window.addEventListener('load', () => {
+    const modal = document.getElementById('modalUpdatePhotos');
+    if(modal){
+        modal.addEventListener('show.bs.modal', () => {
+        const user = JSON.parse(sessionStorage.user);
+            selectPhoto('profile', user.profile_photo || 1);
+            selectPhoto('banner', user.banner_photo || 1);
+        });
+    }
+});
+
 async function deleteUser() { 
     event.preventDefault();
     const token = sessionStorage.getItem('token'); 
@@ -115,10 +182,17 @@ async function deleteUser() {
 }
 
 async function initProfile() {
-    console.log("Estas en perfil");
     let user = JSON.parse(sessionStorage.user);
+    let avatar = document.getElementById('avatar');
+    const photoId = user.profile_photo || 1;
+    avatar.src = `assets/profiles/${photoId}.jpg`;
+
+    let banner = document.getElementById('banner');
+    const bannerId = user.banner_photo || 1;
+    banner.style.backgroundImage = `url('assets/banners/${bannerId}.jpg')`;
+
     let username = document.getElementById('username');
-    username.innerText = user.name;
+    username.innerText = user.nick_name?user.nick_name:user.name;
     let emailText = document.getElementById('emailText');
     emailText.innerText = user.email;
     let kind_profile = document.getElementById('kind-profile');

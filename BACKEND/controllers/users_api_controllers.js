@@ -126,6 +126,63 @@ exports.getUser = async (req,res) => {
     }
 }
 
+exports.getSocialData = async (req, res) => {
+    try {
+        const mainUser = await User.findById(req.params.id);
+        if (!mainUser) return res.status(404).json({ msg: "Usuario no encontrado" });
+
+        const friends = await User.find({ _id: { $in: mainUser.friends } }).select('name profile_photo');
+        const requests = await User.find({ _id: { $in: mainUser.friend_request } }).select('name profile_photo');
+        
+        const suggestions = await User.find({ 
+            _id: { $nin: [...mainUser.friends, mainUser._id] } 
+        }).limit(5).select('name profile_photo');
+
+        res.json({ friends, requests, suggestions });
+    } catch (err) {
+        res.status(500).json({ msg: "Error al obtener datos sociales" });
+    }
+};
+
+exports.getUsers = (req,res) => {
+    let auth = req.get('x-auth');
+    if(auth=="admin_auth"){
+        let page = req.query.page;
+        let limit = req.query.limit;
+        let paginatedUsers = users.slice((page-1)*limit,page*limit);
+        res.json({
+            page,
+            next_page: parseInt(page) + 1,
+            limit,
+            total: users.length,
+            data: paginatedUsers
+        })
+    } else {
+        res.status(401).send(err.errorMessage);
+    }
+}
+
+exports.getUsers = async (req, res) => {
+    let page = req.query.page;
+    let limit = req.query.limit;
+    try {
+        const users = await User.find({});
+        let paginatedUsers = users.slice((page-1)*limit,page*limit);
+        res.json({
+            page,
+            next_page: parseInt(page) + 1,
+            limit,
+            total: users.length,
+            data: paginatedUsers
+        })
+    } catch (error) {
+        res.status(500).json({ 
+            mensaje: "Error al obtener los datos", 
+            error: error.message 
+        });
+    }
+}
+
 exports.updateUserInfo = async (req,res) => {
     try {
         const userId = req.user.id || req.user._id;

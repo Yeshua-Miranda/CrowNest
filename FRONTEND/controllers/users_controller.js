@@ -131,7 +131,7 @@ async function updateUserPhotos() {
         const modal = bootstrap.Modal.getInstance(document.getElementById('modalUpdatePhotos'));
         modal.hide();
         
-        if (typeof init === 'function') init(); 
+        init(); 
 
     } catch (err) {
         console.error('Error:', err);
@@ -181,6 +181,8 @@ async function deleteUser() {
     }
 }
 
+
+
 async function initProfile() {
     let user = JSON.parse(sessionStorage.user);
     let avatar = document.getElementById('avatar');
@@ -196,17 +198,25 @@ async function initProfile() {
     let emailText = document.getElementById('emailText');
     emailText.innerText = user.email;
     let kind_profile = document.getElementById('kind-profile');
+    let userText = document.getElementById('userText');
+    userText.innerText = user.name;
+
     if(user.public){
         kind_profile.innerText = "Publico";
         let lock1 = document.getElementById('lock-open');
         let lock2 = document.getElementById('lock-block');
         lock1.style.display = 'inline';
         lock2.style.display = 'none';
+        let solicitud = document.getElementById('solicitudes');
+        solicitud.style.display = 'none';
     } else {
         kind_profile.innerText = "Privado";   
         let lock1 = document.getElementById('lock-block');
         let lock2 = document.getElementById('lock-open');
         lock1.style.display = 'inline';
         lock2.style.display = 'none';
+        let solicitud = document.getElementById('solicitudes');
+        solicitud.style.display = 'inline';
     }
+
 }

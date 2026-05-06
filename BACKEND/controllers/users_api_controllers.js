@@ -154,9 +154,11 @@ exports.getUsers = async (req, res) => {
         let user = await User.findById(id);
         
         const allUsers = await User.find({ _id: { $ne: id } }); 
+
         const filtered = allUsers.filter(u => 
             !(user.friends.includes(u.id)) || !(user.friend_request.includes(u.id))
         );
+        
         const recom = filtered.map(u => ({
             name: u.name,
             nick_name: u.nick_name,

@@ -217,8 +217,12 @@ async function populeteFriends() {
     for(const r of recom){
         friendPerfil(r,true,false);
     }
+}
 
-    
+async function getPerfil(user){
+    window.location.href = ENV.BACKEND_URL + 'profile.html';
+    let box_friends = document.getElementById('friends-box-vis');
+    box_friends.style.display = 'none';
 }
 
 function friendPerfil(user,recom,reque){
@@ -230,7 +234,7 @@ function friendPerfil(user,recom,reque){
     img.alt = user.username;
     img.src =  `assets/profiles/${user.profile_photo || 1}.jpg`;
     img.addEventListener('click', () => {
-
+        getPerfil(user);
     })
     a.append(img);
     let p1 = document.createElement('p');

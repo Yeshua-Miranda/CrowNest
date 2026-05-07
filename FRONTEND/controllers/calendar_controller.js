@@ -168,7 +168,7 @@ function iniciarAutoSlider() {
                 }
             }
         });
-    }, 6000);
+    }, 4000);
 }
 
 function actualizarResumenMes() {

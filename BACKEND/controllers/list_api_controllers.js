@@ -60,6 +60,26 @@ async function createList(req, res) {
     }
 }
 
+async function getListsByUser(req, res) {
+    try {
+        const { userId } = req.params;
+        const requesterId = req.user?.id; // viene del token si está logueado
+
+        const filter = { userId };
+
+        // Si no eres el dueño, solo ves las públicas
+        if (requesterId?.toString() !== userId) {
+            filter.visibilidad = "publica";
+        }
+
+        const lists = await List.find(filter);
+        res.json(lists);
+
+    } catch (err) {
+        res.status(500).json({ error: "Error al obtener listas" });
+    }
+}
+
 async function addMovie(req, res) {
     try {
         const listId = parseInt(req.params.id);
@@ -191,5 +211,6 @@ module.exports = {
     addMovie,
     removeMovie,
     deleteList,
-    updateList
+    updateList,
+    getListsByUser
 };

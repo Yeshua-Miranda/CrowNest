@@ -39,6 +39,41 @@ async function cargarFavoritos() {
     }
 }
 
+function renderPeliculasPerfil(lista) {
+    const grid = document.getElementById("moviesListPerfilContainer");
+    grid.innerHTML = "";
+
+    if (!lista.peliculas || lista.peliculas.length === 0) {
+        grid.innerHTML = "<p style='color:gray;'>No hay películas en esta lista.</p>";
+        return;
+    }
+
+    lista.peliculas.forEach(peli => {
+        const div = document.createElement("div");
+        div.className = "movieBox";
+
+        div.innerHTML = `
+            <div class="movieWrapper">
+                <img 
+                    class="poster"
+                    src="${PROFILE_IMG_URL}${peli.poster_path}"
+                    alt="${peli.titulo}"
+                >
+                <div class="overlay">
+                    <div class="movieTitle">${peli.titulo}</div>
+                    <div class="movieYear">(${peli.año})</div>
+                </div>
+            </div>
+        `;
+
+        div.addEventListener("click", () => {
+            window.location.href = `review.html?id=${peli.tmdbId}`;
+        });
+
+        grid.appendChild(div);
+    });
+}
+
 console.log("profile_controller cargado");
 
 async function cargarResenasProfile() {
@@ -78,6 +113,59 @@ async function cargarResenasProfile() {
     }
 }
 
+async function cargarListasPerfil(userId = null) {
+    const token = sessionStorage.getItem("token");
+
+    const url = userId
+        ? `http://localhost:3000/lists/user/${userId}`
+        : `http://localhost:3000/lists`;
+
+    const res = await fetch(url, {
+        headers: token ? { Authorization: token } : {}
+    });
+
+    const listas = await res.json();
+    if (!Array.isArray(listas)) return;
+
+    const listasVisibles = listas.filter(l => !l.isDefault);
+    const container = document.getElementById("listasPerfilContainer");
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    if (listasVisibles.length === 0) {
+        container.innerHTML = "<p style='color:gray;'>Sin listas aún.</p>";
+        return;
+    }
+
+    listasVisibles.forEach((lista, index) => {
+        const card = document.createElement("div");
+        card.className = "listaCard";
+
+        if (index === 0) {
+            card.classList.add("listaCard--activa");
+            renderPeliculasPerfil(lista);
+        }
+
+        card.innerHTML = `
+            <h5 class="listaCard__titulo">${lista.nombre}</h5>
+            <p class="listaCard__count">${lista.peliculas.length} películas</p>
+            <span class="badge ${lista.visibilidad === 'publica' ? 'bg-success' : 'bg-secondary'} mt-1">
+                ${lista.visibilidad}
+            </span>
+        `;
+
+        card.addEventListener("click", () => {
+            document.querySelectorAll("#listasPerfilContainer .listaCard")
+                .forEach(c => c.classList.remove("listaCard--activa"));
+            card.classList.add("listaCard--activa");
+            renderPeliculasPerfil(lista);
+        });
+
+        container.appendChild(card);
+    });
+}
+
 async function cargarActividadReciente() {
     const token = sessionStorage.getItem("token");
     if (!token) return;
@@ -97,7 +185,8 @@ async function cargarActividadReciente() {
             }, {})
         );
 
-        const container = document.querySelector(".pestaña:last-child");
+        const container = document.querySelector(".pestaña:nth-child(3)");
+        if (!container) return;
         const grid = document.createElement("div");
         grid.className = "recommendations";
         container.appendChild(grid);
@@ -125,7 +214,13 @@ async function cargarActividadReciente() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
+    const esPerfilAjeno = params.get("userId");
     cargarFavoritos();
     cargarResenasProfile();
-    cargarActividadReciente();
+    cargarListasPerfil();
+
+    if (!esPerfilAjeno) {
+        cargarActividadReciente();
+    }
 });

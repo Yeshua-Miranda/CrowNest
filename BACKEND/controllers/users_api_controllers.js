@@ -90,6 +90,15 @@ exports.login = async (req, res) => {
     }
 }
 
+ exports.optionalAuth = async (req, res, next) => {
+    const token = req.headers.authorization;
+    if (token) {
+        try {
+            req.user = jwt.verify(token, secretKey);
+        } catch (_) {}
+    }
+    next();
+}
 
 exports.authMiddelwere = async (req, res, next) => {
     // Busca el token en el header de autorización

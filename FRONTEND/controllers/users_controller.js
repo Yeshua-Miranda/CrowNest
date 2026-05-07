@@ -1,3 +1,5 @@
+const IMG_URL = ENV.TMDB_IMG_URL;
+
 let selectedProfilePhoto = 1;
 let selectedBannerPhoto = 1;
 
@@ -255,8 +257,9 @@ async function getPerfil(userId){
     let userText = document.getElementById('userText');
     userText.innerText = user.name;
 
-    const container = document.querySelector(".pestaña:last-child");
-    container.innerHTML = "";
+    const container = document.querySelector(".pestaña:nth-child(3)");
+    const oldGrid = container.querySelector(".recommendations");
+    if (oldGrid) oldGrid.remove();
     const grid = document.createElement("div");
     grid.className = "recommendations";
     container.appendChild(grid);
@@ -333,6 +336,9 @@ async function getPerfil(userId){
         let solicitud = document.getElementById('solicitudes');
         solicitud.style.display = 'inline';
     }
+
+    cargarListasPerfil(userId);
+
 }
 
 function friendPerfil(user,recom,reque,id){

@@ -1,3 +1,4 @@
+const USERS_IMG_URL = ENV.TMDB_IMG_URL; //USERS CONTROLLER
 let selectedProfilePhoto = 1;
 let selectedBannerPhoto = 1;
 
@@ -230,7 +231,13 @@ async function populeteFriends() {
 }
 
 async function getPerfil(userId){
-    if(window.location.href !== ENV.BACKEND_URL + 'profile.html') window.location.href = NV.BACKEND_URL + 'profile.html';
+    const targetUrl = ENV.BACKEND_URL + 'profile.html?userId=' + userId;
+    if(window.location.href !== targetUrl) {
+        window.location.href = targetUrl;
+        return;
+    }
+
+
     let data = await(getOtherUser(userId)); 
     let user = data.user;
     let favorites = data.favorites;
@@ -273,7 +280,7 @@ async function getPerfil(userId){
         box.className = "movieBox";
         box.innerHTML = `
             <a href="review.html?id=${review.movieId}">
-                <img class="poster" src="${IMG_URL}${review.moviePoster}" alt="${review.movieTitle}">
+                <img class="poster" src="${USERS_IMG_URL}${review.moviePoster}" alt="${review.movieTitle}">
             </a>
         `;
         grid.appendChild(box);
@@ -311,11 +318,14 @@ async function getPerfil(userId){
         box.className = "movieBox";
         box.innerHTML = `
             <a href="review.html?id=${peli.tmdbId}">
-                <img class="poster" src="${IMG_URL}${peli.poster_path}" alt="${peli.titulo}">
+                <img class="poster" src="${USERS_IMG_URL}${peli.poster_path}" alt="${peli.titulo}">
             </a>
         `;
         container3.appendChild(box);
     });
+
+    await cargarListasPerfil(userId);
+
 
     if(user.public){
         kind_profile.innerText = "Publico";
@@ -334,8 +344,7 @@ async function getPerfil(userId){
         let solicitud = document.getElementById('solicitudes');
         solicitud.style.display = 'inline';
     }
-
-    cargarListasPerfil(userId);
+    
 
 }
 

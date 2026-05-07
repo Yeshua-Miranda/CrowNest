@@ -1,4 +1,4 @@
-const PROFILE_IMG_URL = ENV.TMDB_IMG_URL;
+const PROFILE_IMG_URL = ENV.TMDB_IMG_URL; //PROFILE CONTROLLER
 
 async function cargarFavoritos() {
     const token = sessionStorage.getItem("token");
@@ -127,21 +127,31 @@ async function cargarListasPerfil(userId = null) {
     const listas = await res.json();
     if (!Array.isArray(listas)) return;
 
-    const listasVisibles = listas.filter(l => !l.isDefault);
-    const container = document.getElementById("listasPerfilContainer");
-    if (!container) return;
+    const listasVisibles = userId
+        ? listas.filter(l => !l.isDefault && l.visibilidad === "publica")
+        : listas.filter(l => !l.isDefault);
 
+    const container = document.getElementById("listasPerfilContainer");
+    const grid = document.getElementById("moviesListPerfilContainer");
+
+    if (!container || !grid) return;
+
+    // limpiar contenido previo
     container.innerHTML = "";
+    grid.innerHTML = "";
 
     if (listasVisibles.length === 0) {
-        container.innerHTML = "<p style='color:gray;'>Sin listas aún.</p>";
+        container.innerHTML =
+            "<p style='color:gray;'>Sin listas aún.</p>";
         return;
     }
 
     listasVisibles.forEach((lista, index) => {
+
         const card = document.createElement("div");
         card.className = "listaCard";
 
+        // renderizar primera lista automáticamente
         if (index === 0) {
             card.classList.add("listaCard--activa");
             renderPeliculasPerfil(lista);
@@ -149,16 +159,34 @@ async function cargarListasPerfil(userId = null) {
 
         card.innerHTML = `
             <h5 class="listaCard__titulo">${lista.nombre}</h5>
-            <p class="listaCard__count">${lista.peliculas.length} películas</p>
-            <span class="badge ${lista.visibilidad === 'publica' ? 'bg-success' : 'bg-secondary'} mt-1">
+
+            <p class="listaCard__count">
+                ${lista.peliculas.length} películas
+            </p>
+
+            <span class="badge ${
+                lista.visibilidad === "publica"
+                    ? "bg-success"
+                    : "bg-secondary"
+            } mt-1">
+
                 ${lista.visibilidad}
+
             </span>
         `;
 
         card.addEventListener("click", () => {
-            document.querySelectorAll("#listasPerfilContainer .listaCard")
-                .forEach(c => c.classList.remove("listaCard--activa"));
+
+            document
+                .querySelectorAll(
+                    "#listasPerfilContainer .listaCard"
+                )
+                .forEach(c =>
+                    c.classList.remove("listaCard--activa")
+                );
+
             card.classList.add("listaCard--activa");
+
             renderPeliculasPerfil(lista);
         });
 
@@ -213,14 +241,25 @@ async function cargarActividadReciente() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+async function cargarPerfil() {
+    const token = sessionStorage.getItem("token");
+    console.log("TOKEN:", token);
     const params = new URLSearchParams(window.location.search);
-    const esPerfilAjeno = params.get("userId");
-    cargarFavoritos();
-    cargarResenasProfile();
-    cargarListasPerfil();
+    const userId = params.get("userId");
+    console.log("userId en URL:", userId);  
 
-    if (!esPerfilAjeno) {
+
+    if (!userId) {
+        // Perfil propio
+        cargarFavoritos();
+        cargarResenasProfile();
+        cargarListasPerfil();
         cargarActividadReciente();
+    } else {
+        // Perfil ajeno — solo listas públicas, sin endpoints privados
+        getPerfil(userId);
+       
     }
-});
+}
+
+document.addEventListener("DOMContentLoaded", cargarPerfil);

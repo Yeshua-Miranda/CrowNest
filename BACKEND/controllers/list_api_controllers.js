@@ -1,10 +1,12 @@
+const mongoose = require('mongoose');
+
 const List = require('../models/list.js');
 
 async function getLists(req, res) {
     try {
         const userId = req.user.id;
 
-        const lists = await List.find({ userId });
+        const lists = await List.find({ userId }); //busca las listas con el userId 
         res.json(lists);
 
     } catch (err) {
@@ -18,7 +20,7 @@ async function getListById(req, res) {
         const id = parseInt(req.params.id);
         const userId = req.user.id;
 
-        const lista = await List.findOne({ id, userId });
+        const lista = await List.findOne({ id, userId }); //solo las listas del usuario con el id especificado
 
         if (!lista) {
             return res.status(404).json({ error: "Lista no encontrada" });
@@ -63,11 +65,13 @@ async function createList(req, res) {
 async function getListsByUser(req, res) {
     try {
         const { userId } = req.params;
-        const requesterId = req.user?.id; // viene del token si está logueado
+        const requesterId = req.user?.id;
 
-        const filter = { userId };
+        const filter = {
+            userId: new mongoose.Types.ObjectId(userId),
+            isDefault: false
+        };
 
-        // Si no eres el dueño, solo ves las públicas
         if (requesterId?.toString() !== userId) {
             filter.visibilidad = "publica";
         }
@@ -75,8 +79,13 @@ async function getListsByUser(req, res) {
         const lists = await List.find(filter);
         res.json(lists);
 
+        
+
     } catch (err) {
-        res.status(500).json({ error: "Error al obtener listas" });
+        console.error(err);
+        res.status(500).json({
+            error: "Error al obtener listas"
+        });
     }
 }
 

@@ -76,8 +76,21 @@ function renderizarCalendario() {
         const fechaCelda = `${año}-${mesString}-${diaString}`;
 
         const peliculasDelDia = misResenas.filter(resena => {
-            const fechaResena = resena.watchedAt ? new Date(resena.watchedAt) : new Date(resena.createdAt);
-            return fechaResena.toISOString().split('T')[0] === fechaCelda;
+            let fechaComparar = "";
+            
+            if (resena.watchedAt) {
+                // Si la fecha la pusiste tú en el calendario, tomamos el texto literal 'YYYY-MM-DD'
+                fechaComparar = resena.watchedAt.substring(0, 10);
+            } else {
+                // Si viene del createdAt de Mongo, la pasamos a tu hora local
+                const fechaCreacion = new Date(resena.createdAt);
+                const año = fechaCreacion.getFullYear();
+                const mes = String(fechaCreacion.getMonth() + 1).padStart(2, '0');
+                const dia = String(fechaCreacion.getDate()).padStart(2, '0');
+                fechaComparar = `${año}-${mes}-${dia}`;
+            }
+
+            return fechaComparar === fechaCelda;
         });
 
         let contenidoDia = `<span class="day-number">${dia}</span>`;

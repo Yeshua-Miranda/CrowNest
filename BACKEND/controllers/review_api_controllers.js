@@ -103,7 +103,7 @@ exports.getMovieReviews = async (req, res) => {
 
         // Buscamos los datos en mongodb
         const reviews = await Review.find(filtro)
-            .populate('userId', 'name email')
+            .populate('userId', 'name email profile_photo')
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(Number(limit));

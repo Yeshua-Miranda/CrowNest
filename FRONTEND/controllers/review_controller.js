@@ -83,21 +83,20 @@ let idResenaEnEdicion = null; // Variable para saber si estamos editando
 
 // Esta función se dispara al darle clic al botón "Editar" de tu tarjeta
 window.prepararEdicion = function(id, texto, rating) {
-    idResenaEnEdicion = id; // Guardamos el ID de la reseña a modificar
+    idResenaEnEdicion = id; 
     
-    // 1. Llenamos la caja de texto
+    // Llenamos la caja de texto
     document.getElementById('reviewTextInput').value = texto;
     
-    // 2. Simulamos el clic en la estrella correspondiente
+    
     const stars = document.querySelectorAll('#rating-review .fa-star');
     if(stars[rating - 1]) stars[rating - 1].click();
 
-    // 3. Cambiamos el texto de tu botón principal
+    // Cambiamos el texto de tu botón principal
     const btnSubmit = document.getElementById('btnSubmitReview');
     btnSubmit.innerHTML = 'Actualizar Reseña';
     
-    // 4. Subimos la pantalla suavemente hacia el formulario
-    window.scrollTo({ top: document.getElementById('div-review').offsetTop, behavior: 'smooth' });
+    window.scrollTo({ top: document.getElementById('movie_title').offsetTop, behavior: 'smooth' });
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -110,7 +109,13 @@ document.addEventListener("DOMContentLoaded", () => {
     
     let calificacionSeleccionada = 3; 
     
-    document.getElementById('watchedAtInput').valueAsDate = new Date();
+   const hoy = new Date();
+   const añoLocal = hoy.getFullYear();
+   const mesLocal = String(hoy.getMonth() + 1).padStart(2, '0');
+   const diaLocal = String(hoy.getDate()).padStart(2, '0');
+
+    // Ponemos el formato
+    document.getElementById('watchedAtInput').value = `${añoLocal}-${mesLocal}-${diaLocal}`;
 
     stars.forEach((star, index) => {
         star.style.cursor = 'pointer'; 
@@ -276,7 +281,9 @@ function renderReviews(reviews) {
 
         const otherUser = getOtherUser(review.userId._id || review.userId);
 
-        const avatarUrl = `assets/profiles/${otherUser.profile_photo || 1}.jpg`;
+        const numeroFoto = (review.userId && review.userId.profile_photo) ? review.userId.profile_photo : 1;
+        
+        const avatarUrl = `../assets/profiles/${numeroFoto}.jpg`;
         
         const fechaFormateada = new Date(review.createdAt).toLocaleDateString('es-MX');
 

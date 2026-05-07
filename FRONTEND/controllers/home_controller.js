@@ -60,9 +60,20 @@ async function cargarMiniCalendario() {
         const fechaCelda = `${año}-${mesString}-${diaString}`;
 
         // Verificamos si en este día viste/reseñaste algo
-        const peliculasDelDia = misResenas.filter(resena => {
-            const fechaResena = resena.watchedAt ? new Date(resena.watchedAt) : new Date(resena.createdAt);
-            return fechaResena.toISOString().split('T')[0] === fechaCelda;
+       const peliculasDelDia = misResenas.filter(resena => {
+            let fechaComparar = "";
+            
+            if (resena.watchedAt) {
+                fechaComparar = resena.watchedAt.substring(0, 10);
+            } else {
+                const fechaCreacion = new Date(resena.createdAt);
+                const año = fechaCreacion.getFullYear();
+                const mes = String(fechaCreacion.getMonth() + 1).padStart(2, '0');
+                const dia = String(fechaCreacion.getDate()).padStart(2, '0');
+                fechaComparar = `${año}-${mes}-${dia}`;
+            }
+
+            return fechaComparar === fechaCelda;
         });
 
         if (peliculasDelDia.length > 0) {

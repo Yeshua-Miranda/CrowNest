@@ -298,7 +298,7 @@ exports.getOtherUser = async (req, res) => {
         })
         .sort({ createdAt: -1 })
         .limit(3)
-        .select("movieTitle moviePoster rating reviewText createdAt");
+        .select("movieTitle moviePoster rating reviewText createdAt movieId");
 
         return res.json({
             user,

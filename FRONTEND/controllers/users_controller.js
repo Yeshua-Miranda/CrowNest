@@ -238,7 +238,9 @@ async function getPerfil(userId){
     }
 
 
-    let data = await(getOtherUser(userId)); 
+    let data = await(getOtherUser(userId));
+    document.querySelector(".gear").style.display = "none";
+ 
     let user = data.user;
     let favorites = data.favorites;
     let recentReviews = data.recentReviews;
@@ -274,6 +276,7 @@ async function getPerfil(userId){
         grid.innerHTML = "<p style='color:gray;'>Sin actividad reciente.</p>";
         return;
     }
+     console.log("review:", recentReviews[0]);
     recentReviews.slice(0, 4).forEach(review => {
         if (!review.moviePoster) return;
         const box = document.createElement("div");
@@ -283,7 +286,9 @@ async function getPerfil(userId){
                 <img class="poster" src="${USERS_IMG_URL}${review.moviePoster}" alt="${review.movieTitle}">
             </a>
         `;
+        
         grid.appendChild(box);
+       
     });
 
     //REviewa

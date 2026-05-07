@@ -51,7 +51,6 @@ async function updateUser(event) {
     const bodyData = Object.fromEntries(formData.entries());
 
     bodyData.public = document.getElementById('privacity').checked;
-
     try {
         const response = await fetch(route, {
             method: 'PUT',

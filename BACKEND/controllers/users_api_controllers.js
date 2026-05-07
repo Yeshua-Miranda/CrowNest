@@ -211,9 +211,11 @@ exports.getUsers = async (req, res) => {
 exports.updateUserInfo = async (req,res) => {
     try {
         const userId = req.user.id || req.user._id;
+
         if (req.body.password) {
             req.body.password = bcrypt.hashSync(req.body.password, 10);
         }
+
         const updatedUser = await User.findByIdAndUpdate(
             userId, 
             req.body, 
@@ -257,7 +259,6 @@ exports.getOtherUser = async (req, res) => {
         const requestedUserId = req.params.id;
         const currentUserId = req.user.id;
 
-
         if (!mongoose.Types.ObjectId.isValid(requestedUserId)) {
             return res.status(400).json({ msg: "ID inválido" });
         }
@@ -265,6 +266,7 @@ exports.getOtherUser = async (req, res) => {
         if (requestedUserId === currentUserId) {
             return res.status(400).json({ msg: "Usa tu perfil propio" });
         }
+        
 
         const user = await User.findById(requestedUserId)
             .select("name nick_name profile_photo banner_photo public");

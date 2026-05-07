@@ -276,7 +276,7 @@ async function getPerfil(userId){
         grid.innerHTML = "<p style='color:gray;'>Sin actividad reciente.</p>";
         return;
     }
-     console.log("review:", recentReviews[0]);
+    console.log("review:", recentReviews[0]);
     recentReviews.slice(0, 4).forEach(review => {
         if (!review.moviePoster) return;
         const box = document.createElement("div");
@@ -351,6 +351,35 @@ async function getPerfil(userId){
     }
     
 
+}
+
+async function guardarNickname() {
+    const token = sessionStorage.getItem('token');
+    const user = JSON.parse(sessionStorage.user);
+    const nick_name = document.getElementById('nick_name_field').value;
+
+    try {
+        const response = await fetch(`/users/${user.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token
+            },
+            body: JSON.stringify({ nick_name })
+        });
+
+        const result = await response.json();
+        if (!response.ok) {
+            alert(result.msg || "Error al actualizar");
+            return;
+        }
+
+        sessionStorage.setItem('user', JSON.stringify(result.user));
+        document.getElementById('username').innerText = nick_name;
+
+    } catch (err) {
+        console.error('Error:', err);
+    }
 }
 
 function friendPerfil(user,recom,reque,id){

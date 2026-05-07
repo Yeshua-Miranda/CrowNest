@@ -1,4 +1,4 @@
-const IMG_URL = ENV.TMDB_IMG_URL;
+const PROFILE_IMG_URL = ENV.TMDB_IMG_URL;
 
 async function cargarFavoritos() {
     const token = sessionStorage.getItem("token");
@@ -28,7 +28,7 @@ async function cargarFavoritos() {
             box.className = "movieBox";
             box.innerHTML = `
                 <a href="review.html?id=${peli.tmdbId}">
-                    <img class="poster" src="${IMG_URL}${peli.poster_path}" alt="${peli.titulo}">
+                    <img class="poster" src="${PROFILE_IMG_URL}${peli.poster_path}" alt="${peli.titulo}">
                 </a>
             `;
             container.appendChild(box);
@@ -113,7 +113,7 @@ async function cargarActividadReciente() {
             box.className = "movieBox";
             box.innerHTML = `
                 <a href="review.html?id=${review.movieId}">
-                    <img class="poster" src="${IMG_URL}${review.moviePoster}" alt="${review.movieTitle}">
+                    <img class="poster" src="${PROFILE_IMG_URL}${review.moviePoster}" alt="${review.movieTitle}">
                 </a>
             `;
             grid.appendChild(box);

@@ -35,7 +35,7 @@ async function createList(req, res) {
     try {
         const { nombre, descripcion, visibilidad } = req.body;
 
-        const userId = req.user.id; // 🔥 del token
+        const userId = req.user.id;
 
         if (!nombre || !visibilidad) {
             return res.status(400).json({ error: "nombre y visibilidad son requeridos" });

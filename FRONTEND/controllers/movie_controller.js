@@ -337,7 +337,8 @@ async function agregarAPelicula(listId) {
 
 const inputGenre = document.getElementById("customGenreInput");
 
-inputGenre.addEventListener("keypress", (e) => {
+if(inputGenre) {
+    inputGenre.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
         const value = inputGenre.value.toLowerCase().trim();
 
@@ -350,8 +351,13 @@ inputGenre.addEventListener("keypress", (e) => {
         }
     }
 });
+}
+
+
+
 document.addEventListener("click", (e) => {
     const container = document.getElementById("searchResults");
+    if (!container) return;
 
     if (!e.target.closest(".searchWrapper")) {
         container.style.display = "none";

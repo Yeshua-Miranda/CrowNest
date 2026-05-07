@@ -110,4 +110,55 @@ function setupNavbarSearch() {
     });
 }
 
+// agrega estas dos funciones en navbar_controller.js
+
+async function buscarPeliculas(query) {
+    try {
+        const res = await fetch(
+            `${ENV.TMDB_BASE_URL}/search/movie?api_key=${ENV.TMDB_API_KEY}&query=${encodeURIComponent(query)}&language=es-MX`
+        );
+        const data = await res.json();
+        return data.results;
+    } catch (err) {
+        console.error("Error buscando:", err);
+        return [];
+    }
+}
+
+function renderResultadosBusqueda(peliculas) {
+    const container = document.getElementById("searchResults");
+    if (!container) return;
+    container.innerHTML = "";
+
+    if (!peliculas || peliculas.length === 0) {
+        container.style.display = "none";
+        return;
+    }
+
+    container.style.display = "block";
+
+    peliculas.slice(0, 8).forEach(peli => {
+        const div = document.createElement("div");
+        div.classList.add("searchItem");
+
+        const poster = peli.poster_path
+            ? `https://image.tmdb.org/t/p/w92${peli.poster_path}`
+            : "../assets/img/no-poster.png";
+
+        div.innerHTML = `
+            <img src="${poster}">
+            <span>
+                <strong>${peli.title}</strong><br>
+                <small>${peli.release_date?.split("-")[0] || "Año desconocido"}</small>
+            </span>
+        `;
+
+        div.addEventListener("click", () => {
+            window.location.href = `review.html?id=${peli.id}`;
+        });
+
+        container.appendChild(div);
+    });
+}
+
 document.addEventListener("DOMContentLoaded", renderNavbar);

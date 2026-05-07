@@ -272,9 +272,11 @@ exports.getOtherUser = async (req, res) => {
             return res.status(400).json({ msg: "ID inválido" });
         }
 
+        /*
         if (requestedUserId === currentUserId) {
             return res.status(400).json({ msg: "Usa tu perfil propio" });
         }
+        */
         
 
         const user = await User.findById(requestedUserId)

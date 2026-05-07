@@ -1,5 +1,3 @@
-const IMG_URL = ENV.TMDB_IMG_URL;
-
 let selectedProfilePhoto = 1;
 let selectedBannerPhoto = 1;
 

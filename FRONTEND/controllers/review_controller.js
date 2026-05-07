@@ -273,7 +273,10 @@ function renderReviews(reviews) {
         const isMine = miId && autorId && (miId.toString() === autorId.toString());
 
         // Foto de avatar
-        const avatarUrl = "https://avatarfiles.alphacoders.com/365/thumb-1920-365380.png";
+
+        const otherUser = getOtherUser(review.userId._id || review.userId);
+
+        const avatarUrl = `assets/profiles/${otherUser.profile_photo || 1}.jpg`;
         
         const fechaFormateada = new Date(review.createdAt).toLocaleDateString('es-MX');
 

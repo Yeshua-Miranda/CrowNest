@@ -269,6 +269,7 @@ exports.deleteUserInfo = async (req,res) => {
         return res.json({ msg: "Cuenta de usuario eliminada correctamente" });
 
     } catch (err) {
+        console.log("Error al eliminar usuario:", err.message); 
         return res.status(500).json({ msg: "Error al eliminar el usuario", status: 500 });
     }
 }

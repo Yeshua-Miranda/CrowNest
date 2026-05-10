@@ -46,4 +46,18 @@ let userSchema = new mongoose.Schema({
     } 
 });
 
+userSchema.pre('findOneAndDelete', async function(next) {
+    const docToId = this.getQuery()._id;
+    const mongoose = require('mongoose');
+    
+    await mongoose.model('List').deleteMany({ userId: docToId });
+    await mongoose.model('Review').deleteMany({ userId: docToId });
+    await mongoose.model('User').updateMany(
+        {}, 
+        { $pull: { friends: docToId, friend_request: docToId } }
+    );
+    next();
+});
+
+
 module.exports = mongoose.model('User', userSchema);

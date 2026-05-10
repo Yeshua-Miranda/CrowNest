@@ -49,6 +49,16 @@
                         ¿No tienes una cuenta?
                         <a onclick="toggleForms()">Crea Cuenta</a>
                     </p>
+
+                    <div style="display: flex; align-items: center; justify-content: center; margin: 15px 0;">
+                        <span style="flex: 1; height: 1px; background-color: rgba(255, 255, 255, 0.2);"></span>
+                        <span style="color: rgba(255, 255, 255, 0.5); padding: 0 10px; font-size: 0.9em;">O</span>
+                        <span style="flex: 1; height: 1px; background-color: rgba(255, 255, 255, 0.2);"></span>
+                    </div>
+                    
+                    <button type="button" class="login-btn" style="background: transparent; border: 1px solid rgba(255,255,255,0.3); color: white;" onclick="entrarComoInvitado()">
+                        <i class="fa-solid fa-user-secret" style="margin-right: 8px;"></i> Entrar como Invitado
+                    </button>
                 </form>
 
                 <form id="registerForm" style="display: none;" action="" >
@@ -80,6 +90,7 @@
                         ¿Ya tienes una cuenta?
                         <a onclick="toggleForms()">Iniciar Sesión</a>
                     </p>
+
                 </form>
             </div>
         </main>

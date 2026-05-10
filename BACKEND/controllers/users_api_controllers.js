@@ -42,8 +42,12 @@ exports.registerUser = async (req, res) => {
             peliculas: []
         });
 
+        const payload = { id: savedUser._id, email: savedUser.email };
+        const token = jwt.sign(payload, secretKey, { expiresIn: '3h' });
+
         return res.json({
             msg: "Usuario registrado correctamente",
+            token: token,
             user: savedUser
         });
 

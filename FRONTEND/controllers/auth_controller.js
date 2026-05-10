@@ -57,3 +57,24 @@ async function init() {
 window.addEventListener('load', () => {
     init();
 });
+
+// =====================================
+// LÓGICA DE INVITADO
+// =====================================
+function entrarComoInvitado() {
+
+    sessionStorage.clear(); 
+    
+    const usuarioInvitado = {
+        name: "Invitado",
+        email: "invitado@cine.com",
+        isGuest: true
+    };
+
+    sessionStorage.setItem('user', JSON.stringify(usuarioInvitado));
+
+    window.location.href = ENV.BACKEND_URL + 'home.html';
+}
+
+// Hacemos la función global para que el botón de HTML la encuentre
+window.entrarComoInvitado = entrarComoInvitado;

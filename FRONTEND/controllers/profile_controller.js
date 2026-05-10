@@ -248,6 +248,26 @@ async function cargarPerfil() {
     const userId = params.get("userId");
     console.log("userId en URL:", userId);  
 
+    // Extraemos el user
+    const userStorage = sessionStorage.getItem("user");
+    const user = userStorage ? JSON.parse(userStorage) : null;
+
+    if (user && user.isGuest && !userId) {
+        
+        document.querySelector(".hero").style.display = "none";
+        document.getElementById("page").style.display = "none";
+        document.getElementById("friends-box-vis").style.display = "none";
+
+        const mainArea = document.querySelector("main");
+        mainArea.innerHTML = `
+            <div style="text-align: center; margin-top: 100px; color: white;">
+                <i class="fa-solid fa-user-secret" style="font-size: 4rem; color: gray; margin-bottom: 20px;"></i>
+                <h2>Modo Invitado</h2>
+                <p style="color: gray; margin-bottom: 20px;">Inicia sesión o regístrate para tener tu propio perfil, guardar favoritos y agregar amigos.</p>
+                <button class="btn" style="background-color: #6f42c1; color: white; border: none; padding: 10px 20px; border-radius: 8px;" onclick="sessionStorage.clear(); window.location.href='../login.html'">Iniciar Sesión</button>
+        `;
+        return;
+    }
 
     if (!userId) {
         // Perfil propio

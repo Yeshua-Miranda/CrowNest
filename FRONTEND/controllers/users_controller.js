@@ -7,18 +7,34 @@ async function register(){
     let data = new FormData(event.target);
 
     try{
-        const user = await fetch('/users', {
+        const response = await fetch('/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(Object.fromEntries(data.entries()))
-        })
-        if (!user.ok) {
-            alert(user.statusText);
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            alert(errorData.msg || response.statusText);
             return;
         }
-        toggleForms();
+        
+        const resData = await response.json(); 
+        
+        if (resData.token && resData.user) {
+          
+            sessionStorage.setItem('user', JSON.stringify(resData.user));
+            sessionStorage.setItem('token', resData.token);
+            
+           
+            window.location.href = ENV.BACKEND_URL + 'home.html';
+        } else {
+            alert("Cuenta creada con éxito. Por favor inicia sesión.");
+            toggleForms();
+        }
+
     } catch(err){
         console.error('Error en register:', err);
     }

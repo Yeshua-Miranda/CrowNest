@@ -225,14 +225,27 @@ async function fetchMovieReviews(page = 1, rating = 'Todas') {
             const userStorage = sessionStorage.getItem('user');
             if (userStorage && userStorage !== "undefined") {
                 const user = JSON.parse(userStorage);
+
+                if (user.isGuest) {
+                    alert("Crea una cuenta para empezar a guardar tus propias reseñas.");
+                    return; 
+                }
                 const idAutor = user._id || user.id; 
                 if (idAutor) url += `&autor=${idAutor}`; 
             }
         } 
         else if (rating === 'Amigos') {
             const userStorage = sessionStorage.getItem('user');
+
             if (userStorage && userStorage !== "undefined") {
+
                 const user = JSON.parse(userStorage);
+
+                if (user.isGuest) {
+                    alert("Crea una cuenta para agregar amigos y ver sus reseñas.");
+                    return;
+                }
+
                 const idUsuarioActual = user._id || user.id; 
                 if (idUsuarioActual) url += `&amigosDe=${idUsuarioActual}`; 
             } else {

@@ -1,4 +1,6 @@
 const Review = require('../models/review.js');
+const User = require('../models/user.js');
+const mongoose = require('mongoose');
 
 exports.createReview = async (req, res) => {
     try {
@@ -81,34 +83,43 @@ exports.deleteReview = async (req, res) => {
     }
 };
 
-
 exports.getMovieReviews = async (req, res) => {
     try {
         const movieId = req.params.movieId;
-        // Paginación y filtro de estrellas vienen por query params
-        const { page = 1, limit = 5, rating, autor } = req.query; 
+        const { page = 1, limit = 5, rating, autor, amigosDe } = req.query; 
 
         let filtro = { movieId: movieId };
 
-        // filtrar por estrella
-        if (rating && rating !== "Todas" && rating !== "Amigos" && rating !== "Mias") {
-            filtro.rating = Number(rating);
+        if (amigosDe) {
+            const usuarioActual = await User.findById(amigosDe);
+            
+            if (usuarioActual && usuarioActual.friends && usuarioActual.friends.length > 0) {
+                // Convertimos los Strings a ObjectIds reales de Mongo
+                const amigosIds = usuarioActual.friends.map(id => new mongoose.Types.ObjectId(id));
+                filtro.userId = { $in: amigosIds };
+            } else {
+                // Si no tiene amigos, forzamos un ID que no exista para que no traiga nada
+                filtro.userId = new mongoose.Types.ObjectId(); 
+            }
+        } 
+        
+        else if (autor) {
+            filtro.userId = new mongoose.Types.ObjectId(autor);
         }
-
-        if (autor) {
-            filtro.userId = autor;
+        
+      
+        if (rating && !["Todas", "Amigos", "Mias"].includes(rating)) {
+            filtro.rating = Number(rating);
         }
 
         const skip = (page - 1) * limit;
 
-        // Buscamos los datos en mongodb
         const reviews = await Review.find(filtro)
             .populate('userId', 'name email profile_photo')
             .sort({ createdAt: -1 })
             .skip(skip)
             .limit(Number(limit));
 
-        
         const totalReviews = await Review.countDocuments(filtro);
 
         return res.json({
@@ -119,6 +130,8 @@ exports.getMovieReviews = async (req, res) => {
         });
 
     } catch (err) {
-        return res.status(500).json({ msg: "Error al obtener reseñas de la película", status: 500 });
+        console.error("ERROR CRÍTICO:", err);
+        return res.status(500).json({ msg: "Error en el servidor", status: 500 });
     }
 };
+

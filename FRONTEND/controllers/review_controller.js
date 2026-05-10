@@ -213,6 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
 let currentPage = 1;
 let currentRating = 'Todas';
 
+
 async function fetchMovieReviews(page = 1, rating = 'Todas') {
     if (!movieId) return;
 
@@ -220,41 +221,35 @@ async function fetchMovieReviews(page = 1, rating = 'Todas') {
         let url = `/reviews/pelicula/${movieId}?page=${page}&limit=5`;
 
         if (rating === 'Mias') {
+
             const userStorage = sessionStorage.getItem('user');
             if (userStorage && userStorage !== "undefined") {
                 const user = JSON.parse(userStorage);
-                
                 const idAutor = user._id || user.id; 
-                
-                if (idAutor) {
-                    url += `&autor=${idAutor}`; 
-                } else {
-                    console.error("No se encontró el ID del usuario en la sesión.");
-                }
+                if (idAutor) url += `&autor=${idAutor}`; 
             }
-        } else if( rating === 'Amigos') {
+        } 
+        else if (rating === 'Amigos') {
             const userStorage = sessionStorage.getItem('user');
             if (userStorage && userStorage !== "undefined") {
                 const user = JSON.parse(userStorage);
-                const idUsuario = user._id || user.id;
-
-                if (idUsuario) {
-                    url += `&rating=Amigos&autor=${idUsuario}`; 
-                } else {
-                    alert("No se encontró el ID del usuario en la sesión.");
-                }
+                const idUsuarioActual = user._id || user.id; 
+                if (idUsuarioActual) url += `&amigosDe=${idUsuarioActual}`; 
+            } else {
+                alert("Debes iniciar sesión para ver las reseñas de tus amigos.");
+                return; 
             }
+        } 
+        else if (rating !== 'Todas') {
 
-        } else if (rating !== 'Todas') {
             url += `&rating=${rating}`;
         }
 
-        const response = await fetch(url);
+        const response = await fetch('http://localhost:3000' + url);
         
         if (response.ok) {
             const data = await response.json();
             renderReviews(data.reviews);
-            
             renderPagination(data.totalPages, data.currentPage);
         } else {
             console.error("Error al cargar reseñas");
@@ -263,6 +258,8 @@ async function fetchMovieReviews(page = 1, rating = 'Todas') {
         console.error("Error de conexión:", error);
     }
 }
+
+
 
 async function renderReviews(reviews) {
     const container = document.getElementById('reviews');

@@ -248,7 +248,6 @@ async function cargarPerfil() {
     const userId = params.get("userId");
     console.log("userId en URL:", userId);  
 
-
     if (!userId) {
         // Perfil propio
         cargarFavoritos();
@@ -256,7 +255,6 @@ async function cargarPerfil() {
         cargarListasPerfil();
         cargarActividadReciente();
     } else {
-        // Perfil ajeno — solo listas públicas, sin endpoints privados
         getPerfil(userId);
        
     }

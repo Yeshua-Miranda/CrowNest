@@ -76,7 +76,7 @@ async function updateUser(event) {
         const result = await response.json();
         sessionStorage.setItem('user', JSON.stringify(result.user));
         alert("Perfil actualizado con éxito");
-        init(); 
+        initProfile(); 
 
     } catch (err) {
         console.error('Error en updateUser:', err);
@@ -136,7 +136,7 @@ async function updateUserPhotos() {
         const modal = bootstrap.Modal.getInstance(document.getElementById('modalUpdatePhotos'));
         modal.hide();
         
-        init(); 
+        initProfile();
 
     } catch (err) {
         console.error('Error:', err);
@@ -416,8 +416,6 @@ function friendPerfil(user,recom,reque,id){
     img.alt = user.name;
     img.src =  `assets/profiles/${user.profile_photo || 1}.jpg`;
     img.addEventListener('click', () => {
-        console.log(user);
-        console.log(user._id);
         getPerfil(user._id);
     })
     a.append(img);
@@ -533,6 +531,7 @@ async function processRequest(requestId, actionType) {
 }
 
 async function initProfile() {
+    console.log("Initializing profile...");
     let user = JSON.parse(sessionStorage.user);
     let avatar = document.getElementById('avatar');
     const photoId = user.profile_photo || 1;

@@ -47,6 +47,7 @@ function logout(){
     window.location.href = ENV.BACKEND_URL;
 }
 
+/*
 async function init() {
     const currentUrl = window.location.href;
     if(currentUrl === ENV.BACKEND_URL + 'profile.html'){
@@ -57,3 +58,4 @@ async function init() {
 window.addEventListener('load', () => {
     init();
 });
+*/

@@ -225,19 +225,30 @@ exports.updateUserInfo = async (req,res) => {
             req.body.password = bcrypt.hashSync(req.body.password, 10);
         }
 
+        const currentUser = await User.findById(userId);
+        if (!currentUser) {
+            return res.status(404).json({ msg: "Usuario no encontrado", status: 404 });
+        }
+
+        if (req.body.password) {
+            const isSamePassword = bcrypt.compareSync(req.body.password, currentUser.password);
+
+            if (isSamePassword) {
+                delete req.body.password;
+            } else {
+                req.body.password = bcrypt.hashSync(req.body.password, 10);
+            }
+        }
+
         const updatedUser = await User.findByIdAndUpdate(
             userId, 
             req.body, 
             { new: true, runValidators: true }
         ).select("-password"); 
 
-        if (!updatedUser) {
-            return res.status(404).json({ msg: "Usuario no encontrado", status: 404 });
-        }
-        const user = await User.findOne({ _id: userId });
         return res.json({
             msg: "Perfil actualizado correctamente",
-            user: user
+            user: updatedUser 
         });
 
     } catch (err) {
@@ -279,7 +290,6 @@ exports.getOtherUser = async (req, res) => {
         }
         */
         
-
         const user = await User.findById(requestedUserId)
             .select("name nick_name profile_photo banner_photo public");
 

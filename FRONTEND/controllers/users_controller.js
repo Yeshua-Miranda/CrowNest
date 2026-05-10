@@ -295,6 +295,8 @@ async function getPerfil(userId){
     let userText = document.getElementById('userText');
     userText.innerText = user.name;
 
+    etiquetaUsuario(userId);
+
     const container = document.querySelector(".pestaña:nth-child(3)");
     const oldGrid = container.querySelector(".recommendations");
     if (oldGrid) oldGrid.remove();
@@ -545,6 +547,41 @@ async function processRequest(requestId, actionType) {
     }
 }
 
+async function etiquetaUsuario(userId) {
+    const token = sessionStorage.getItem("token");
+
+    const respuesta = await fetch('/reviews/mis-resenas', {
+        headers: { 'Authorization': token }
+    });
+    console.log("Respuesta de mis reseñas:", respuesta);
+
+    if (!respuesta.ok) {
+        console.error("Error al cargar reseñas para el calendario");
+        return;
+    }
+    
+    const reseñasBackend = await respuesta.json();
+    let num_etiquetas = reseñasBackend.length;
+    let badge = document.getElementById('user_badge');
+
+    if (num_etiquetas >= 50) {
+        badge.innerText = "Cinefilo Legendario";
+        badge.className = "badge bg-danger";
+    } else if (num_etiquetas >= 30) {
+        badge.innerText = "Cinefilo Experto";
+        badge.className = "badge bg-warning text-dark";
+    } else if (num_etiquetas >= 10) {
+        badge.innerText = "Cinefilo Intermedio";
+        badge.className = "badge bg-info text-dark";
+    } else if (num_etiquetas >= 5) {
+        badge.innerText = "Cinefilo Novato";
+        badge.className = "badge bg-secondary";
+    } else {
+        badge.innerText = "Cinefilo en Pañales";
+        badge.className = "badge bg-dark";
+    }
+}
+
 async function initProfile() {
     console.log("Initializing profile...");
     let user = JSON.parse(sessionStorage.user);
@@ -568,6 +605,7 @@ async function initProfile() {
     num_friends.innerText = "(" + user.friends.length + ")";
 
     populeteFriends();
+    etiquetaUsuario(user._id);
 
     if(user.public){
         kind_profile.innerText = "Publico";

@@ -232,7 +232,20 @@ async function fetchMovieReviews(page = 1, rating = 'Todas') {
                     console.error("No se encontró el ID del usuario en la sesión.");
                 }
             }
-        } else if (rating !== 'Todas' && rating !== 'Amigos') {
+        } else if( rating === 'Amigos') {
+            const userStorage = sessionStorage.getItem('user');
+            if (userStorage && userStorage !== "undefined") {
+                const user = JSON.parse(userStorage);
+                const idUsuario = user._id || user.id;
+
+                if (idUsuario) {
+                    url += `&rating=Amigos&autor=${idUsuario}`; 
+                } else {
+                    alert("No se encontró el ID del usuario en la sesión.");
+                }
+            }
+
+        } else if (rating !== 'Todas') {
             url += `&rating=${rating}`;
         }
 

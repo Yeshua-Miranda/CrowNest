@@ -45,10 +45,13 @@ exports.registerUser = async (req, res) => {
         const payload = { id: savedUser._id, email: savedUser.email };
         const token = jwt.sign(payload, secretKey, { expiresIn: '3h' });
 
+        const payload = { id: savedUser._id, email: savedUser.email };
+        const token = jwt.sign(payload, secretKey, { expiresIn: '3h' });
         return res.json({
             msg: "Usuario registrado correctamente",
             token: token,
             user: savedUser
+            
         });
 
     } catch (err) {
@@ -225,8 +228,19 @@ exports.updateUserInfo = async (req,res) => {
     try {
         const userId = req.user.id || req.user._id;
 
+        const currentUser = await User.findById(userId);
+        if (!currentUser) {
+            return res.status(404).json({ msg: "Usuario no encontrado", status: 404 });
+        }
+
         if (req.body.password) {
-            req.body.password = bcrypt.hashSync(req.body.password, 10);
+            const isSamePassword = bcrypt.compareSync(req.body.password, currentUser.password);
+
+            if (isSamePassword) {
+                delete req.body.password;
+            } else {
+                req.body.password = bcrypt.hashSync(req.body.password, 10);
+            }
         }
 
         const updatedUser = await User.findByIdAndUpdate(
@@ -235,13 +249,9 @@ exports.updateUserInfo = async (req,res) => {
             { new: true, runValidators: true }
         ).select("-password"); 
 
-        if (!updatedUser) {
-            return res.status(404).json({ msg: "Usuario no encontrado", status: 404 });
-        }
-        const user = await User.findOne({ _id: userId });
         return res.json({
             msg: "Perfil actualizado correctamente",
-            user: user
+            user: updatedUser 
         });
 
     } catch (err) {
@@ -263,6 +273,7 @@ exports.deleteUserInfo = async (req,res) => {
         return res.json({ msg: "Cuenta de usuario eliminada correctamente" });
 
     } catch (err) {
+        console.log("Error al eliminar usuario:", err.message); 
         return res.status(500).json({ msg: "Error al eliminar el usuario", status: 500 });
     }
 }
@@ -283,7 +294,6 @@ exports.getOtherUser = async (req, res) => {
         }
         */
         
-
         const user = await User.findById(requestedUserId)
             .select("name nick_name profile_photo banner_photo public");
 

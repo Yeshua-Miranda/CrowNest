@@ -2,6 +2,7 @@
 //const BASE_URL = ENV.TMDB_BASE_URL;
 //const IMG_URL = ENV.TMDB_IMG_URL;
 
+
 let peliculaActualTMDB = null; 
 let esFavorita = false;
 let listaFavoritosId = null;
@@ -308,13 +309,13 @@ async function renderReviews(reviews) {
         
         const fechaFormateada = new Date(review.createdAt).toLocaleDateString('es-MX');
 
-        let id_user = review.userId._id;
+        const id_user = review.userId._id || review.userId; 
 
         console.log("ID del autor de la reseña:", id_user);
-
-        const enlacePerfil = autorId 
-                ? `<a onclick="getPerfil(${id_user})" style="color: white; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${userName}</a>` 
-                : userName;
+        
+        const enlacePerfil = id_user 
+            ? `<a onclick="getPerfil('${id_user}')" style="color: white; cursor: pointer; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${userName}</a>` 
+            : userName;
 
         const botonesAccion = isMine ? 
             `<div class="mt-2">

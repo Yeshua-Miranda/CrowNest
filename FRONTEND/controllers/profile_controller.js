@@ -276,7 +276,6 @@ async function cargarPerfil() {
         cargarListasPerfil();
         cargarActividadReciente();
     } else {
-        // Perfil ajeno — solo listas públicas, sin endpoints privados
         getPerfil(userId);
        
     }

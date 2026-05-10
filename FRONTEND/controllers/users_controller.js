@@ -46,7 +46,7 @@ if (registerForm) registerForm.addEventListener("submit", register);
 function populateModal(){
     document.getElementById('name_field').value = JSON.parse(sessionStorage.user).name;
     document.getElementById('email_field').value = JSON.parse(sessionStorage.user).email;
-    document.getElementById('password_field').value = JSON.parse(sessionStorage.user).password;
+    //document.getElementById('password_field').value = JSON.parse(sessionStorage.user).password;
     document.getElementById('privacity').checked = JSON.parse(sessionStorage.user).public;
 }
 
@@ -66,6 +66,10 @@ async function updateUser(event) {
     const form = document.getElementById('formEdit');
     const formData = new FormData(form);
     const bodyData = Object.fromEntries(formData.entries());
+
+    if (!bodyData.password || bodyData.password.trim() === "") {
+        delete bodyData.password;
+    }
 
     bodyData.public = document.getElementById('privacity').checked;
     try {
@@ -87,7 +91,7 @@ async function updateUser(event) {
         const result = await response.json();
         sessionStorage.setItem('user', JSON.stringify(result.user));
         alert("Perfil actualizado con éxito");
-        init(); 
+        initProfile(); 
 
     } catch (err) {
         console.error('Error en updateUser:', err);
@@ -147,7 +151,7 @@ async function updateUserPhotos() {
         const modal = bootstrap.Modal.getInstance(document.getElementById('modalUpdatePhotos'));
         modal.hide();
         
-        init(); 
+        initProfile();
 
     } catch (err) {
         console.error('Error:', err);
@@ -225,6 +229,7 @@ async function friendRecom(type){
 }
 
 async function populeteFriends() {
+    console.log("Populating friends and recommendations...");
     let user = JSON.parse(sessionStorage.user);
     let recom = await friendRecom(1);
 
@@ -247,15 +252,27 @@ async function populeteFriends() {
 }
 
 async function getPerfil(userId){
-    const targetUrl = ENV.BACKEND_URL + 'profile.html?userId=' + userId;
-    if(window.location.href !== targetUrl) {
+    const targetUrl = `profile.html?userId=${userId}`;
+    
+    if (!window.location.pathname.includes('profile.html')) {
         window.location.href = targetUrl;
         return;
     }
 
-    let data = await(getOtherUser(userId));
-    document.querySelector(".gear").style.display = "none";
- 
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('userId') !== userId) {
+        window.location.href = targetUrl;
+        return;
+    }
+
+    let data = await getOtherUser(userId);
+    if (!data) return;
+
+    const currentUser = JSON.parse(sessionStorage.user);
+    if (userId !== currentUser._id && userId !== currentUser.id) {
+        if(document.querySelector(".gear")) document.querySelector(".gear").style.display = "none";
+    }
+
     let user = data.user;
     let favorites = data.favorites;
     let recentReviews = data.recentReviews;
@@ -264,15 +281,14 @@ async function getPerfil(userId){
     box_friends.style.display = 'none';
 
     let avatar = document.getElementById('avatar');
-    const photoId = user.profile_photo || 1;
-    avatar.src = `assets/profiles/${photoId}.jpg`;
+    avatar.src = `assets/profiles/${user.profile_photo || 1}.jpg`;
 
     let banner = document.getElementById('banner');
     const bannerId = user.banner_photo || 1;
     banner.style.backgroundImage = `url('assets/banners/${bannerId}.jpg')`;
 
     let username = document.getElementById('username');
-    username.innerText = user.nick_name?user.nick_name:user.name;
+    username.innerText = user.nick_name || user.name;
     let emailText = document.getElementById('emailText');
     emailText.innerText = user.email;
     let kind_profile = document.getElementById('kind-profile');
@@ -286,7 +302,6 @@ async function getPerfil(userId){
     grid.className = "recommendations";
     container.appendChild(grid);
 
-    //Reviews
     if (recentReviews.length === 0) {
         grid.innerHTML = "<p style='color:gray;'>Sin actividad reciente.</p>";
         return;
@@ -306,7 +321,6 @@ async function getPerfil(userId){
        
     });
 
-    //REviewa
     const container2 = document.getElementById("reviews");
     container2.innerHTML = "";
     if (recentReviews.length === 0) {
@@ -326,7 +340,6 @@ async function getPerfil(userId){
         `;
     });
 
-    //Favoritos
     const container3 = document.querySelector(".recommendations");
     container3.innerHTML = "";
     if (favorites.length === 0) {
@@ -368,6 +381,18 @@ async function getPerfil(userId){
 
 }
 
+window.addEventListener('load', () => {
+    const params = new URLSearchParams(window.location.search);
+    const userIdParam = params.get('userId');
+
+    if (userIdParam) {
+        getPerfil(userIdParam);
+    } 
+    else if (window.location.pathname.includes('profile.html')) {
+        initProfile(); 
+    }
+});
+
 async function guardarNickname() {
     const token = sessionStorage.getItem('token');
     const user = JSON.parse(sessionStorage.user);
@@ -406,8 +431,6 @@ function friendPerfil(user,recom,reque,id){
     img.alt = user.name;
     img.src =  `assets/profiles/${user.profile_photo || 1}.jpg`;
     img.addEventListener('click', () => {
-        console.log(user);
-        console.log(user._id);
         getPerfil(user._id);
     })
     a.append(img);
@@ -523,6 +546,7 @@ async function processRequest(requestId, actionType) {
 }
 
 async function initProfile() {
+    console.log("Initializing profile...");
     let user = JSON.parse(sessionStorage.user);
     let avatar = document.getElementById('avatar');
     const photoId = user.profile_photo || 1;

@@ -77,7 +77,7 @@ async function updateUser(event) {
         console.error('Error en updateUser:', err);
         alert("Ocurrió un error de red");
     }
-}
+} 
 
 window.addEventListener('load', () => {
     const formEdit = document.getElementById("formEdit");
@@ -154,7 +154,7 @@ async function deleteUser() {
     event.preventDefault();
     const token = sessionStorage.getItem('token'); 
     let user = JSON.parse(sessionStorage.user);
-    let route = '/users/' + user.id;
+    let route = '/users/' + user._id;
 
     try {
         const response = await fetch(route, {
@@ -225,7 +225,7 @@ async function populeteFriends() {
     let request = await friendRecom(3);
 
     for(const r of request){
-        friendPerfil(r,true,true,"container-requests");
+        friendPerfil(r,false,true,"container-requests");
     }
 
 }
@@ -236,7 +236,6 @@ async function getPerfil(userId){
         window.location.href = targetUrl;
         return;
     }
-
 
     let data = await(getOtherUser(userId));
     document.querySelector(".gear").style.display = "none";
@@ -410,13 +409,6 @@ function friendPerfil(user,recom,reque,id){
         })
         a.append(btn);
     } else if (reque){
-        let btn = document.createElement('button');
-        btn.classList.add('boton-review');
-        btn.innerText = 'Agregar';
-        btn.addEventListener('click', () => {
-            handleAddFriend(user._id);
-        })
-        a.append(btn);
         let btn1 = document.createElement('button');
         btn1.classList.add('boton-review');
         btn1.innerText = 'Aceptar';
@@ -430,7 +422,7 @@ function friendPerfil(user,recom,reque,id){
         btn2.addEventListener('click', () => {
             processRequest(user._id, 'reject');
         })
-        a.append(btn1);
+        a.append(btn2);
     }
 
     box.append(a);

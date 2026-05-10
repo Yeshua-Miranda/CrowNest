@@ -17,7 +17,7 @@ exports.registerUser = async (req, res) => {
                 status: 401
             });
         } 
-
+ 
         let cryptPass = bcrypt.hashSync(req.body.password, 10);
 
         const newUser = new User({
@@ -246,6 +246,7 @@ exports.updateUserInfo = async (req,res) => {
 }
 
 exports.deleteUserInfo = async (req,res) => {
+    console.log("Intentando eliminar usuario con ID:", req.params.id);
     try {
         const userId = req.params.id;
 

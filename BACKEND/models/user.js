@@ -43,7 +43,7 @@ let userSchema = new mongoose.Schema({
     banner_photo: {
         type: Number,
         default: 1
-    }
+    } 
 });
 
 module.exports = mongoose.model('User', userSchema);

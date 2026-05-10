@@ -1,6 +1,6 @@
-const API_KEY = ENV.TMDB_API_KEY;
-const BASE_URL = ENV.TMDB_BASE_URL;
-const IMG_URL = ENV.TMDB_IMG_URL;
+//const API_KEY = ENV.TMDB_API_KEY;
+//const BASE_URL = ENV.TMDB_BASE_URL;
+//const IMG_URL = ENV.TMDB_IMG_URL;
 
 let peliculaActualTMDB = null; 
 let esFavorita = false;
@@ -264,7 +264,7 @@ async function fetchMovieReviews(page = 1, rating = 'Todas') {
     }
 }
 
-function renderReviews(reviews) {
+async function renderReviews(reviews) {
     const container = document.getElementById('reviews');
     container.innerHTML = ''; // Limpiamos la pantalla
 
@@ -277,7 +277,7 @@ function renderReviews(reviews) {
     // Sacamos al usuario
     const currentUser = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : null;
 
-    reviews.forEach(review => {
+    for (const review of reviews) {
         
         const estrellasLlenas = '★'.repeat(review.rating);
         const estrellasVacias = '☆'.repeat(5 - review.rating);
@@ -292,16 +292,18 @@ function renderReviews(reviews) {
 
         // Foto de avatar
 
-        const otherUser = getOtherUser(review.userId._id || review.userId);
-
         const numeroFoto = (review.userId && review.userId.profile_photo) ? review.userId.profile_photo : 1;
         
         const avatarUrl = `../assets/profiles/${numeroFoto}.jpg`;
         
         const fechaFormateada = new Date(review.createdAt).toLocaleDateString('es-MX');
 
+        let id_user = review.userId._id;
+
+        console.log("ID del autor de la reseña:", id_user);
+
         const enlacePerfil = autorId 
-                ? `<a href="profile.html?id=${autorId}" style="color: white; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${userName}</a>` 
+                ? `<a onclick="getPerfil(${id_user})" style="color: white; text-decoration: none;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${userName}</a>` 
                 : userName;
 
         const botonesAccion = isMine ? 
@@ -327,7 +329,7 @@ function renderReviews(reviews) {
         `;
         
         container.innerHTML += reviewHTML; 
-    });
+    }
 }
 
 function setupFilters() {

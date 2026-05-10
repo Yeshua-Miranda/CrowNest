@@ -7,18 +7,23 @@ async function register(){
     let data = new FormData(event.target);
 
     try{
-        const user = await fetch('/users', {
+        const response = await fetch('/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(Object.fromEntries(data.entries()))
         })
-        if (!user.ok) {
-            alert(user.statusText);
+        if (!response.ok) {
+            alert(response.statusText);
             return;
         }
-        toggleForms();
+        
+        const resData = await response.json(); 
+        sessionStorage.setItem('user', JSON.stringify(resData.user));
+        sessionStorage.setItem('token', resData.token);
+        console.log(resData.token);
+        window.location.href = ENV.BACKEND_URL + 'home.html';
     } catch(err){
         console.error('Error en register:', err);
     }
@@ -209,6 +214,7 @@ async function friendRecom(type){
 }
 
 async function populeteFriends() {
+    console.log("Populating friends and recommendations...");
     let user = JSON.parse(sessionStorage.user);
     let recom = await friendRecom(1);
 

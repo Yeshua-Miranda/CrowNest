@@ -430,11 +430,15 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 300);
     }); 
     }
-    loadPopularMovies();
-    loadRatedMovies();
-    loadMoviesByGenreDefault();
-    setupTags();
-    loadUserRatedMovies();
+
+    const currentUrl = window.location.href;
+    if(currentUrl === ENV.BACKEND_URL + 'movie.html'){
+        loadPopularMovies();
+        loadRatedMovies();
+        loadMoviesByGenreDefault();
+        setupTags();
+        loadUserRatedMovies();
+    }
 
 });
 

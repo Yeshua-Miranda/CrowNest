@@ -23,4 +23,4 @@ routerUsers.put('/:id',usersControllers.updateUserInfo);
 
 routerUsers.delete('/:id',usersControllers.deleteUserInfo);
 
-module.exports = routerUsers;  
+module.exports = routerUsers;   

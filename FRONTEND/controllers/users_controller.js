@@ -154,7 +154,7 @@ async function deleteUser() {
     event.preventDefault();
     const token = sessionStorage.getItem('token'); 
     let user = JSON.parse(sessionStorage.user);
-    let route = '/users/' + user.id;
+    let route = '/users/' + user._id;
 
     try {
         const response = await fetch(route, {

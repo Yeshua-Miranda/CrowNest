@@ -46,7 +46,7 @@ let userSchema = new mongoose.Schema({
     } 
 });
 
-userSchema.pre('findOneAndDelete', async function(next) {
+userSchema.pre('findOneAndDelete', async function() {
     const docToId = this.getQuery()._id;
     const mongoose = require('mongoose');
     
@@ -56,7 +56,6 @@ userSchema.pre('findOneAndDelete', async function(next) {
         {}, 
         { $pull: { friends: docToId, friend_request: docToId } }
     );
-    next();
 });
 
 

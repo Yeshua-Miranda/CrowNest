@@ -45,8 +45,6 @@ exports.registerUser = async (req, res) => {
         const payload = { id: savedUser._id, email: savedUser.email };
         const token = jwt.sign(payload, secretKey, { expiresIn: '3h' });
 
-        const payload = { id: savedUser._id, email: savedUser.email };
-        const token = jwt.sign(payload, secretKey, { expiresIn: '3h' });
         return res.json({
             msg: "Usuario registrado correctamente",
             token: token,

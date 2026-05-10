@@ -35,7 +35,7 @@ if (registerForm) registerForm.addEventListener("submit", register);
 function populateModal(){
     document.getElementById('name_field').value = JSON.parse(sessionStorage.user).name;
     document.getElementById('email_field').value = JSON.parse(sessionStorage.user).email;
-    document.getElementById('password_field').value = JSON.parse(sessionStorage.user).password;
+    //document.getElementById('password_field').value = JSON.parse(sessionStorage.user).password;
     document.getElementById('privacity').checked = JSON.parse(sessionStorage.user).public;
 }
 
@@ -55,6 +55,10 @@ async function updateUser(event) {
     const form = document.getElementById('formEdit');
     const formData = new FormData(form);
     const bodyData = Object.fromEntries(formData.entries());
+
+    if (!bodyData.password || bodyData.password.trim() === "") {
+        delete bodyData.password;
+    }
 
     bodyData.public = document.getElementById('privacity').checked;
     try {

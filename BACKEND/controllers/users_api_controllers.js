@@ -224,10 +224,6 @@ exports.updateUserInfo = async (req,res) => {
     try {
         const userId = req.user.id || req.user._id;
 
-        if (req.body.password) {
-            req.body.password = bcrypt.hashSync(req.body.password, 10);
-        }
-
         const currentUser = await User.findById(userId);
         if (!currentUser) {
             return res.status(404).json({ msg: "Usuario no encontrado", status: 404 });

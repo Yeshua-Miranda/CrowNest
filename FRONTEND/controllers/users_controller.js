@@ -231,15 +231,27 @@ async function populeteFriends() {
 }
 
 async function getPerfil(userId){
-    const targetUrl = ENV.BACKEND_URL + 'profile.html?userId=' + userId;
-    if(window.location.href !== targetUrl) {
+    const targetUrl = `profile.html?userId=${userId}`;
+    
+    if (!window.location.pathname.includes('profile.html')) {
         window.location.href = targetUrl;
         return;
     }
 
-    let data = await(getOtherUser(userId));
-    document.querySelector(".gear").style.display = "none";
- 
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('userId') !== userId) {
+        window.location.href = targetUrl;
+        return;
+    }
+
+    let data = await getOtherUser(userId);
+    if (!data) return;
+
+    const currentUser = JSON.parse(sessionStorage.user);
+    if (userId !== currentUser._id && userId !== currentUser.id) {
+        if(document.querySelector(".gear")) document.querySelector(".gear").style.display = "none";
+    }
+
     let user = data.user;
     let favorites = data.favorites;
     let recentReviews = data.recentReviews;
@@ -248,15 +260,14 @@ async function getPerfil(userId){
     box_friends.style.display = 'none';
 
     let avatar = document.getElementById('avatar');
-    const photoId = user.profile_photo || 1;
-    avatar.src = `assets/profiles/${photoId}.jpg`;
+    avatar.src = `assets/profiles/${user.profile_photo || 1}.jpg`;
 
     let banner = document.getElementById('banner');
     const bannerId = user.banner_photo || 1;
     banner.style.backgroundImage = `url('assets/banners/${bannerId}.jpg')`;
 
     let username = document.getElementById('username');
-    username.innerText = user.nick_name?user.nick_name:user.name;
+    username.innerText = user.nick_name || user.name;
     let emailText = document.getElementById('emailText');
     emailText.innerText = user.email;
     let kind_profile = document.getElementById('kind-profile');
@@ -270,7 +281,6 @@ async function getPerfil(userId){
     grid.className = "recommendations";
     container.appendChild(grid);
 
-    //Reviews
     if (recentReviews.length === 0) {
         grid.innerHTML = "<p style='color:gray;'>Sin actividad reciente.</p>";
         return;
@@ -290,7 +300,6 @@ async function getPerfil(userId){
        
     });
 
-    //REviewa
     const container2 = document.getElementById("reviews");
     container2.innerHTML = "";
     if (recentReviews.length === 0) {
@@ -310,7 +319,6 @@ async function getPerfil(userId){
         `;
     });
 
-    //Favoritos
     const container3 = document.querySelector(".recommendations");
     container3.innerHTML = "";
     if (favorites.length === 0) {
@@ -351,6 +359,18 @@ async function getPerfil(userId){
     
 
 }
+
+window.addEventListener('load', () => {
+    const params = new URLSearchParams(window.location.search);
+    const userIdParam = params.get('userId');
+
+    if (userIdParam) {
+        getPerfil(userIdParam);
+    } 
+    else if (window.location.pathname.includes('profile.html')) {
+        initProfile(); 
+    }
+});
 
 async function guardarNickname() {
     const token = sessionStorage.getItem('token');

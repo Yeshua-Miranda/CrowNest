@@ -4,6 +4,7 @@ const getAuthHeaders = () => ({
 });
 
 async function cargarListas() {
+    mostrarLoader("listasContainer");
     const res = await fetch("http://localhost:3000/lists", {
         headers: getAuthHeaders()
     });

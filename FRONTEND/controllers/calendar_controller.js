@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 async function obtenerMisResenas() {
+    mostrarLoader("calendar-grid");
     try {
         const token = sessionStorage.getItem('token');
         const respuesta = await fetch('/reviews/mis-resenas', {

@@ -44,6 +44,7 @@ async function buscarPeliculas(query) {
 
 
 async function loadPopularMovies() {
+    mostrarLoader("popularMoviesContainer");
     try {
         const res = await fetch(
             `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=es-MX&page=1`
@@ -58,6 +59,7 @@ async function loadPopularMovies() {
 }
 
 async function loadRatedMovies() {
+    mostrarLoader("ratedMoviesContainer");
     try {
         const res = await fetch(
             `${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=es-MX&page=1`
@@ -72,6 +74,7 @@ async function loadRatedMovies() {
 }
 
 async function loadUserRatedMovies() {
+    mostrarLoader("ratedByUserContainer");
     const token = sessionStorage.getItem("token");
     if (!token) return;
 
@@ -136,24 +139,20 @@ async function loadUserRatedMovies() {
 }
 
 
-function loadMoviesByGenre(genreId) {
+async function loadMoviesByGenre(genreId) {
+    mostrarLoader("filteredMoviesContainer"); 
     const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&language=es-MX`;
-
-    fetch(url)
-        .then(res => res.json())
-        .then(data => {
-            renderMovies(data.results, "filteredMoviesContainer"); 
-        });
+    const res = await fetch(url);
+    const data = await res.json();
+    renderMovies(data.results, "filteredMoviesContainer");
 }
 
-function loadMoviesByGenreDefault() {
+async function loadMoviesByGenreDefault() {
+    mostrarLoader("filteredMoviesContainer"); // <-- agregar
     const url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=28&language=es-MX`;
-
-    fetch(url)
-        .then(res => res.json())
-        .then(data => {
-            renderMovies(data.results, "filteredMoviesContainer"); 
-        });
+    const res = await fetch(url);
+    const data = await res.json();
+    renderMovies(data.results, "filteredMoviesContainer");
 }
 
 

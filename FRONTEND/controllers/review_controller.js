@@ -12,6 +12,7 @@ const movieId = params.get("id");
 
 async function loadMovieDetails() {
     if (!movieId) return;
+    mostrarLoader("reviews")
 
     try {
         const [detailRes, recomRes] = await Promise.all([ //hacemos un array de promesas para el promise.all :V
@@ -217,6 +218,7 @@ let currentRating = 'Todas';
 
 async function fetchMovieReviews(page = 1, rating = 'Todas') {
     if (!movieId) return;
+    mostrarLoader("reviews");
 
     try {
         let url = `/reviews/pelicula/${movieId}?page=${page}&limit=5`;

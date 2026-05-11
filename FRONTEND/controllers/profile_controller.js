@@ -4,6 +4,8 @@ async function cargarFavoritos() {
     const token = sessionStorage.getItem("token");
     if (!token) return;
 
+    mostrarLoaderEl(document.querySelector(".recommendations"));
+
     try {
         const res = await fetch("http://localhost:3000/lists", {
             headers: { Authorization: token }
@@ -80,6 +82,8 @@ async function cargarResenasProfile() {
     const token = sessionStorage.getItem("token");
     if (!token) return;
 
+    mostrarLoader("reviews");
+
     try {
         const res = await fetch("http://localhost:3000/reviews/mis-resenas", {
             headers: { Authorization: token }
@@ -114,6 +118,7 @@ async function cargarResenasProfile() {
 }
 
 async function cargarListasPerfil(userId = null) {
+    mostrarLoader("listasPerfilContainer");
     const token = sessionStorage.getItem("token");
 
     const url = userId
@@ -281,4 +286,73 @@ async function cargarPerfil() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", cargarPerfil);
+function setupUserSearch() {
+    const input = document.getElementById("userSearchInput");
+    if (!input) return;
+
+    let timeout;
+    input.addEventListener("input", () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(async () => {
+            const q = input.value.trim();
+            const container = document.getElementById("userSearchResults");
+
+            if (q.length < 2) {
+                container.style.display = "none";
+                return;
+            }
+
+            try {
+                const res = await fetch(`http://localhost:3000/users/search?q=${encodeURIComponent(q)}`);
+                const users = await res.json();
+
+                container.innerHTML = "";
+
+                if (!users.length) {
+                    container.style.display = "none";
+                    return;
+                }
+
+                container.style.display = "block";
+
+                users.forEach(user => {
+                    const div = document.createElement("div");
+                    div.classList.add("searchItem");
+
+                    const foto = user.profile_photo
+                        ? `../assets/profiles/${user.profile_photo}.jpg`
+                        : "../assets/img/avatar.png";
+
+                    div.innerHTML = `
+                        <img src="${foto}">
+                        <span>
+                            <strong>${user.nick_name || user.name}</strong><br>
+                            <small>${user.name}</small>
+                        </span>
+                    `;
+
+                    div.addEventListener("click", () => {
+                        window.location.href = `profile.html?userId=${user._id}`;
+                    });
+
+                    container.appendChild(div);
+                });
+
+            } catch (err) {
+                console.error("Error buscando usuarios:", err);
+            }
+        }, 300);
+    });
+
+    document.addEventListener("click", (e) => {
+        const container = document.getElementById("userSearchResults");
+        if (container && !e.target.closest(".searchWrapper")) {
+            container.style.display = "none";
+        }
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    cargarPerfil();
+    setupUserSearch();
+});

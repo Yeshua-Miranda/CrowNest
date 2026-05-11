@@ -222,6 +222,32 @@ exports.getUsers = async (req, res) => {
     }
 }
 
+exports.searchUsers = async (req, res) => {
+    try {
+        const q = req.query.q?.trim();
+        if (!q || q.length < 2) return res.json([]);
+
+        const users = await User.find({
+            $or: [
+                { name: { $regex: q, $options: "i" } },
+                { nick_name: { $regex: q, $options: "i" } }
+            ]
+        }).limit(10);
+
+        const result = users.map(u => ({
+            _id: u._id,
+            name: u.name,
+            nick_name: u.nick_name,
+            public: u.public,
+            profile_photo: u.profile_photo
+        }));
+
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ mensaje: "Error en el servidor", error: error.message });
+    }
+};
+
 exports.updateUserInfo = async (req,res) => {
     try {
         const userId = req.user.id || req.user._id;

@@ -8,6 +8,7 @@ async function cargarMiniCalendario() {
     const displayMes = document.getElementById('mini-calendar-month');
     
     if (!grid || !displayMes) return;
+    mostrarLoaderEl("mini-calendar-grid");
 
     // 1. Vamos por tus reseñas al backend
     let misResenas = [];

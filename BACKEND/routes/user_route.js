@@ -6,6 +6,7 @@ const express = require('express');
 const routerUsers = express.Router();
 routerUsers.post('/',usersControllers.registerUser);
 
+routerUsers.get("/search", usersControllers.searchUsers);
 
 routerUsers.get("/other/:id", usersControllers.authMiddelwere, usersControllers.getOtherUser);
 

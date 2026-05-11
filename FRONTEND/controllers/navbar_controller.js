@@ -59,7 +59,6 @@ function renderNavbar() {
     setupNavbarSearch();
 }
 
-// Marca el link activo según la página actual
 function marcarNavActivo() {
     const page = window.location.pathname.split("/").pop();
     document.querySelectorAll(".navbar-nav .nav-link").forEach(link => {
@@ -70,7 +69,6 @@ function marcarNavActivo() {
     });
 }
 
-// Lógica de búsqueda
 function setupNavbarSearch() {
     const form = document.getElementById("searchForm");
     const searchInput = document.getElementById("searchInput");
@@ -81,7 +79,7 @@ function setupNavbarSearch() {
             const query = searchInput.value.trim();
             if (query.length < 2) return;
 
-            const pelis = await buscarConFallback(query);
+            const pelis = await buscarPeliculas(query); // <-- cambio aquí
             if (pelis.length > 0 && pelis[0].id) {
                 window.location.href = `review.html?id=${pelis[0].id}`;
             }
@@ -109,8 +107,6 @@ function setupNavbarSearch() {
         }
     });
 }
-
-// agrega estas dos funciones en navbar_controller.js
 
 async function buscarPeliculas(query) {
     try {

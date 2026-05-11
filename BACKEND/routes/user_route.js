@@ -1,5 +1,6 @@
 
 const usersControllers = require( '../controllers/users_api_controllers.js');
+const { optionalAuth } = require('../controllers/users_api_controllers.js'); 
 
 const express = require('express'); 
 
@@ -8,7 +9,7 @@ routerUsers.post('/',usersControllers.registerUser);
 
 routerUsers.get("/search", usersControllers.searchUsers);
 
-routerUsers.get("/other/:id", usersControllers.authMiddelwere, usersControllers.getOtherUser);
+routerUsers.get("/other/:id", optionalAuth, usersControllers.getOtherUser);
 
 routerUsers.post('/add-friend/:id', usersControllers.authMiddelwere, usersControllers.addFriend);
 

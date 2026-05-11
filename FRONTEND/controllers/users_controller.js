@@ -90,8 +90,8 @@ async function updateUser(event) {
 
         const result = await response.json();
         sessionStorage.setItem('user', JSON.stringify(result.user));
-        alert("Perfil actualizado con éxito");
         initProfile(); 
+        alert("Perfil actualizado con éxito");
 
     } catch (err) {
         console.error('Error en updateUser:', err);
@@ -517,6 +517,7 @@ async function handleAddFriend(UserId) {
 
         if (response.ok) {
             alert(data.msg); 
+            initProfile(); 
         } else {
             console.error(data.msg);
             alert("Error: " + data.msg);
@@ -543,7 +544,7 @@ async function processRequest(requestId, actionType) {
 
         if (response.ok) {
             alert(data.msg);
-            location.reload(); 
+            initProfile(); 
         } else {
             console.error(data.msg);
         }

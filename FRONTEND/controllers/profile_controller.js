@@ -344,6 +344,15 @@ function setupUserSearch() {
         }, 300);
     });
 
+
+    input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        const container = document.getElementById("userSearchResults");
+        const first = container?.querySelector(".searchItem");
+        if (first) first.click();
+    }
+});
+
     document.addEventListener("click", (e) => {
         const container = document.getElementById("userSearchResults");
         if (container && !e.target.closest(".searchWrapper")) {

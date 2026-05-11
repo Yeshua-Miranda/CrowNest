@@ -9,6 +9,8 @@ router.post('/crear', authMiddelwere, reviewController.createReview);
 
 router.get('/mis-resenas', authMiddelwere, reviewController.getUserReviews);
 
+router.get('/otras-resenas/:id', authMiddelwere, reviewController.getOtherUserReviews);
+
 router.put('/editar/:id', authMiddelwere, reviewController.updateReview);
 
 router.delete('/borrar/:id', authMiddelwere, reviewController.deleteReview);

@@ -556,7 +556,7 @@ async function processRequest(requestId, actionType) {
 async function etiquetaUsuario(userId) {
     const token = sessionStorage.getItem("token");
 
-    const respuesta = await fetch('/reviews/mis-resenas', {
+    const respuesta = await fetch(`/reviews/otras-resenas/${userId}` , {
         headers: { 'Authorization': token }
     });
     console.log("Respuesta de mis reseñas:", respuesta);

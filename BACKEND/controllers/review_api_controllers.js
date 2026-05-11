@@ -41,6 +41,18 @@ exports.getUserReviews = async (req, res) => {
     }
 };
 
+exports.getOtherUserReviews = async (req, res) => {
+    try {
+        const userId = req.params.id;
+        
+        const reviews = await Review.find({ userId: userId }).sort({ createdAt: -1 }); 
+
+        return res.json(reviews);
+    } catch (err) {
+        return res.status(500).json({ msg: "Error al obtener reseñas", status: 500 });
+    }
+};
+
 exports.updateReview = async (req, res) => {
     try {
         const reviewId = req.params.id; 

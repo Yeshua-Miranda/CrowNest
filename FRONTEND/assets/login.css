@@ -10,7 +10,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-image: url(../assets/img/background.jpg);
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                      url(../assets/img/background.jpg);
             padding: 20px;
             position: relative;
             overflow-x: hidden;

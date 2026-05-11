@@ -579,7 +579,7 @@ async function etiquetaUsuario(userId) {
         badge.className = "badge bg-secondary";
     } else {
         badge.innerText = "Cinefilo en Pañales";
-        badge.className = "badge bg-dark";
+        badge.className = "badge bg-light text-dark";
     }
 }
 

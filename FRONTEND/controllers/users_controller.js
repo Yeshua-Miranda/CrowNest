@@ -235,25 +235,29 @@ async function friendRecom(type){
 
 async function populeteFriends() {
     console.log("Populating friends and recommendations...");
+    
+    document.getElementById("container-suggestions").innerHTML = "";
+    document.getElementById("container-friends").innerHTML = "";
+    document.getElementById("container-requests").innerHTML = "";
+
     let user = JSON.parse(sessionStorage.user);
     let recom = await friendRecom(1);
-
     for(const r of recom){
-        friendPerfil(r,true,false,"container-suggestions");
+        friendPerfil(r, true, false, "container-suggestions");
     }
 
     let friends = await friendRecom(2);
-
     for(const f of friends){
-        friendPerfil(f,false,false,"container-friends");
+        friendPerfil(f, false, false, "container-friends");
     }
+    console.log("friends:", friends);
+    document.getElementById("number_friends").innerText = "(" + friends.length + ")";
+
 
     let request = await friendRecom(3);
-
     for(const r of request){
-        friendPerfil(r,false,true,"container-requests");
+        friendPerfil(r, false, true, "container-requests");
     }
-
 }
 
 async function getPerfil(userId){

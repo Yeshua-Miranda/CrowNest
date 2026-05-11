@@ -311,7 +311,7 @@ async function renderReviews(reviews) {
         
         const fechaFormateada = new Date(review.createdAt).toLocaleDateString('es-MX');
 
-        const id_user = review.userId._id || review.userId; 
+       const id_user = review.userId ? (review.userId._id || review.userId) : null;
 
         console.log("ID del autor de la reseña:", id_user);
         

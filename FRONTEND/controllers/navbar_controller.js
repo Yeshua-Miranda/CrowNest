@@ -2,6 +2,20 @@
 
 function renderNavbar() {
     const nav = document.getElementById("navbar");
+
+
+    const userStorage = sessionStorage.getItem('user');
+    const user = userStorage ? JSON.parse(userStorage) : null;
+
+
+    let avatarSrc = "../assets/img/avatar.png";
+
+    if (user && !user.isGuest) {
+        const numeroFoto = user.profile_photo || 1; 
+        avatarSrc = `../assets/profiles/${numeroFoto}.jpg`;
+    }
+
+
     nav.innerHTML = `
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">
@@ -40,7 +54,7 @@ function renderNavbar() {
                         <a href="profile.html" class="d-block" title="Ir a mi perfil">
                             <img 
                                 id="navAvatar"
-                                src="../assets/img/avatar.png" 
+                                src="${avatarSrc}" 
                                 alt="Foto de perfil" 
                                 width="45" height="45" 
                                 class="rounded-circle border border-2 border-secondary"

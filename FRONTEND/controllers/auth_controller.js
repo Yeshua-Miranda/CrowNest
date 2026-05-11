@@ -47,15 +47,15 @@ function logout(){
     window.location.href = ENV.BACKEND_URL;
 }
 
-/*
-async function init() {
-    const currentUrl = window.location.href;
-    if(currentUrl === ENV.BACKEND_URL + 'profile.html'){
-        await initProfile();
-    }
+function entrarComoInvitado() {
+    sessionStorage.clear(); 
+    const usuarioInvitado = {
+        name: "Invitado",
+        email: "invitado@cine.com",
+        isGuest: true
+    };
+    sessionStorage.setItem('user', JSON.stringify(usuarioInvitado));
+    window.location.href = ENV.BACKEND_URL + 'home.html';
 }
 
-window.addEventListener('load', () => {
-    init();
-});
-*/
+window.entrarComoInvitado = entrarComoInvitado;

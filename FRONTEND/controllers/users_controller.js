@@ -145,6 +145,11 @@ async function updateUserPhotos() {
         }
 
         sessionStorage.setItem('user', JSON.stringify(result.user));
+
+        const navAvatar = document.getElementById("navAvatar");
+        if (navAvatar && result.user.profile_photo) { 
+            navAvatar.src = `../assets/profiles/${result.user.profile_photo}.jpg`;
+        }
         
         alert("¡Apariencia actualizada!");
         

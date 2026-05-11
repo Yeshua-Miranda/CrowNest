@@ -562,7 +562,7 @@ async function etiquetaUsuario(userId) {
     console.log("Respuesta de mis reseñas:", respuesta);
 
     if (!respuesta.ok) {
-        console.error("Error al cargar reseñas para el calendario");
+        console.error("Error al cargar reseñas");
         return;
     }
     

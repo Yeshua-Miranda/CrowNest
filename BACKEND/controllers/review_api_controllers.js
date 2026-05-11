@@ -26,7 +26,7 @@ exports.createReview = async (req, res) => {
 
     } catch (err) {
         return res.status(400).json({ msg: err.message, status: 400 });
-    }
+    } 
 };
 
 exports.getUserReviews = async (req, res) => {

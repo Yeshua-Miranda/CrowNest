@@ -562,6 +562,7 @@ async function etiquetaUsuario(userId) {
     
     const reseñasBackend = await respuesta.json();
     let num_etiquetas = reseñasBackend.length;
+    console.log("Número de reseñas para etiquetas:", num_etiquetas);
     let badge = document.getElementById('user_badge');
 
     if (num_etiquetas >= 50) {

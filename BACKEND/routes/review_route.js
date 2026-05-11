@@ -15,4 +15,4 @@ router.delete('/borrar/:id', authMiddelwere, reviewController.deleteReview);
 
 router.get('/pelicula/:movieId', reviewController.getMovieReviews);
 
-module.exports = router;
+module.exports = router; 

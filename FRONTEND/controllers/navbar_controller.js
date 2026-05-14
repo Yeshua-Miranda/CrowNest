@@ -49,7 +49,7 @@ function renderNavbar() {
                             >
                             <div id="searchResults" class="searchResults"></div>
                         </div>
-                        <button class="btn btn-outline-light me-4" type="submit">Buscar</button>
+                        <button class="btn btn-outline-light me-4" type="submit" style="margin: 10px;">Buscar</button>
 
                         <a href="profile.html" class="d-block" title="Ir a mi perfil">
                             <img 

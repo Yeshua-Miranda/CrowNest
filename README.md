@@ -3,7 +3,7 @@
 CrownNest is a full-stack web application designed for user-driven movie reviews. It allows users to explore, share, and manage movie reviews seamlessly, featuring a robust backend architecture and optimized database management.
 
 > **Note:** Insert a screenshot or GIF of your application here. 
-> `![CrownNest Screenshot](link-to-image)`
+> `![CrownNest Screenshot](./FRONTEND/assets/img/Calendar.png)`
 
 ## 🚀 Technologies Used
 * **Frontend:** JavaScript, HTML5, CSS3

@@ -1,3 +1,36 @@
-[LinkedIn](
-https://www.linkedin.com/in/yeshua-miranda-morales-a00941396/)
-[GitHub](github.com/Yeshua-Miranda)
+# CrownNest 🎬
+
+CrownNest is a full-stack web application designed for user-driven movie reviews. It allows users to explore, share, and manage movie reviews seamlessly, featuring a robust backend architecture and optimized database management.
+
+## Technologies Used
+* **Frontend:** JavaScript, HTML/CSS
+* **Backend:** Node.js, Express (REST API)
+* **Database:** MongoDB
+* **Version Control:** Git & GitHub
+
+## Key Features
+* **Full-Stack Architecture:** Built from scratch to handle end-to-end user interactions and data flow.
+* **RESTful Endpoints:** Secure API routes developed in Node.js to handle asynchronous requests and real-time user inputs.
+* **Optimized Database Schema:** Designed scalable collections in MongoDB to ensure high-performance data storage, retrieval, and fast synchronization.
+* **User Reviews & Interactions:** Allows users to post, read, and manage cinematic reviews efficiently.
+
+## Getting Started & Installation
+
+To run this project locally, follow these steps:
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/tu-usuario/crownnest.git](https://github.com/tu-usuario/crownnest.git)
+
+
+Install dependencies:
+
+  ```Bash
+  npm install
+  ```
+
+Run the application:
+
+```Bash
+npm start
+```

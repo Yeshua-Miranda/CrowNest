@@ -39,14 +39,19 @@ To run this project locally, follow these steps:
    npm install
    ```
 4. **Environment Variables:**
+   Create `.env` based on `.env.example` and complete it with your local values:
    ```bash
    PORT=3000
-   MONGODB_URI=your_mongodb_connection_string
+   MONGODB_URI=tu_uri_de_mongodb
+   JWT_SECRET=una_clave_segura_y_aleatoria
+   TMDB_API_KEY=tu_api_key_de_tmdb
    ```
 5. **Run the application:**
    ```bash
    npm start
    ```
+
+The frontend loads `FRONTEND/controllers/env.js`, which is a local ignored configuration file. Copy `envEJ.js` to `env.js` and set `TMDB_API_KEY` there for browser-side development. A TMDB key used directly by browser JavaScript is exposed to users and cannot be considered fully secret; keeping it private requires moving TMDB requests behind a backend proxy.
 
 ## Contact
 Yeshua Miranda - [LinkedIn](www.linkedin.com/in/yeshua-miranda-morales-a00941396) - yeshuamirandamor@gmail.com

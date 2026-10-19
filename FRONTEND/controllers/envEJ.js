@@ -1,6 +1,6 @@
 const ENV = {
-    // Datos de la API externa
-    TMDB_API_KEY: "AQUI_VA_TU_API_KEY",
+    // This file is a template. Copy it to env.js and set the local TMDB key there.
+    TMDB_API_KEY: "",
     TMDB_BASE_URL: "https://api.themoviedb.org/3",
     TMDB_IMG_URL: "https://image.tmdb.org/t/p/w500",
 

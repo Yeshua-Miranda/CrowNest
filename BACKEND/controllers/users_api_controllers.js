@@ -4,7 +4,20 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 
-const secretKey = 'poo_el_guerrero_dragon';
+const secretKey = process.env.JWT_SECRET;
+
+const getSecretKey = () => {
+    if (!secretKey) {
+        throw new Error('JWT_SECRET no está configurada.');
+    }
+    return secretKey;
+};
+
+const toSafeUser = (user) => {
+    const userSafe = user.toObject();
+    delete userSafe.password;
+    return userSafe;
+};
 
 const List = require('../models/list.js');
 const Review = require('../models/review.js');
@@ -43,12 +56,12 @@ exports.registerUser = async (req, res) => {
         });
 
         const payload = { id: savedUser._id, email: savedUser.email };
-        const token = jwt.sign(payload, secretKey, { expiresIn: '3h' });
+        const token = jwt.sign(payload, getSecretKey(), { expiresIn: '3h' });
 
         return res.json({
             msg: "Usuario registrado correctamente",
             token: token,
-            user: savedUser
+            user: toSafeUser(savedUser)
             
         });
 
@@ -80,10 +93,10 @@ exports.login = async (req, res) => {
             });
         } else {
             const payload = { id: user._id, email: user.email };
-            const token = jwt.sign(payload, secretKey, { expiresIn: '3h' });
+            const token = jwt.sign(payload, getSecretKey(), { expiresIn: '3h' });
             return res.json({
                 token,
-                user: user
+                user: toSafeUser(user)
             });
         }
 
@@ -99,7 +112,7 @@ exports.login = async (req, res) => {
     const token = req.headers.authorization;
     if (token) {
         try {
-            req.user = jwt.verify(token, secretKey);
+            req.user = jwt.verify(token, getSecretKey());
         } catch (_) {}
     }
     next();
@@ -115,8 +128,12 @@ exports.authMiddelwere = async (req, res, next) => {
         return res.status(401).json({ message: 'No hay token, acceso denegado', status: 401 });
     }
 
+    if (!secretKey) {
+        return res.status(500).json({ message: 'La autenticación no está configurada', status: 500 });
+    }
+
     // Que sea valido el token
-    jwt.verify(token, secretKey, (err, decoded) => {
+    jwt.verify(token, getSecretKey(), (err, decoded) => {
         if (err) {
             return res.status(401).json({ message: 'Token inválido o expirado', status: 401 });
         }
@@ -129,7 +146,7 @@ exports.getUser = async (req,res) => {
     try {
         const id = parseInt(req.params.id);
 
-        const user = await User.findOne({ _id: id });
+        const user = await User.findOne({ _id: id }).select('-password');
 
         if (!user) {
             return res.status(404).json({ error: "Usuario no encontrada" });

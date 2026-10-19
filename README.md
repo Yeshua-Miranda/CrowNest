@@ -55,3 +55,5 @@ The frontend loads `FRONTEND/controllers/env.js`, which is a local ignored confi
 
 ## Contact
 Yeshua Miranda - [LinkedIn](www.linkedin.com/in/yeshua-miranda-morales-a00941396) - yeshuamirandamor@gmail.com
+Emilio Segura
+Omara Camara
